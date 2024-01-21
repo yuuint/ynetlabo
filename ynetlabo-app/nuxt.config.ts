@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         },
         {
           property: "og:image",
-          content: "https://wari.ynetlabo.net/laboicon.png",
+          content: "https://web.ynetlabo.net/laboicon.png",
         },
         { property: "twitter:card", content: "summary_large_image" },
         { property: "twitter:site", content: "Y.NetLabo_JP" },
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
         },
         {
           property: "twitter:image",
-          content: "https://wari.ynetlabo.net/laboicon.png",
+          content: "https://web.ynetlabo.net/laboicon.png",
         },
       ],
     },
@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     "nuxt-simple-sitemap",
   ],
   site: {
-    url: "https://wari.ynetlabo.net",
+    url: "https://web.ynetlabo.net",
   },
   pwa: {
     registerType: "autoUpdate",
