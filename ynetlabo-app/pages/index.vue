@@ -386,32 +386,7 @@
   </div>
 </template>
 
-<!-- <script>
-import moneyAnimeJson from "@/assets/lottie/money-animation.json";
-import { Vue3Lottie } from "vue3-lottie";
-const authStore = useAuthStore();
-
-export default {
-  components: {
-    Vue3Lottie,
-  },
-  data() {
-    return {
-      moneyAnimeJson,
-    };
-  },
-};
-</script> -->
-
 <script setup>
-import signInJson from "~/assets/lottie/signin-anime.json";
-import splashJson from "~/assets/lottie/splash.json";
-import { ref } from "vue";
-
-const isSplashActive = ref(false);
-
-import { Vue3Lottie } from "vue3-lottie";
-
 function handleShareBtnTap() {
   navigator.share({
     url: "https://web.ynetlabo.net/",

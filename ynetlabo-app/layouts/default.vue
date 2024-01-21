@@ -7,14 +7,7 @@
         <systemHeader />
       </v-app-bar-title>
 
-      <v-btn icon>
-        <v-avatar>
-          <v-img
-            @click="dialog = true"
-            src="@/assets/images/laboicon.png"
-          ></v-img>
-        </v-avatar>
-      </v-btn>
+      <v-btn icon="mdi-github" @click="handleGithubBtnTap"> </v-btn>
     </v-app-bar>
     <v-main>
       <slot />
@@ -97,6 +90,12 @@ export default {
       navigator.share({
         url: "https://web.ynetlabo.net/",
         title: "Y.NetLabo | アプリ開発の情報発信ラボ",
+      });
+    },
+    handleGithubBtnTap() {
+      navigateTo("https://github.com/yuuint/ynetlabo", {
+        external: true,
+        open: { target: "_blank" },
       });
     },
   },
