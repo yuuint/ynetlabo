@@ -29,7 +29,7 @@ export default defineNuxtConfig({
           property: "og:image",
           content: "https://web.ynetlabo.net/laboicon.png",
         },
-        { property: "twitter:card", content: "summary_large_image" },
+        { property: "twitter:card", content: "summary" },
         { property: "twitter:site", content: "Y.NetLabo_JP" },
         {
           property: "twitter:title",
