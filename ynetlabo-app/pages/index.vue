@@ -36,12 +36,101 @@
               <v-card-title
                 ><v-icon icon="mdi-new-box" />Whats New!?</v-card-title
               >
-              <v-carousel cycle height="300" show-arrows="hover">
+              <v-carousel cycle height="300" :show-arrows="false">
                 <v-carousel-item>
                   <v-sheet height="100%">
-                    <div class="d-flex fill-height justify-center align-center">
-                      <div class="text-h2">{{ slide }} Slide</div>
-                    </div>
+                    <v-card
+                      variant="flat"
+                      @click="
+                        navigateTo('https://qiita.com/ynetlabo', {
+                          external: true,
+                          open: {
+                            target: '_blank',
+                          },
+                        })
+                      "
+                    >
+                      <v-card-title>Qiita始めました</v-card-title>
+                      <v-card-subtitle>2024.01.21</v-card-subtitle>
+                      <v-card-text
+                        >ラボで作成したアプリのノウハウ備忘録のために、Qiita始めました。ぜひ覗いてみてください。</v-card-text
+                      >
+                      <v-card-actions>
+                        <v-list-item class="w-100">
+                          <template v-slot:prepend>
+                            <v-avatar
+                              color="grey-darken-3"
+                              image="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/273836/profile-images/1705771716"
+                            ></v-avatar>
+                          </template>
+                          <v-list-item-title>@ynetlabo</v-list-item-title>
+                        </v-list-item>
+                      </v-card-actions>
+                    </v-card>
+                  </v-sheet>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <v-sheet height="100%">
+                    <v-card
+                      variant="flat"
+                      @click="
+                        navigateTo('https://wari.ynetlabo.net', {
+                          external: true,
+                          open: {
+                            target: '_blank',
+                          },
+                        })
+                      "
+                    >
+                      <v-card-title>wa/riを公開しました</v-card-title>
+                      <v-card-subtitle>2024.01.20</v-card-subtitle>
+                      <v-card-text
+                        >みんなの建て替え、簡単に割り勘。旅行・飲み会・パーティ後の精算をお手伝いします。シンプルなデザインで使いやすく仕上げました。もちろん無料でご利用いただけます。</v-card-text
+                      >
+                      <v-card-actions>
+                        <v-list-item class="w-100">
+                          <template v-slot:prepend>
+                            <v-avatar
+                              color="grey-darken-3"
+                              image="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/273836/profile-images/1705771716"
+                            ></v-avatar>
+                          </template>
+                          <v-list-item-title>@ynetlabo</v-list-item-title>
+                        </v-list-item>
+                      </v-card-actions>
+                    </v-card>
+                  </v-sheet>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <v-sheet height="100%">
+                    <v-card
+                      variant="flat"
+                      @click="
+                        navigateTo('https://mapengu.ynetlabo.net', {
+                          external: true,
+                          open: {
+                            target: '_blank',
+                          },
+                        })
+                      "
+                    >
+                      <v-card-title>mapenguを公開しました</v-card-title>
+                      <v-card-subtitle>2023.04.04</v-card-subtitle>
+                      <v-card-text
+                        >maPenguでペンギンスポットの詳細を確認しよう！。laboのおすすめペンギン🐧スポットを紹介！。可愛いペンギンとマッチング／マッピングしてます！。スポット選定に活用してみてください。</v-card-text
+                      >
+                      <v-card-actions>
+                        <v-list-item class="w-100">
+                          <template v-slot:prepend>
+                            <v-avatar
+                              color="grey-darken-3"
+                              image="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/273836/profile-images/1705771716"
+                            ></v-avatar>
+                          </template>
+                          <v-list-item-title>@ynetlabo</v-list-item-title>
+                        </v-list-item>
+                      </v-card-actions>
+                    </v-card>
                   </v-sheet>
                 </v-carousel-item>
               </v-carousel>
