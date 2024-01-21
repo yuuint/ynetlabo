@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <div class="ftext-ht5 title-text">wa/ri</div>
+      <div class="ftext-ht5 title-text">Y.NetLabo</div>
     </v-col>
   </v-row>
 </template>

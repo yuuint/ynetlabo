@@ -65,10 +65,10 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "wa/ri",
+      name: "Y.NetLabo",
       lang: "ja",
-      short_name: "wa/ri",
-      description: "みんなの建て替え、簡単に割り勘",
+      short_name: "Y.NetLabo",
+      description: "Y.NetLabo | アプリ開発の情報発信ラボ",
       theme_color: "#272727",
       background_color: "#272727",
       start_url: "/",

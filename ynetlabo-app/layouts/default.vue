@@ -89,23 +89,14 @@ export default {
       title: "Vuetify.js",
     };
   },
-  computed: {
-    isLoggined: () => {
-      return authStore2.isLoggedIn;
-    },
-  },
   methods: {
     handleSignOut() {
       this.signOutWarn = true;
     },
-    handleSignOutConfirm() {
-      this.signOutWarn = false;
-      authStore2.signOut();
-    },
     handleShareBtnTap() {
       navigator.share({
-        url: "https://wari.ynetlabo.net/",
-        title: "wa/riで割り勘",
+        url: "https://web.ynetlabo.net/",
+        title: "Y.NetLabo | アプリ開発の情報発信ラボ",
       });
     },
   },
