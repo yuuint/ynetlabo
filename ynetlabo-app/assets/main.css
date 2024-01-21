@@ -1,0 +1,56 @@
+.v-application{
+    font-family:'Comfortaa', 'Yomogi', cursive !important;
+}
+.ftext-ht0{
+    font-size: 0.6rem;
+    color: gray;
+}
+.ftext-ht1g{
+    font-size: 1rem;
+    color: gray;
+}
+.ftext-ht1{
+    font-size: 1rem;
+}
+.ftext-ht2{
+    font-size: 1.2rem;
+}
+.ftext-ht3{
+    font-size: 1.3rem;
+}
+.ftext-ht4{
+    font-size: 1.4rem;
+}
+.ftext-ht5{
+    font-size: 1.5rem;
+}
+.ftext-ht6{
+    font-size: 1.6rem;
+}
+.ftext-ht7{
+    font-size: 1.7rem;
+}
+.ftext-ht8{
+    font-size: 1.8rem;
+}
+.ftext-ht9{
+    font-size: 1.9rem;
+}
+.ftext-ht10{
+    font-size: 2.0rem;
+}
+.ftext-ht20{
+    font-size: 3.0rem;
+}
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+*{
+    scroll-behavior: smooth;
+}

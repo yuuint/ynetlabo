@@ -1,0 +1,12 @@
+@forward 'vuetify/settings' with (
+  $utilities: false,
+  $button-height: 40px,
+  $button-color: green,
+  $button-border-radius: 100px,
+  $button-font-weight: 700,
+);
+
+@use "vuetify" with (
+    $body-font-family: 'Comfortaa Yomogi',
+    $heading-font-family: CustomFontName
+);
