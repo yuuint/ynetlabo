@@ -2,27 +2,72 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE } from "../consts";
+import { SITE, SOCIAL } from "../consts";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   type?: "website" | "article";
   noindex?: boolean;
+  /** Article only — ISO date strings for OpenGraph + structured data */
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Page-specific schema.org entries merged into the @graph */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title,
   description = SITE.description,
   image = "/icon-192.png",
+  imageAlt = SITE.name,
   type = "website",
   noindex = false,
+  publishedTime,
+  modifiedTime,
+  jsonLd,
 } = Astro.props;
 
 const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
 const ogImage = new URL(image, Astro.site ?? SITE.url).href;
+const siteUrl = (Astro.site ?? new URL(SITE.url)).origin;
+
+// Twitter handle derived from the X profile URL
+const twitterHandle = "@" + SOCIAL.x.split("/").filter(Boolean).pop();
+
+// Sitewide identity graph (Organization + WebSite), always present
+const baseGraph: Record<string, unknown>[] = [
+  {
+    "@type": "Organization",
+    "@id": `${siteUrl}/#org`,
+    name: SITE.name,
+    url: `${siteUrl}/`,
+    logo: new URL("/ynetlabo-logo.png", siteUrl).href,
+    email: SITE.email,
+    sameAs: [SOCIAL.github, SOCIAL.x],
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    name: SITE.name,
+    url: `${siteUrl}/`,
+    description: SITE.description,
+    inLanguage: "ja",
+    publisher: { "@id": `${siteUrl}/#org` },
+  },
+];
+const extraGraph = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [...baseGraph, ...extraGraph],
+};
+
+const robotsContent = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 ---
 
 <!doctype html>
@@ -30,12 +75,39 @@ const ogImage = new URL(image, Astro.site ?? SITE.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)" />
+
+    <!-- Resolve theme before paint to avoid a flash -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE.name} — 記事`}
+      href="/rss.xml"
+    />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -47,13 +119,53 @@ const ogImage = new URL(image, Astro.site ?? SITE.url).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:locale" content="ja_JP" />
+    {type === "article" && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {type === "article" && (modifiedTime || publishedTime) && (
+      <meta
+        property="article:modified_time"
+        content={modifiedTime ?? publishedTime}
+      />
+    )}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={twitterHandle} />
+    <meta name="twitter:creator" content={twitterHandle} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <!-- Structured data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+
+    <!-- Google Analytics 4 (production only) -->
+    {
+      import.meta.env.PROD && (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}
+          />
+          <script is:inline define:vars={{ gaId: SITE.gaId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          </script>
+        </>
+      )
+    }
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -76,8 +188,8 @@ const ogImage = new URL(image, Astro.site ?? SITE.url).href;
         position: absolute;
         left: -999px;
         top: 0;
-        background: var(--color-ink);
-        color: #fff;
+        background: var(--color-panel);
+        color: var(--color-on-panel);
         padding: 0.6rem 1rem;
         z-index: 100;
       }

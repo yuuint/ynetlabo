@@ -10,6 +10,8 @@ export const SITE = {
   url: "https://ynetlabo.net",
   email: "ynetlabo@gmail.com",
   copyrightYear: 2026,
+  /** Google Analytics 4 measurement ID */
+  gaId: "G-LSBSP801C4",
 } as const;
 
 export const NAV = [
@@ -35,6 +37,8 @@ export type Project = {
   site?: string;
   appStore?: string;
   googlePlay?: string;
+  /** Stores where the app is announced but not yet released */
+  comingSoon?: ("App Store" | "Google Play")[];
   icon?: string;
 };
 
@@ -67,6 +71,15 @@ export const PROJECTS: Project[] = [
     accent: "#8b5cf6",
     appStore:
       "https://apps.apple.com/jp/app/%E6%84%9F%E6%83%85%E3%81%AE%E8%89%B2%E6%97%A5%E8%A8%98-hue/id6764466333",
+  },
+  {
+    name: "soroe",
+    tagline: "日程調整アプリ",
+    description:
+      "予定を「揃える」日程調整アプリ。第一弾はシフト制職場のシフト調整に対応。管理者・スタッフの希望をまとめて、ぴったりの日程を見つけます。Web版を先行公開中、iOS / Android 版も近日対応。",
+    accent: "#10b981",
+    site: "https://soroe.ynetlabo.net/",
+    comingSoon: ["App Store", "Google Play"],
   },
 ];
 

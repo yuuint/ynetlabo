@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticleCard from "../../../components/ArticleCard.astro";
 import { articleHref } from "../../../utils";
-import { categorySlug } from "../../../consts";
+import { categorySlug, SITE } from "../../../consts";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -28,11 +28,23 @@ export async function getStaticPaths() {
 
 const { name, posts } = Astro.props;
 const isNotice = categorySlug(name) === "notice";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "記事", item: `${origin}/article` },
+    { "@type": "ListItem", position: 3, name, item: pageUrl },
+  ],
+};
 ---
 
 <BaseLayout
   title={isNotice ? "お知らせ" : `${name} の記事`}
   description={`${name} に関する記事の一覧です。`}
+  jsonLd={breadcrumbLd}
 >
   <section class="page-head">
     <div class="wrap">
@@ -69,8 +81,8 @@ const isNotice = categorySlug(name) === "notice";
 <style>
   .page-head {
     padding-block: 3rem 1rem;
-    background: linear-gradient(180deg, var(--color-mist), #fff);
-    border-bottom: 1px solid var(--color-line);
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
   }
   .crumbs {
     display: flex;

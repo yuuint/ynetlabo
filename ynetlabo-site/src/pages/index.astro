@@ -9,9 +9,24 @@ const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const latest = posts.slice(0, 3);
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const appLd = PROJECTS.map((p) => ({
+  "@type": "SoftwareApplication",
+  name: p.name,
+  description: p.description,
+  applicationCategory: "MobileApplication",
+  operatingSystem:
+    [p.appStore && "iOS", p.googlePlay && "Android", p.site && "Web"]
+      .filter(Boolean)
+      .join(", ") || "Web",
+  url: p.site ?? p.appStore ?? p.googlePlay,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
+  publisher: { "@id": `${origin}/#org` },
+}));
 ---
 
-<BaseLayout>
+<BaseLayout jsonLd={appLd}>
   <!-- ============ HERO ============ -->
   <section class="hero">
     <div class="wrap hero-inner">
@@ -90,6 +105,12 @@ const latest = posts.slice(0, 3);
                     Google Play
                   </a>
                 )}
+                {p.comingSoon?.map((store) => (
+                  <span class="plink plink-soon" aria-disabled="true">
+                    {store}
+                    <span class="soon-tag">coming soon</span>
+                  </span>
+                ))}
               </div>
             </article>
           ))
@@ -207,8 +228,7 @@ const latest = posts.slice(0, 3);
   .hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, #fff 0%, var(--color-mist) 100%);
-    border-bottom: 1px solid var(--color-line);
+    background: var(--color-bg);
   }
   .hero-inner {
     display: grid;
@@ -340,23 +360,54 @@ const latest = posts.slice(0, 3);
   .plink {
     font-size: 0.82rem;
     font-weight: 700;
-    padding: 0.45rem 0.9rem;
+    padding: 0.5rem 1rem;
     border-radius: 999px;
-    border: 1.5px solid var(--color-line);
+    background: var(--color-bg);
     color: var(--color-ink);
     text-decoration: none;
-    transition: border-color 0.15s ease, color 0.15s ease;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, color 0.15s ease, transform 0.15s ease;
   }
   .plink:hover {
-    border-color: var(--color-ink);
+    color: var(--color-accent-ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+  .plink:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-pressed-sm);
   }
   .plink-primary {
-    background: var(--color-ink);
-    color: #fff;
-    border-color: var(--color-ink);
+    background: var(--color-panel);
+    color: var(--color-on-panel);
   }
   .plink-primary:hover {
-    background: var(--color-ink-soft);
+    color: var(--color-on-panel);
+  }
+  .plink-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    color: var(--color-muted);
+    box-shadow: none;
+    border: 1px dashed var(--color-border, #d4d8e0);
+    cursor: default;
+  }
+  .plink-soon:hover {
+    color: var(--color-muted);
+    transform: none;
+    box-shadow: none;
+  }
+  .soon-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background: var(--color-mist);
+    color: var(--color-accent-ink);
   }
 
   /* ----- articles ----- */
@@ -385,8 +436,8 @@ const latest = posts.slice(0, 3);
     width: 4.5rem;
     height: 4.5rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #fff, #e2e8f0);
-    border: 1px solid var(--color-line);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-pressed-sm);
     flex-shrink: 0;
     overflow: hidden;
   }
@@ -421,13 +472,14 @@ const latest = posts.slice(0, 3);
 
   /* ----- CTA ----- */
   .cta {
-    background: var(--color-ink);
-    color: #fff;
+    background: var(--color-panel);
+    color: var(--color-on-panel);
     border-radius: 24px;
     padding: clamp(2.5rem, 1.5rem + 4vw, 4rem);
     text-align: center;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
   .cta::after {
     content: "";

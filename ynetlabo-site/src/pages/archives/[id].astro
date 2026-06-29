@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { formatDate, articleHref } from "../../utils";
-import { categoryHref } from "../../consts";
+import { categoryHref, SITE, SOCIAL } from "../../consts";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -15,6 +15,41 @@ export async function getStaticPaths() {
 
 const { post, posts } = Astro.props;
 const { Content } = await render(post);
+const d = post.data;
+
+const published = d.pubDate.toISOString();
+const modified = (d.updatedDate ?? d.pubDate).toISOString();
+const pageUrl = new URL(articleHref(d.wpId), Astro.site ?? SITE.url).href;
+const ogImage = d.heroImage ?? "/icon-192.png";
+const absImage = new URL(ogImage, Astro.site ?? SITE.url).href;
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+
+const articleLd = {
+  "@type": "BlogPosting",
+  "@id": `${pageUrl}#article`,
+  headline: d.title,
+  description: d.description,
+  inLanguage: "ja",
+  url: pageUrl,
+  mainEntityOfPage: pageUrl,
+  datePublished: published,
+  dateModified: modified,
+  image: absImage,
+  author: { "@type": "Person", name: "yuuki", url: SOCIAL.github },
+  publisher: { "@id": `${origin}/#org` },
+  ...(d.categories.length || d.tags.length
+    ? { keywords: [...d.categories, ...d.tags].join(", ") }
+    : {}),
+};
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "記事", item: `${origin}/article` },
+    { "@type": "ListItem", position: 3, name: d.title, item: pageUrl },
+  ],
+};
 
 // related: share a category, newest first, exclude self
 const related = posts
@@ -30,8 +65,12 @@ const related = posts
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.heroImage ?? "/icon-192.png"}
+  image={ogImage}
+  imageAlt={post.data.heroAlt ?? post.data.title}
   type="article"
+  publishedTime={published}
+  modifiedTime={modified}
+  jsonLd={[articleLd, breadcrumbLd]}
 >
   <article>
     <!-- header -->
@@ -157,7 +196,7 @@ const related = posts
     max-height: 26rem;
     object-fit: cover;
     border-radius: 18px;
-    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
   }
   .tag-row {
     display: flex;

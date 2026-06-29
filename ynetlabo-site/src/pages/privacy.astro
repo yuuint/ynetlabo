@@ -1,11 +1,26 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../consts";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "プライバシーポリシー",
+      item: `${origin}/privacy`,
+    },
+  ],
+};
 ---
 
 <BaseLayout
   title="プライバシーポリシー"
   description="Y.NetLabo が提供するアプリおよびサービスのプライバシーポリシーです。"
+  jsonLd={breadcrumbLd}
 >
   <section class="page-head">
     <div class="wrap-narrow">
@@ -124,8 +139,8 @@ import { SITE } from "../consts";
 <style>
   .page-head {
     padding-block: 3rem 1.5rem;
-    background: linear-gradient(180deg, var(--color-mist), #fff);
-    border-bottom: 1px solid var(--color-line);
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
   }
   .crumbs {
     display: flex;
