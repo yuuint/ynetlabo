@@ -1,0 +1,116 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { articleHref } from "../utils";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// build category list with counts
+const counts = new Map<string, number>();
+for (const p of posts)
+  for (const c of p.data.categories) counts.set(c, (counts.get(c) ?? 0) + 1);
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout
+  title="記事"
+  description="アプリ開発の知見や、つくったプロダクトの裏側を記録しています。"
+>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Blog</span>
+      <h1 class="page-title">記事</h1>
+      <p class="page-sub">
+        アプリ開発で得た知見や、プロダクトの裏側を記録しています。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cat-filter">
+        <span class="cat-pill active">すべて ({posts.length})</span>
+        {
+          categories.map(([name, count]) => (
+            <span class="cat-pill">
+              {name} ({count})
+            </span>
+          ))
+        }
+      </div>
+
+      <div class="article-grid">
+        {
+          posts.map((post) => (
+            <ArticleCard
+              href={articleHref(post.data.wpId)}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              categories={post.data.categories}
+              heroImage={post.data.heroImage}
+              heroAlt={post.data.heroAlt}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 1rem;
+    background: linear-gradient(180deg, var(--color-mist), #fff);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+  }
+  .section {
+    padding-block: 3rem 4.5rem;
+  }
+  .cat-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+  .cat-pill {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-line);
+    color: var(--color-body);
+    background: #fff;
+  }
+  .cat-pill.active {
+    background: var(--color-ink);
+    color: #fff;
+    border-color: var(--color-ink);
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .article-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

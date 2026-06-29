@@ -1,0 +1,158 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, SOCIAL, CONTACT_FORM_URL } from "../consts";
+---
+
+<BaseLayout
+  title="お問い合わせ"
+  description="Y.NetLabo へのご感想・ご要望・不具合のご報告はこちらから。"
+>
+  <section class="page-head">
+    <div class="wrap-narrow">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span>/</span><span>お問い合わせ</span>
+      </nav>
+      <span class="eyebrow">Contact</span>
+      <h1 class="page-title">お問い合わせ</h1>
+      <p class="page-sub">
+        アプリへのご感想・ご要望、不具合のご報告などお気軽にどうぞ。下記フォームから送信するか、メールでご連絡ください。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow contact-grid">
+      <div class="card form-card">
+        <iframe
+          src={CONTACT_FORM_URL}
+          title="お問い合わせフォーム"
+          class="gform"
+          loading="lazy"
+          width="100%"
+          height="900"
+        >
+          読み込んでいます…
+        </iframe>
+        <p class="form-note">
+          フォームが表示されない場合は、<a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          まで直接ご連絡ください。
+        </p>
+      </div>
+
+      <aside class="contact-aside">
+        <div class="card aside-card">
+          <h2 class="aside-title">直接ご連絡</h2>
+          <p class="aside-text">フォームをお使いいただけない場合は、こちらまで。</p>
+          <a class="aside-mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </div>
+        <div class="card aside-card">
+          <h2 class="aside-title">SNS</h2>
+          <div class="aside-social">
+            <a href={SOCIAL.x} target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+            <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 1.5rem;
+    background: linear-gradient(180deg, var(--color-mist), #fff);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--color-ink);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    max-width: 36rem;
+  }
+  .section {
+    padding-block: 3rem 4.5rem;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .form-card {
+    padding: 1.25rem;
+  }
+  .gform {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+  }
+  .form-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding-inline: 0.5rem;
+  }
+  .form-note a {
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+  .contact-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .aside-card {
+    padding: 1.5rem;
+  }
+  .aside-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.65rem;
+  }
+  .aside-text {
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    margin-bottom: 0.75rem;
+  }
+  .aside-mail {
+    font-weight: 700;
+    color: var(--color-accent-ink);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .aside-social {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .aside-social a {
+    color: var(--color-ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .aside-social a:hover {
+    color: var(--color-accent-ink);
+  }
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

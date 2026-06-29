@@ -1,0 +1,198 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { formatDate, articleHref } from "../../utils";
+import { categoryHref } from "../../consts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: String(post.data.wpId) },
+    props: { post, posts },
+  }));
+}
+
+const { post, posts } = Astro.props;
+const { Content } = await render(post);
+
+// related: share a category, newest first, exclude self
+const related = posts
+  .filter(
+    (p) =>
+      p.data.wpId !== post.data.wpId &&
+      p.data.categories.some((c) => post.data.categories.includes(c))
+  )
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.heroImage ?? "/icon-192.png"}
+  type="article"
+>
+  <article>
+    <!-- header -->
+    <header class="article-hero">
+      <div class="wrap-narrow">
+        <nav class="crumbs" aria-label="パンくず">
+          <a href="/">ホーム</a><span>/</span><a href="/article">記事</a>
+        </nav>
+        <div class="cat-row">
+          {
+            post.data.categories.map((c) => (
+              <a class="chip chip-link" href={categoryHref(c)}>
+                {c}
+              </a>
+            ))
+          }
+        </div>
+        <h1 class="article-title">{post.data.title}</h1>
+        <div class="article-meta">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+          <span>by yuuint</span>
+        </div>
+      </div>
+    </header>
+
+    {
+      post.data.heroImage && (
+        <div class="wrap hero-figure">
+          <img src={post.data.heroImage} alt={post.data.heroAlt ?? post.data.title} />
+        </div>
+      )
+    }
+
+    <!-- body -->
+    <div class="wrap-narrow">
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        post.data.tags.length > 0 && (
+          <div class="tag-row">
+            {post.data.tags.map((t) => (
+              <span class="chip">#{t}</span>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="article-foot">
+        <a href="/article" class="btn btn-ghost">← 記事一覧へ戻る</a>
+      </div>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="section section-mist">
+        <div class="wrap">
+          <h2 class="related-title">関連する記事</h2>
+          <div class="article-grid">
+            {related.map((p) => (
+              <ArticleCard
+                href={articleHref(p.data.wpId)}
+                title={p.data.title}
+                description={p.data.description}
+                pubDate={p.data.pubDate}
+                categories={p.data.categories}
+                heroImage={p.data.heroImage}
+                heroAlt={p.data.heroAlt}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .article-hero {
+    padding-top: 2.5rem;
+    padding-bottom: 1.75rem;
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--color-ink);
+  }
+  .cat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .article-title {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+    line-height: 1.4;
+  }
+  .article-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .hero-figure {
+    margin-block: 1rem 2.5rem;
+  }
+  .hero-figure img {
+    width: 100%;
+    max-height: 26rem;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid var(--color-line);
+  }
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 3rem;
+  }
+  .article-foot {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .section {
+    padding-block: 4rem;
+  }
+  .section-mist {
+    background: var(--color-mist);
+  }
+  .related-title {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .article-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

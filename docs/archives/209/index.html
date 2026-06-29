@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="canonical" href="https://ynetlabo.net/archives/209/"><title>iOSアプリにペンギン種別判定AIを組み込む — Create ML × Core ML × Vision の実装全解説 | Y.NetLabo</title><meta name="description" content="はじめに mapengu は「日本でペンギンに会える場所」を地図で探せるiOSアプリです。v1.6 で追加したペンギン判定カメラは、スマホをペンギンに向けるだけで種類をリアルタイム判定し、そのまま飼育施設を地図で探せる機"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="iOSアプリにペンギン種別判定AIを組み込む — Create ML × Core ML × Vision の実装全解説 | Y.NetLabo"><meta property="og:description" content="はじめに mapengu は「日本でペンギンに会える場所」を地図で探せるiOSアプリです。v1.6 で追加したペンギン判定カメラは、スマホをペンギンに向けるだけで種類をリアルタイム判定し、そのまま飼育施設を地図で探せる機"><meta property="og:url" content="https://ynetlabo.net/archives/209/"><meta property="og:image" content="https://ynetlabo.net/images/posts/hero-209.jpg"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="iOSアプリにペンギン種別判定AIを組み込む — Create ML × Core ML × Vision の実装全解説 | Y.NetLabo"><meta name="twitter:description" content="はじめに mapengu は「日本でペンギンに会える場所」を地図で探せるiOSアプリです。v1.6 で追加したペンギン判定カメラは、スマホをペンギンに向けるだけで種類をリアルタイム判定し、そのまま飼育施設を地図で探せる機"><meta name="twitter:image" content="https://ynetlabo.net/images/posts/hero-209.jpg"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/_id_.s6XGVh5I.css">
+<style>.article-card[data-astro-cid-di2nlc57]{overflow:hidden}.article-card-link[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;height:100%;text-decoration:none;color:inherit}.thumb[data-astro-cid-di2nlc57]{aspect-ratio:16 / 9;overflow:hidden;background:var(--color-mist)}.thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}.article-card[data-astro-cid-di2nlc57]:hover .thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{transform:scale(1.05)}.thumb-fallback[data-astro-cid-di2nlc57]{display:grid;place-items:center;height:100%;background:linear-gradient(135deg,#eef1f6,#e2e8f0)}.thumb-fallback[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:3.5rem;height:auto;opacity:.7}.article-body[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;flex:1;padding:1.25rem 1.4rem 1.5rem}.article-meta[data-astro-cid-di2nlc57]{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--color-muted);margin-bottom:.6rem}.article-title[data-astro-cid-di2nlc57]{font-size:1.08rem;line-height:1.5;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-desc[data-astro-cid-di2nlc57]{font-size:.88rem;color:var(--color-muted);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-more[data-astro-cid-di2nlc57]{margin-top:auto;padding-top:1rem;font-size:.85rem;font-weight:700;color:var(--color-accent-ink)}
+.article-hero[data-astro-cid-zvnupzzu]{padding-top:2.5rem;padding-bottom:1.75rem}.crumbs[data-astro-cid-zvnupzzu]{display:flex;gap:.5rem;font-size:.82rem;color:var(--color-muted);margin-bottom:1.25rem}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]{color:var(--color-muted);text-decoration:none}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]:hover{color:var(--color-ink)}.cat-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.article-title[data-astro-cid-zvnupzzu]{font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem);line-height:1.4}.article-meta[data-astro-cid-zvnupzzu]{display:flex;gap:1rem;margin-top:1.25rem;font-size:.88rem;color:var(--color-muted)}.hero-figure[data-astro-cid-zvnupzzu]{margin-block:1rem 2.5rem}.hero-figure[data-astro-cid-zvnupzzu] img[data-astro-cid-zvnupzzu]{width:100%;max-height:26rem;object-fit:cover;border-radius:18px;border:1px solid var(--color-line)}.tag-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:3rem}.article-foot[data-astro-cid-zvnupzzu]{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--color-line)}.section[data-astro-cid-zvnupzzu]{padding-block:4rem}.section-mist[data-astro-cid-zvnupzzu]{background:var(--color-mist)}.related-title[data-astro-cid-zvnupzzu]{font-size:1.4rem;margin-bottom:2rem}.article-grid[data-astro-cid-zvnupzzu]{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}@media(max-width:900px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:repeat(2,1fr)}}@media(max-width:768px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:1fr}}
+</style></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </header>  <script type="module">const e=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");e?.addEventListener("click",()=>{const t=n?.classList.toggle("open");e.setAttribute("aria-expanded",String(!!t))});</script> <main id="main" data-astro-cid-37fxchfa>  <article data-astro-cid-zvnupzzu> <!-- header --> <header class="article-hero" data-astro-cid-zvnupzzu> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-zvnupzzu> <a href="/" data-astro-cid-zvnupzzu>ホーム</a><span data-astro-cid-zvnupzzu>/</span><a href="/article" data-astro-cid-zvnupzzu>記事</a> </nav> <div class="cat-row" data-astro-cid-zvnupzzu> <a class="chip chip-link" href="/archives/category/claude" data-astro-cid-zvnupzzu> claude </a><a class="chip chip-link" href="/archives/category/mapengu" data-astro-cid-zvnupzzu> maPengu ペンギン検索アプリ </a><a class="chip chip-link" href="/archives/category/app-develop" data-astro-cid-zvnupzzu> アプリ開発 </a> </div> <h1 class="article-title" data-astro-cid-zvnupzzu>iOSアプリにペンギン種別判定AIを組み込む — Create ML × Core ML × Vision の実装全解説</h1> <div class="article-meta" data-astro-cid-zvnupzzu> <time datetime="2026-06-04T00:00:00.000Z" data-astro-cid-zvnupzzu> 2026年6月4日 </time> <span data-astro-cid-zvnupzzu>by yuuint</span> </div> </div> </header> <div class="wrap hero-figure" data-astro-cid-zvnupzzu> <img src="/images/posts/hero-209.jpg" alt="closeup photo of eyeglasses" data-astro-cid-zvnupzzu> </div> <!-- body --> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <div class="prose" data-astro-cid-zvnupzzu> <h3 id="はじめに">はじめに</h3>
+<p><a href="https://mapengu.ynetlabo.net">mapengu</a> は「日本でペンギンに会える場所」を地図で探せるiOSアプリです。
+v1.6 で追加した<strong>ペンギン判定カメラ</strong>は、スマホをペンギンに向けるだけで種類をリアルタイム判定し、そのまま飼育施設を地図で探せる機能です。</p>
+<p>この記事では、モデルの学習から iOS への組み込み・UI 設計まで、実装のすべてを解説します。</p>
+<hr>
+<h3 id="全体の構成">全体の構成</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[Create ML でモデル学習]</span></span>
+<span class="line"><span>        ↓ .mlpackage</span></span>
+<span class="line"><span>[Xcode プロジェクトに組み込み]</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>[AVCaptureSession] → カメラ映像取得</span></span>
+<span class="line"><span>        ↓ 30フレームに1回</span></span>
+<span class="line"><span>[VNCoreMLRequest] → ペンギン種別を推論</span></span>
+<span class="line"><span>        ↓ ラベル + 信頼度</span></span>
+<span class="line"><span>[SwiftUI] → 結果カード表示 + 地図検索へ遷移</span></span></code></pre>
+<hr>
+<h3 id="step-1--create-ml-でモデルを学習する">Step 1 — Create ML でモデルを学習する</h3>
+<h4 id="タスク種別">タスク種別</h4>
+<p>Xcode 付属の <strong>Create ML</strong>（バージョン 6.2）を使います。
+タスク種別は <code>Image Classifier</code>（画像分類）を選択します。</p>
+<h4 id="対象クラスの選定">対象クラスの選定</h4>
+<p>動物園・水族館でよく見られる 11 種を選びました。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>英語名</th><th>日本語名</th></tr></thead><tbody><tr><td>Emperor Penguin</td><td>コウテイペンギン</td></tr><tr><td>King Penguin</td><td>キングペンギン</td></tr><tr><td>Gentoo Penguin</td><td>ジェンツーペンギン</td></tr><tr><td>Adelie Penguin</td><td>アデリーペンギン</td></tr><tr><td>Chinstrap Penguin</td><td>ヒゲペンギン</td></tr><tr><td>Rockhopper Penguin</td><td>イワトビペンギン</td></tr><tr><td>Macaroni Penguin</td><td>マカロニペンギン</td></tr><tr><td>African Penguin</td><td>ケープペンギン</td></tr><tr><td>Humboldt Penguin</td><td>フンボルトペンギン</td></tr><tr><td>Magellanic Penguin</td><td>マゼランペンギン</td></tr><tr><td>Little Penguin</td><td>コガタペンギン</td></tr></tbody></table>
+<h4 id="データセットの構成">データセットの構成</h4>
+<p>ディレクトリ構造はシンプルです。クラス名をそのままフォルダ名にします。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>penguin_dataset/</span></span>
+<span class="line"><span>├── Emperor Penguin/</span></span>
+<span class="line"><span>│   ├── 0001.jpg</span></span>
+<span class="line"><span>│   ├── 0002.jpg</span></span>
+<span class="line"><span>│   └── ...</span></span>
+<span class="line"><span>├── King Penguin/</span></span>
+<span class="line"><span>│   └── ...</span></span>
+<span class="line"><span>└── ...（11クラス）</span></span></code></pre>
+<p>学習は 2 回試みました。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>バージョン</th><th>枚数/クラス</th><th>合計</th><th>収束</th></tr></thead><tbody><tr><td>v1</td><td>100枚</td><td>1,100枚</td><td>19イテレーション</td></tr><tr><td>v2</td><td>500枚</td><td>5,500枚</td><td>26イテレーション</td></tr></tbody></table>
+<p>v1 は枚数が少なく特定クラスの精度が不安定だったため、v2 でデータを 5 倍に増やして再学習しました。
+Create ML の転移学習ベースのため、Mac 単体で数十分以内に完了します。</p>
+<h4 id="モデルの出力">モデルの出力</h4>
+<p>学習後、<strong>Export Model</strong> から <code>.mlpackage</code> 形式で書き出し、Xcode プロジェクトにドラッグ&#x26;ドロップするだけで組み込めます。コンパイルは Xcode ビルド時に自動で行われます。</p>
+<hr>
+<h3 id="step-2--ios-への組み込みpenguinidentifierviewmodel">Step 2 — iOS への組み込み（<code>PenguinIdentifierViewModel</code>）</h3>
+<h4 id="カメラのセットアップ">カメラのセットアップ</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>private func configureCaptureSession() {</span></span>
+<span class="line"><span>    captureSession.beginConfiguration()</span></span>
+<span class="line"><span>    captureSession.sessionPreset = .high  // 高解像度で取得</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    guard let device = AVCaptureDevice.default(</span></span>
+<span class="line"><span>              .builtInWideAngleCamera, for: .video, position: .back),</span></span>
+<span class="line"><span>          let input = try? AVCaptureDeviceInput(device: device)</span></span>
+<span class="line"><span>    else { return }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    captureSession.addInput(input)</span></span>
+<span class="line"><span>    videoOutput.setSampleBufferDelegate(self, queue: visionQueue)</span></span>
+<span class="line"><span>    videoOutput.alwaysDiscardsLateVideoFrames = true</span></span>
+<span class="line"><span>    captureSession.addOutput(videoOutput)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    captureSession.commitConfiguration()</span></span>
+<span class="line"><span>    captureSession.startRunning()</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>推論はすべて専用の <code>visionQueue</code>（QoS: <code>.userInitiated</code>）で行い、メインスレッドをブロックしません。</p>
+<h4 id="推論頻度の制御">推論頻度の制御</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>func captureOutput(_ output: AVCaptureOutput,</span></span>
+<span class="line"><span>                   didOutput sampleBuffer: CMSampleBuffer,</span></span>
+<span class="line"><span>                   from connection: AVCaptureConnection) {</span></span>
+<span class="line"><span>    frameCount += 1</span></span>
+<span class="line"><span>    guard frameCount % 30 == 0 else { return }  // 30フレームに1回だけ推論</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),</span></span>
+<span class="line"><span>          let request = visionRequest else { return }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)</span></span>
+<span class="line"><span>    try? handler.perform([request])</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>60fps のカメラなら約 2 回/秒の推論。体感的に十分なレスポンスを保ちながら、CPU・バッテリー消費を大幅に抑えられます。</p>
+<h4 id="カスタムモデル優先--フォールバック設計">カスタムモデル優先 + フォールバック設計</h4>
+<p>カスタムモデルが Bundle に存在すれば優先し、なければ Apple 標準モデルで代替します。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>private func setupVisionRequest() {</span></span>
+<span class="line"><span>    if let coreMLRequest = loadCoreMLRequest() {</span></span>
+<span class="line"><span>        visionRequest = coreMLRequest</span></span>
+<span class="line"><span>        usingCustomModel = true</span></span>
+<span class="line"><span>    } else {</span></span>
+<span class="line"><span>        visionRequest = makeBuiltinRequest()  // VNClassifyImageRequest にフォールバック</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>private func loadCoreMLRequest() -> VNCoreMLRequest? {</span></span>
+<span class="line"><span>    // .mlmodelc（コンパイル済み）と .mlpackage の両方を探す</span></span>
+<span class="line"><span>    guard let modelURL = Bundle.main.url(forResource: "PenguinClassifier", withExtension: "mlmodelc")</span></span>
+<span class="line"><span>                      ?? Bundle.main.url(forResource: "PenguinClassifier", withExtension: "mlpackage"),</span></span>
+<span class="line"><span>          let mlModel = try? MLModel(contentsOf: modelURL),</span></span>
+<span class="line"><span>          let vnModel = try? VNCoreMLModel(for: mlModel)</span></span>
+<span class="line"><span>    else { return nil }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    let request = VNCoreMLRequest(model: vnModel) { [weak self] req, _ in</span></span>
+<span class="line"><span>        guard let results = req.results as? [VNClassificationObservation] else { return }</span></span>
+<span class="line"><span>        let top = results.first { $0.confidence >= 0.50 }  // 信頼度 50% 以上</span></span>
+<span class="line"><span>        DispatchQueue.main.async { self?.applyResult(label: top?.identifier, confidence: top?.confidence) }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    request.imageCropAndScaleOption = .centerCrop  // ガイド枠に合わせたクロップ</span></span>
+<span class="line"><span>    return request</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h4 id="信頼度の閾値設計">信頼度の閾値設計</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>モデル</th><th>閾値</th><th>設計の理由</th></tr></thead><tbody><tr><td>カスタムモデル（PenguinClassifier）</td><td><strong>50%</strong></td><td>11クラス専用なので誤検知を抑えるために高めに設定</td></tr><tr><td>Apple 標準（VNClassifyImageRequest）</td><td><strong>5%</strong></td><td>数千クラスの中から “penguin” を含むラベルを拾うため低く設定</td></tr></tbody></table>
+<p>標準モデルは閾値を低くしてでも「ペンギンっぽいもの」を拾いにいきます。カスタムモデルの有無でフォールバック挙動が自然に切り替わります。</p>
+<h4 id="判定ラベルをアプリデータと照合する">判定ラベルをアプリデータと照合する</h4>
+<p>モデルが返すラベル（例: <code>"Emperor Penguin"</code>）をアプリ内の <code>Penguin</code> マスターデータと紐づけます。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>private func matchPenguin(label: String) -> Penguin? {</span></span>
+<span class="line"><span>    let lower = label.lowercased()</span></span>
+<span class="line"><span>    return penguins.first { penguin in</span></span>
+<span class="line"><span>        let words = penguin.name.lowercased().split(separator: " ")</span></span>
+<span class="line"><span>        // 全単語一致を優先、部分一致もカバー</span></span>
+<span class="line"><span>        return words.allSatisfy { lower.contains($0) }</span></span>
+<span class="line"><span>            || (words.first.map { lower.contains($0) } ?? false)</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>モデルのラベルとマスターデータの表記ゆれ（例: <code>"African Penguin"</code> vs <code>"Cape Penguin"</code>）に対応するため、全単語一致 → 先頭単語一致の順で照合しています。</p>
+<hr>
+<h3 id="step-3--uipenguincameraview">Step 3 — UI（<code>PenguinCameraView</code>）</h3>
+<h4 id="レイアウト構成">レイアウト構成</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ZStack</span></span>
+<span class="line"><span>├── Color.black（背景）</span></span>
+<span class="line"><span>├── CameraPreviewView（フルスクリーン）</span></span>
+<span class="line"><span>└── VStack</span></span>
+<span class="line"><span>    ├── Spacer</span></span>
+<span class="line"><span>    ├── RoundedRectangle 260×260（判定枠ガイド）</span></span>
+<span class="line"><span>    ├── Spacer</span></span>
+<span class="line"><span>    └── classificationResultCard（判定結果カード）</span></span></code></pre>
+<p>260×260 の白枠はユーザーにカメラの向け方を示すガイドです。<code>centerCrop</code> と合わせて「枠の中に入れれば判定される」という直感的な UX を実現しています。</p>
+<h4 id="判定結果カード">判定結果カード</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>VStack(spacing: 12) {</span></span>
+<span class="line"><span>    if let result = viewModel.penguinResult {</span></span>
+<span class="line"><span>        HStack {</span></span>
+<span class="line"><span>            VStack(alignment: .leading) {</span></span>
+<span class="line"><span>                Text(result.penguin?.name_jp ?? "ペンギン")  // 日本語名</span></span>
+<span class="line"><span>                    .font(.title3.bold())</span></span>
+<span class="line"><span>                Text(result.penguin?.name ?? result.label)   // 英語名</span></span>
+<span class="line"><span>                    .font(.subheadline)</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>            Spacer()</span></span>
+<span class="line"><span>            Text("\(Int(result.confidence * 100))%")         // 信頼度</span></span>
+<span class="line"><span>                .font(.title2.bold())</span></span>
+<span class="line"><span>                .foregroundColor(.blue)</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        if let penguin = result.penguin {</span></span>
+<span class="line"><span>            NavigationLink {</span></span>
+<span class="line"><span>                PenguinSearch(penguinCode: penguin.penguin_code, ...)</span></span>
+<span class="line"><span>            } label: {</span></span>
+<span class="line"><span>                Label("このペンギンがいる場所を探す", systemImage: "map.fill")</span></span>
+<span class="line"><span>                    // → 地図検索画面へ遷移</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    } else {</span></span>
+<span class="line"><span>        Text("カメラをペンギンに向けてください")</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>.background(.ultraThinMaterial)</span></span>
+<span class="line"><span>.cornerRadius(16)</span></span></code></pre>
+<p>判定結果が出た瞬間にボタンが現れて地図検索へ遷移できます。「見たペンギンを、今すぐ他の場所でも探す」という動線を最短にしました。</p>
+<h4 id="ツールバーのモデルバッジ">ツールバーのモデルバッジ</h4>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Label(</span></span>
+<span class="line"><span>    viewModel.usingCustomModel ? "カスタムモデル" : "標準モデル",</span></span>
+<span class="line"><span>    systemImage: viewModel.usingCustomModel ? "brain.filled.head.profile" : "cpu"</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span>.foregroundColor(viewModel.usingCustomModel ? .green : .yellow)</span></span></code></pre>
+<p>開発中のデバッグにも役立ちつつ、ユーザーへの透明性も確保しています。</p>
+<hr>
+<h3 id="まとめ">まとめ</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>項目</th><th>採用技術・数値</th></tr></thead><tbody><tr><td>モデル学習ツール</td><td>Create ML 6.2</td></tr><tr><td>タスク</td><td>Image Classifier（転移学習）</td></tr><tr><td>クラス数</td><td>11種</td></tr><tr><td>データ枚数</td><td>5,500枚（500枚/クラス）</td></tr><tr><td>収束イテレーション</td><td>26</td></tr><tr><td>推論エンジン</td><td>Core ML + Vision（VNCoreMLRequest）</td></tr><tr><td>フォールバック</td><td>VNClassifyImageRequest（Apple 標準）</td></tr><tr><td>推論頻度</td><td>30フレームに1回（約2回/秒）</td></tr><tr><td>信頼度閾値</td><td>カスタム 50% / 標準 5%</td></tr></tbody></table>
+<p>Create ML × Core ML × Vision のスタックはサーバー不要・オフライン動作・Neural Engine フル活用という三拍子が揃っています。ペンギン以外の動物図鑑・博物館ガイド・野鳥識別など、似た構造のアプリにそのまま応用できるはずです。</p>
+<hr>
+<h3 id="参考リンク">参考リンク</h3>
+<ul>
+<li><a href="https://developer.apple.com/documentation/createml/creating-an-image-classifier-model">Apple Developer — Creating an Image Classifier Model</a></li>
+<li><a href="https://developer.apple.com/documentation/vision/vncoremlrequest">Apple Developer — VNCoreMLRequest</a></li>
+<li><a href="https://apps.apple.com/jp/app/mapengu/id6743381615">mapengu App Store</a></li>
+</ul> </div>  <div class="article-foot" data-astro-cid-zvnupzzu> <a href="/article" class="btn btn-ghost" data-astro-cid-zvnupzzu>← 記事一覧へ戻る</a> </div> </div> </article> <section class="section section-mist" data-astro-cid-zvnupzzu> <div class="wrap" data-astro-cid-zvnupzzu> <h2 class="related-title" data-astro-cid-zvnupzzu>関連する記事</h2> <div class="article-grid" data-astro-cid-zvnupzzu> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/193" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-193.jpg" alt="Flutter一本化しなかった理由 ── 割り勘アプリで「UIの文化的整合性」を選んだ話" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-06-02T00:00:00.000Z" data-astro-cid-di2nlc57>2026年6月2日</time> <span class="chip" data-astro-cid-di2nlc57>wa/ri割り勘アプリ</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>Flutter一本化しなかった理由 ── 割り勘アプリで「UIの文化的整合性」を選んだ話</h3> <p class="article-desc" data-astro-cid-di2nlc57>はじめに 個人で割り勘アプリ wa/ri を作った。iOS / Android / Web / LINE（LIFF）の4プラットフォームに対応している。 マルチプラットフォーム開発といえば、まず出てくる選択肢は「Flut</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/199" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-199.jpeg" alt="Detailed view of a single jigsaw puzzle piece being placed in a puzzle, symbolizing problem-solving." loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-06-02T00:00:00.000Z" data-astro-cid-di2nlc57>2026年6月2日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>フロントで計算させない設計 ── 4クライアントのロジックをバックエンドに集約した話</h3> <p class="article-desc" data-astro-cid-di2nlc57>はじめに 割り勘アプリ wa/ri は、iOS / Android / Web / LINE（LIFF）の4プラットフォームに対応している。 クライアントが4つあると、普通に考えれば「同じロジックを4回実装する」か「共通</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/202" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-202.jpeg" alt="AIにUI実装を任せるなら「テキストだけ」は損をする ── Visual Promptingでスクショ併用したらFlutter移植の精度が上がった話" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-06-02T00:00:00.000Z" data-astro-cid-di2nlc57>2026年6月2日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>AIにUI実装を任せるなら「テキストだけ」は損をする ── Visual Promptingでスクショ併用したらFlutter移植の精度が上がった話</h3> <p class="article-desc" data-astro-cid-di2nlc57>はじめに iOSアプリ（Swift / SwiftUI）をFlutterに移植するとき、GitHub CopilotなどのAIコーディングツールを使った。 ロジック部分はわりとスムーズに移植できた。でもUIの初期アウトプ</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article>  </div> </div> </section> </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 

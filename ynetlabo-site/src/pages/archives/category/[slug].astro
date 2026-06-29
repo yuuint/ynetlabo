@@ -1,0 +1,115 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticleCard from "../../../components/ArticleCard.astro";
+import { articleHref } from "../../../utils";
+import { categorySlug } from "../../../consts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const byCat = new Map<string, typeof posts>();
+  for (const post of posts) {
+    for (const cat of post.data.categories) {
+      const list = byCat.get(cat) ?? [];
+      list.push(post);
+      byCat.set(cat, list);
+    }
+  }
+  return [...byCat.entries()].map(([name, list]) => ({
+    params: { slug: categorySlug(name) },
+    props: {
+      name,
+      posts: list.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+      ),
+    },
+  }));
+}
+
+const { name, posts } = Astro.props;
+const isNotice = categorySlug(name) === "notice";
+---
+
+<BaseLayout
+  title={isNotice ? "お知らせ" : `${name} の記事`}
+  description={`${name} に関する記事の一覧です。`}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span>/</span><a href="/article">記事</a>
+      </nav>
+      <span class="eyebrow">{isNotice ? "News" : "Category"}</span>
+      <h1 class="page-title">{name}</h1>
+      <p class="page-sub">{posts.length} 件の記事</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="article-grid">
+        {
+          posts.map((post) => (
+            <ArticleCard
+              href={articleHref(post.data.wpId)}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              categories={post.data.categories}
+              heroImage={post.data.heroImage}
+              heroAlt={post.data.heroAlt}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 1rem;
+    background: linear-gradient(180deg, var(--color-mist), #fff);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--color-ink);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+  }
+  .section {
+    padding-block: 3rem 4.5rem;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .article-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
