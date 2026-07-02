@@ -1,0 +1,358 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, PROJECTS } from "../consts";
+
+// Apps that share the single Y.NetLabo account
+const ACCOUNT_APP_NAMES = ["soroe", "wa/ri", "mapengu"];
+const accountApps = ACCOUNT_APP_NAMES.map(
+  (name) => PROJECTS.find((p) => p.name === name)!
+);
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Y.NetLaboアカウントについて",
+      item: `${origin}/account`,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Y.NetLaboアカウントについて"
+  description="Y.NetLabo の各アプリ（soroe / wa/ri / mapengu）で共通して使える「Y.NetLaboアカウント」の作成・管理・削除方法をまとめた特設ページです。"
+  jsonLd={breadcrumbLd}
+>
+  <section class="page-head">
+    <div class="wrap-narrow">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span>/</span><span>Y.NetLaboアカウント</span>
+      </nav>
+      <span class="eyebrow">Y.NetLabo Account</span>
+      <h1 class="page-title">Y.NetLaboアカウントについて</h1>
+      <p class="page-lead">
+        「Y.NetLaboアカウント」は、Y.NetLabo のアプリを横断して使える共通アカウントです。ひとつのアカウントで、対応アプリのデータを引き継ぎ・同期できます。このページでは、アカウントの作成・管理・削除の方法をまとめています。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow prose">
+      <h2>Y.NetLaboアカウントとは</h2>
+      <p>
+        Y.NetLaboアカウントは、下記の対応アプリで共通してご利用いただける無料のアカウントです。ID・パスワードを登録することで、機種変更やアプリの再インストール後もデータを引き継げます。
+      </p>
+      <ul>
+        <li>アプリを横断して同じアカウントでログインできます。</li>
+        <li>
+          ログインせず「ゲスト」として使う場合、データはお使いの端末内にのみ保存されます。
+        </li>
+        <li>
+          LINE アカウントと連携してログインすることもできます（wa/ri・soroe の
+          iOS版では、Apple でのサインインにも対応しています）。
+        </li>
+      </ul>
+
+      <h2 id="apps">対応アプリ</h2>
+      <p>Y.NetLaboアカウントは、以下のアプリでご利用いただけます。</p>
+    </div>
+
+    <div class="wrap-narrow">
+      <div class="app-list">
+        {
+          accountApps.map((p) => (
+            <article class="card app-card">
+              <div class="app-top" style={`--brand:${p.accent}`}>
+                <span class="app-dot" />
+                <h3 class="app-name">{p.name}</h3>
+                <span class="app-tag">{p.tagline}</span>
+              </div>
+              <div class="app-links">
+                {p.site && (
+                  <a
+                    class="plink plink-primary"
+                    href={p.site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    公式サイト
+                  </a>
+                )}
+                {p.appStore && (
+                  <a
+                    class="plink"
+                    href={p.appStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    App Store
+                  </a>
+                )}
+                {p.googlePlay && (
+                  <a
+                    class="plink"
+                    href={p.googlePlay}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Google Play
+                  </a>
+                )}
+                {p.comingSoon?.map((store) => (
+                  <span class="plink plink-soon" aria-disabled="true">
+                    {store}
+                    <span class="soon-tag">coming soon</span>
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="wrap-narrow prose">
+      <h2 id="mypage">マイページの使い方</h2>
+      <p>
+        アカウントの作成・ログイン、プロフィールの変更、外部アカウント連携、ログアウトなどは、すべて各アプリ内の「マイページ」から行えます。マイページは、<strong
+          >画面右上（上部）のアカウントアイコン</strong
+        >をタップすると開けます。
+      </p>
+
+      <h3>アカウントの作成・ログイン</h3>
+      <p>
+        ログインせずに「ゲスト」として使い始めることもできますが、ゲストの場合はデータがお使いの端末内にのみ保存されます。マイページからアカウントを作成、または既存のアカウントでログインすると、機種変更やアプリの再インストール後もデータを引き継げます。
+      </p>
+      <ul>
+        <li>ID・パスワードは、それぞれ5文字以上で設定してください。</li>
+        <li>
+          作成済みのアカウントは、ID・パスワードを入力していつでもログインできます。
+        </li>
+      </ul>
+
+      <h3>アカウント連携（LINE・Apple）</h3>
+      <p>
+        マイページの「アカウント連携」から、LINE
+        アカウントを連携できます。連携すると、他の端末でも同じアカウントでログインできます。
+      </p>
+      <p>
+        あわせて、<strong>wa/ri・soroe の iOS版</strong>では、Apple
+        でのサインイン（Apple ID
+        でのログイン）にも対応しています。ご利用の端末・アプリによって、利用できる連携方法は異なります。
+      </p>
+
+      <h3>データの引き継ぎ</h3>
+      <p>
+        ゲストとして利用していたときの記録は、アカウントの新規作成時、または既存アカウントへのログイン時に引き継ぐことができます。
+      </p>
+      <blockquote>
+        <p>
+          外部アカウントの連携のみでは、ゲスト時の記録は引き継がれません。データを引き継ぐ場合は、アカウントの作成・ログインの操作を行ってください。
+        </p>
+      </blockquote>
+
+      <h3>プロフィール（表示名）の変更</h3>
+      <p>
+        マイページから表示名を編集できます。表示名は、ルームの作成者名などとして表示される名前です。
+      </p>
+
+      <h3>お問い合わせID</h3>
+      <p>
+        マイページには「お問い合わせID」が表示されます。タップするとコピーできます。サポートへお問い合わせいただく際に、このIDをお知らせいただくとスムーズです。
+      </p>
+
+      <h3>ログアウト</h3>
+      <p>
+        マイページからログアウトできます。ログアウトするとゲストの状態に戻りますが、アカウントのデータは保持されており、再度ログインすれば元の状態に戻せます。
+      </p>
+
+      <h2 id="delete">アカウントの削除</h2>
+      <p>
+        Y.NetLaboアカウントは、いつでも削除できます。削除すると、<strong
+          >ユーザーアカウント情報および登録されたすべてのデータが即時に削除され、元に戻すことはできません。</strong
+        >
+      </p>
+
+      <h3>方法1：アプリから削除する</h3>
+      <ol>
+        <li>アプリを開き、画面上部のアカウントアイコンからマイページを開きます。</li>
+        <li>「削除して退会」ボタンをタップします。</li>
+        <li>
+          確認のうえ実行すると、アカウント情報と登録されたすべてのデータがただちに削除されます。
+        </li>
+      </ol>
+
+      <h3>方法2：お問い合わせから削除を依頼する</h3>
+      <p>
+        アプリから操作できない場合は、以下のいずれかの方法で削除をご依頼いただけます。担当者が確認次第、アカウント削除の手続きを行います（ご連絡まで<strong
+          >おおむね1週間程度</strong
+        >いただく場合があります）。
+      </p>
+      <ul>
+        <li>
+          <a href="/contact">お問い合わせフォーム</a
+          >から削除を依頼する（返信用のメールアドレスをご記入ください）
+        </li>
+        <li>
+          メールで依頼する：<a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </li>
+      </ul>
+
+      <h3>削除されるデータ</h3>
+      <p>アカウント削除時には、次の情報が削除されます。</p>
+      <ul>
+        <li>アカウント情報（ID・登録情報・外部アカウント連携情報）</li>
+        <li>アプリ上でアカウントに登録・作成したすべてのデータ</li>
+      </ul>
+      <blockquote>
+        <p>
+          削除は取り消せません。必要なデータがある場合は、削除前にご確認ください。
+        </p>
+      </blockquote>
+
+      <h2>データの取り扱い・プライバシー</h2>
+      <p>
+        アカウントに関連する情報の取り扱いについては、<a href="/privacy"
+          >プライバシーポリシー</a
+        >に記載しています。ご不明な点は下記までお問い合わせください。
+      </p>
+
+      <h2>お問い合わせ</h2>
+      <p>
+        アカウントに関するご質問は、<a href="/contact">お問い合わせフォーム</a
+        >または <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        までご連絡ください。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 1.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--color-ink);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-lead {
+    margin-top: 1rem;
+    max-width: 40rem;
+    color: var(--color-muted);
+  }
+  .section {
+    padding-block: 3rem 4.5rem;
+  }
+
+  /* ----- app list ----- */
+  .app-list {
+    display: grid;
+    gap: 1rem;
+    margin-block: 1.75rem;
+  }
+  .app-card {
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .app-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .app-dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+  .app-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+  .app-tag {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-muted);
+  }
+  .app-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .plink {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, color 0.15s ease, transform 0.15s ease;
+  }
+  .plink:hover {
+    color: var(--color-accent-ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+  .plink:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-pressed-sm);
+  }
+  .plink-primary {
+    background: var(--color-panel);
+    color: var(--color-on-panel);
+  }
+  .plink-primary:hover {
+    color: var(--color-on-panel);
+  }
+  .plink-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    color: var(--color-muted);
+    box-shadow: none;
+    border: 1px dashed var(--color-line);
+    cursor: default;
+  }
+  .plink-soon:hover {
+    color: var(--color-muted);
+    transform: none;
+    box-shadow: none;
+  }
+  .soon-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background: var(--color-mist);
+    color: var(--color-accent-ink);
+  }
+</style>
