@@ -76,10 +76,12 @@ export const PROJECTS: Project[] = [
     name: "soroe",
     tagline: "日程調整アプリ",
     description:
-      "予定を「揃える」日程調整アプリ。第一弾はシフト制職場のシフト調整に対応。管理者・スタッフの希望をまとめて、ぴったりの日程を見つけます。Web版を先行公開中、iOS / Android 版も近日対応。",
+      "予定を「揃える」日程調整アプリ。第一弾はシフト制職場のシフト調整に対応。管理者・スタッフの希望をまとめて、ぴったりの日程を見つけます。iOS / Android / Web に対応。",
     accent: "#10b981",
-    site: "https://soroe.ynetlabo.net/",
-    comingSoon: ["App Store", "Google Play"],
+    site: "https://liff.line.me/2010192430-4jDXh7FD",
+    appStore: "https://apps.apple.com/jp/app/soroe/id6785938952",
+    googlePlay:
+      "https://play.google.com/store/apps/details?id=net.ynetlabo.soroe",
   },
 ];
 
