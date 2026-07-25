@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/archives/216/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する | Y.NetLabo</title><meta name="description" content="CLAUDE.md はClaude Codeが毎セッションの先頭で読むファイル。慣性で長くなりがちだが、長すぎれば効かない。慶弔記録アプリ tsutsum の CLAUDE.md で実際にやっている「簡潔さ」と「効き目」の両立、そして推論の深さまで制御する書き方を紹介する。"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する | Y.NetLabo"><meta property="og:description" content="CLAUDE.md はClaude Codeが毎セッションの先頭で読むファイル。慣性で長くなりがちだが、長すぎれば効かない。慶弔記録アプリ tsutsum の CLAUDE.md で実際にやっている「簡潔さ」と「効き目」の両立、そして推論の深さまで制御する書き方を紹介する。"><meta property="og:url" content="https://ynetlabo.net/archives/216/"><meta property="og:image" content="https://ynetlabo.net/images/posts/hero-216.jpg"><meta property="og:image:alt" content="CLAUDE.md の構成 ── 芯・ガードレール・アダプティブ推論スタイル表"><meta property="og:locale" content="ja_JP"><meta property="article:published_time" content="2026-07-25T00:00:00.000Z"><meta property="article:modified_time" content="2026-07-25T00:00:00.000Z"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する | Y.NetLabo"><meta name="twitter:description" content="CLAUDE.md はClaude Codeが毎セッションの先頭で読むファイル。慣性で長くなりがちだが、長すぎれば効かない。慶弔記録アプリ tsutsum の CLAUDE.md で実際にやっている「簡潔さ」と「効き目」の両立、そして推論の深さまで制御する書き方を紹介する。"><meta name="twitter:image" content="https://ynetlabo.net/images/posts/hero-216.jpg"><meta name="twitter:image:alt" content="CLAUDE.md の構成 ── 芯・ガードレール・アダプティブ推論スタイル表"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"BlogPosting","@id":"https://ynetlabo.net/archives/216#article","headline":"毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する","description":"CLAUDE.md はClaude Codeが毎セッションの先頭で読むファイル。慣性で長くなりがちだが、長すぎれば効かない。慶弔記録アプリ tsutsum の CLAUDE.md で実際にやっている「簡潔さ」と「効き目」の両立、そして推論の深さまで制御する書き方を紹介する。","inLanguage":"ja","url":"https://ynetlabo.net/archives/216","mainEntityOfPage":"https://ynetlabo.net/archives/216","datePublished":"2026-07-25T00:00:00.000Z","dateModified":"2026-07-25T00:00:00.000Z","image":"https://ynetlabo.net/images/posts/hero-216.jpg","author":{"@type":"Person","name":"yuuki","url":"https://github.com/yuuint"},"publisher":{"@id":"https://ynetlabo.net/#org"},"keywords":"claude, tsutsum慶弔記録アプリ, アプリ開発"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"記事","item":"https://ynetlabo.net/article"},{"@type":"ListItem","position":3,"name":"毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する","item":"https://ynetlabo.net/archives/216"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.4nnf9wQj.css">
+<style>.article-card[data-astro-cid-di2nlc57]{overflow:hidden}.article-card-link[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;height:100%;text-decoration:none;color:inherit}.thumb[data-astro-cid-di2nlc57]{aspect-ratio:16 / 9;overflow:hidden;background:var(--color-mist)}.thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}.article-card[data-astro-cid-di2nlc57]:hover .thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{transform:scale(1.05)}.thumb-fallback[data-astro-cid-di2nlc57]{display:grid;place-items:center;height:100%;background:var(--color-mist)}.thumb-fallback[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:3.5rem;height:auto;opacity:.7}.article-body[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;flex:1;padding:1.25rem 1.4rem 1.5rem}.article-meta[data-astro-cid-di2nlc57]{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--color-muted);margin-bottom:.6rem}.article-title[data-astro-cid-di2nlc57]{font-size:1.08rem;line-height:1.5;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-desc[data-astro-cid-di2nlc57]{font-size:.88rem;color:var(--color-muted);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-more[data-astro-cid-di2nlc57]{margin-top:auto;padding-top:1rem;font-size:.85rem;font-weight:700;color:var(--color-accent-ink)}
+.article-hero[data-astro-cid-zvnupzzu]{padding-top:2.5rem;padding-bottom:1.75rem}.crumbs[data-astro-cid-zvnupzzu]{display:flex;gap:.5rem;font-size:.82rem;color:var(--color-muted);margin-bottom:1.25rem}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]{color:var(--color-muted);text-decoration:none}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]:hover{color:var(--color-ink)}.cat-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.article-title[data-astro-cid-zvnupzzu]{font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem);line-height:1.4}.article-meta[data-astro-cid-zvnupzzu]{display:flex;gap:1rem;margin-top:1.25rem;font-size:.88rem;color:var(--color-muted)}.hero-figure[data-astro-cid-zvnupzzu]{margin-block:1rem 2.5rem}.hero-figure[data-astro-cid-zvnupzzu] img[data-astro-cid-zvnupzzu]{width:100%;max-height:26rem;object-fit:cover;border-radius:18px;box-shadow:var(--shadow-card)}.tag-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:3rem}.article-foot[data-astro-cid-zvnupzzu]{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--color-line)}.section[data-astro-cid-zvnupzzu]{padding-block:4rem}.section-mist[data-astro-cid-zvnupzzu]{background:var(--color-mist)}.related-title[data-astro-cid-zvnupzzu]{font-size:1.4rem;margin-bottom:2rem}.article-grid[data-astro-cid-zvnupzzu]{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}@media(max-width:900px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:repeat(2,1fr)}}@media(max-width:768px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:1fr}}
+</style></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article data-astro-cid-zvnupzzu> <!-- header --> <header class="article-hero" data-astro-cid-zvnupzzu> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-zvnupzzu> <a href="/" data-astro-cid-zvnupzzu>ホーム</a><span data-astro-cid-zvnupzzu>/</span><a href="/article" data-astro-cid-zvnupzzu>記事</a> </nav> <div class="cat-row" data-astro-cid-zvnupzzu> <a class="chip chip-link" href="/archives/category/claude" data-astro-cid-zvnupzzu> claude </a><a class="chip chip-link" href="/archives/category/tsutsum" data-astro-cid-zvnupzzu> tsutsum慶弔記録アプリ </a><a class="chip chip-link" href="/archives/category/app-develop" data-astro-cid-zvnupzzu> アプリ開発 </a> </div> <h1 class="article-title" data-astro-cid-zvnupzzu>毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する</h1> <div class="article-meta" data-astro-cid-zvnupzzu> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-zvnupzzu> 2026年7月25日 </time> <span data-astro-cid-zvnupzzu>by yuuint</span> </div> </div> </header> <div class="wrap hero-figure" data-astro-cid-zvnupzzu> <img src="/images/posts/hero-216.jpg" alt="CLAUDE.md の構成 ── 芯・ガードレール・アダプティブ推論スタイル表" data-astro-cid-zvnupzzu> </div> <!-- body --> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <div class="prose" data-astro-cid-zvnupzzu> <h3 id="はじめに">はじめに</h3>
+<p><code>CLAUDE.md</code> は、Claude Code が<strong>毎セッションの先頭で読み込む</strong>プロジェクト指示書だ。ここに書いたことは、そのプロジェクトで作業するときの前提として毎回効く。</p>
+<p>強力なぶん、扱いを間違えると逆効果になる。あれもこれもと書き足していくと、すぐに長大な文書になり、肝心なところが埋もれる。<strong>毎回読まれる = 毎回コンテキストを消費する</strong>ので、長さそのものがコストでもある。</p>
+<p>前回はドキュメント全体（spec / ADR）の話を書いた。今回はその入口である <code>CLAUDE.md</code> そのものを、慶弔記録アプリ <strong>tsutsum</strong> の実物をもとに、どう書いているかを紹介する。</p>
+<hr>
+<h3 id="大原則冒頭で簡潔に保てと宣言する">大原則：冒頭で「簡潔に保て」と宣言する</h3>
+<p>tsutsumの <code>CLAUDE.md</code> は、こんな一文から始まる。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>> このファイルは毎セッション読み込まれる。</span></span>
+<span class="line"><span>> 簡潔に保つこと。詳細は docs/ を参照。</span></span></code></pre>
+<p>これはClaudeへの指示であると同時に、<strong>書く自分自身への戒め</strong>でもある。CLAUDE.md は「全部書く場所」ではなく「入口」だと最初に決めておく。詳細な仕様や手順は <code>docs/</code> に置き、CLAUDE.md からはリンクで逃がす。</p>
+<p>こうすると、CLAUDE.md は薄いまま保てるし、詳細は必要になったときだけClaudeが辿ればいい。</p>
+<hr>
+<h3 id="何を書くか--何を書かないか">何を書くか / 何を書かないか</h3>
+<p>tsutsumの CLAUDE.md に載せているのは、だいたい次のものだ。</p>
+<ul>
+<li><strong>プロダクトの芯</strong>（一言で何のアプリか・ターゲット・UXトーン）</li>
+<li><strong>技術スタックの制約</strong>（何を使い、何を使わないか）</li>
+<li><strong>ディレクトリと依存の方向</strong>（どこに何を置くか）</li>
+<li><strong>主要コマンド</strong>（実行・解析・テスト・ビルド）</li>
+<li><strong>進め方とコミット規約</strong>（詳細は docs/ へリンク）</li>
+</ul>
+<p>逆に、<strong>画面ごとの詳細仕様は載せない</strong>。それは <code>docs/specs/</code> の仕事だ。CLAUDE.md には「specを起点に実装する」という進め方だけ書き、個別仕様はリンクにする。</p>
+<p>判断基準はシンプルで、「<strong>毎回のセッションで前提として効いてほしいか</strong>」だ。効いてほしいものだけをCLAUDE.mdに、参照できればいいものは docs/ に置く。</p>
+<hr>
+<h3 id="ガードレールaiの手癖を止める">ガードレール：AIの「手癖」を止める</h3>
+<p>CLAUDE.md がとくに効くのが、<strong>AIがやりがちなことを先回りで止める</strong>用途だ。</p>
+<p>Claudeは気を利かせて、便利なパッケージやコード生成をすぐ導入したがる。放っておくと、依存が増え、ビルドが重くなり、プロジェクトの方針からズレていく。tsutsumは「lean（コード生成なし）」を方針にしているので、CLAUDE.md にこう書いている。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>- 状態管理は Riverpod。コード生成は使わない — provider は手書き。</span></span>
+<span class="line"><span>- 安易に freezed や *_generator を追加しない。</span></span>
+<span class="line"><span>  必要なら先に Flutter を更新し、ADR を起票してから。</span></span></code></pre>
+<p>ポイントは、単に「禁止」と書くのではなく、<strong>やりたくなったときの正しい手順</strong>（まずADRを起票）まで示していることだ。こうすると、Claudeは勝手に足すこともしないし、必要なときの動き方も分かる。</p>
+<p>「AIにやってほしくないこと」と「その代わりにどうするか」をセットで書く。これがガードレールの基本形だ。</p>
+<hr>
+<h3 id="進め方をルールにする">進め方をルールにする</h3>
+<p>CLAUDE.md には、作業の型も短く書いておく。tsutsumの場合はこうだ。</p>
+<ul>
+<li><strong>spec-driven</strong>: <code>docs/specs/</code> を書く → 実装＋テスト → <code>flutter analyze</code> / <code>flutter test</code> を通す → アーキ判断は <code>docs/adr/</code> に1枚。</li>
+<li><strong>コミットは完全にFIX・OKのときだけ</strong>。作業途中で勝手にコミットしない。</li>
+</ul>
+<p>とくに後者は、自律的に動くエージェントに対する重要な歯止めになる。「いつコミットしていいか」を明示しておかないと、AIは中途半端な状態で気軽にコミットしてしまうことがある。逆に、ここを一行決めておくだけで、コミットの粒度が安定する。</p>
+<hr>
+<h3 id="目玉推論の深さまで設計する">目玉：推論の「深さ」まで設計する</h3>
+<p>tsutsumの CLAUDE.md には、他ではあまり見ない節がある。<strong>アダプティブ推論スタイル</strong>の表だ。タスクの複雑さに応じて、Claudeにどれくらい考えてから動いてほしいかを指定している。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>状況</th><th>対応</th></tr></thead><tbody><tr><td>アーキテクチャ判断・設計変更・ADR起票</td><td>回答前に仮説・根拠・トレードオフを整理してから提案</td></tr><tr><td>バグの根本原因調査</td><td>再現条件・仮説・影響範囲を順に検討してから結論</td></tr><tr><td>仕様が曖昧・「なぜ」が不明なタスク</td><td>実装前に一度確認する</td></tr><tr><td>コード編集・名前変更・typo修正・定型作業</td><td>即実行（過剰な説明不要）</td></tr></tbody></table>
+<p>狙いは、<strong>過剰さと不足の両方を抑える</strong>ことだ。</p>
+<ul>
+<li>簡単な作業に長い前置きは要らない。typo修正でトレードオフを語られても邪魔なだけだ。</li>
+<li>逆に、設計変更を勢いで即実装されると困る。ここは考えてから出してほしい。</li>
+</ul>
+<p>さらに、こう補足している。「複雑な問題ほど<strong>実装より先に考えを示す</strong>。ただし長文の内部独白は書かない ── 結論と根拠を簡潔に」。考える深さは調整しつつ、出力は簡潔に、という指定だ。</p>
+<p>AIの「振る舞い」だけでなく「思考の深さ」までCLAUDE.mdで方向づけられる、というのは覚えておくと効く。</p>
+<hr>
+<h3 id="運用のコツ">運用のコツ</h3>
+<p>書いて終わりではなく、CLAUDE.md は育てて剪定するものだ。</p>
+<ul>
+<li><strong>リンクで逃がす。</strong> 詳細は docs/ に置き、CLAUDE.md は薄く保つ。</li>
+<li><strong>定期的に削る。</strong> 一度書いたルールも、不要になったら消す。長さはコストだと意識する。</li>
+<li><strong>役割を分ける。</strong> CLAUDE.md は毎回効く「憲法」、docs/specs は「今の仕様」、docs/adr は「なぜ」。同じことを二重に書かない。</li>
+</ul>
+<p>CLAUDE.md が薄いほど、書いてある一行一行がよく効く。厚くなってきたら、それは docs/ に逃がすべき何かが混ざっているサインだ。</p>
+<hr>
+<h3 id="まとめ">まとめ</h3>
+<p>CLAUDE.md は「プロジェクトの説明書」であると同時に、<strong>Claudeの振る舞いと思考の深さを方向づける設定ファイル</strong>でもある。</p>
+<ul>
+<li>冒頭で「簡潔に」と宣言し、詳細は docs/ へ逃がす</li>
+<li>毎回効いてほしいことだけを載せる</li>
+<li>やってほしくないことは、代わりの手順とセットで書く（ガードレール）</li>
+<li>推論の深さを、タスクの種類ごとに指定する</li>
+</ul>
+<p>tsutsumの CLAUDE.md は、これで100行に満たない。短いからこそ毎回きちんと効く。Claude Code を使い始めた人が最初に整えるべき一枚として、参考になれば。</p>
+<hr>
+<p><em>このシリーズ：<a href="/archives/215">第1回 spec と ADR</a>／第2回（本記事）／<a href="/archives/217">第3回 既存アプリをAIで別スタックへ移植する</a></em></p> </div>  <div class="article-foot" data-astro-cid-zvnupzzu> <a href="/article" class="btn btn-ghost" data-astro-cid-zvnupzzu>← 記事一覧へ戻る</a> </div> </div> </article> <section class="section section-mist" data-astro-cid-zvnupzzu> <div class="wrap" data-astro-cid-zvnupzzu> <h2 class="related-title" data-astro-cid-zvnupzzu>関連する記事</h2> <div class="article-grid" data-astro-cid-zvnupzzu> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/214" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-214.jpg" alt="慶弔記録アプリ tsutsum のアプリ画面（きろく・ひと・お返し）" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>tsutsum慶弔記録アプリ</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>慶弔記録アプリ tsutsum（ツツム）を近日公開します</h3> <p class="article-desc" data-astro-cid-di2nlc57>ご祝儀・香典の「贈った / もらった」からお返しまで記録する、完全オフラインの慶弔記録アプリ tsutsum（ツツム）を近日公開します。iOS / Android に対応予定です。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/215" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-215.jpg" alt="specs（現在の仕様）と ADR（なぜ）の二層でAIに現在地を渡す構成図" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>specとADRで、Claudeの「記憶喪失」を設計でカバーする ── 毎セッション記憶ゼロのAIと開発する仕組み</h3> <p class="article-desc" data-astro-cid-di2nlc57>Claude Code は毎セッション記憶ゼロで始まる。慶弔記録アプリ tsutsum の開発では、docs/specs（現在の仕様）と docs/adr（なぜそうしたか）の二層で「今の現在地」を常にAIへ渡す仕組みにした。その設計と運用を書く。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/217" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-217.jpg" alt="SwiftUI(wari-ios) から Flutter(soroe) への構造対応表による移植の図" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>既存アプリを「設計図」にして、AIで別スタックへ移植する ── SwiftUIアプリをFlutterに作り直した話</h3> <p class="article-desc" data-astro-cid-di2nlc57>日程調整アプリ soroe は、ゼロから設計したのではなく、既存の SwiftUI アプリ wari-ios を「設計図」として Claude で Flutter / Riverpod へ移植して作った。鍵になったのは、レイヤーの構造対応表を先に用意すること。AIに移植させるときの渡し方を書く。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article>  </div> </div> </section> </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 
