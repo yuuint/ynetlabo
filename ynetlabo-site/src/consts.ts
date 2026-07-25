@@ -49,6 +49,7 @@ export const PROJECTS: Project[] = [
     description:
       "旅行や飲み会・パーティ後の精算をお手伝い。計算過程まで見える、信用できる割り勘アプリ。iOS / Android / Web / LINE に対応。",
     accent: "#f97316",
+    icon: "/images/apps/wari.png",
     site: "https://wa-ri.ynetlabo.net/",
     appStore: "https://apps.apple.com/jp/app/wa-ri/id6743655018",
     googlePlay:
@@ -60,6 +61,7 @@ export const PROJECTS: Project[] = [
     description:
       "日本国内でペンギンと出逢える水族館をマッチング。ペンギン判定カメラで種類をその場で見分けて、飼育施設を地図で探せる。",
     accent: "#0ea5e9",
+    icon: "/images/apps/mapengu.png",
     site: "https://mapengu.ynetlabo.net/",
     appStore: "https://apps.apple.com/jp/app/mapengu/id6743026284",
   },
@@ -69,6 +71,7 @@ export const PROJECTS: Project[] = [
     description:
       "4つの質問に答えるだけで、その日の感情を色で記録。言葉にしづらい気持ちを、やさしく可視化します。",
     accent: "#8b5cf6",
+    icon: "/images/apps/hue.png",
     appStore:
       "https://apps.apple.com/jp/app/%E6%84%9F%E6%83%85%E3%81%AE%E8%89%B2%E6%97%A5%E8%A8%98-hue/id6764466333",
   },
@@ -78,10 +81,20 @@ export const PROJECTS: Project[] = [
     description:
       "予定を「揃える」日程調整アプリ。第一弾はシフト制職場のシフト調整に対応。管理者・スタッフの希望をまとめて、ぴったりの日程を見つけます。iOS / Android / Web に対応。",
     accent: "#10b981",
+    icon: "/images/apps/soroe.png",
     site: "https://liff.line.me/2010192430-4jDXh7FD",
     appStore: "https://apps.apple.com/jp/app/soroe/id6785938952",
     googlePlay:
       "https://play.google.com/store/apps/details?id=net.ynetlabo.soroe",
+  },
+  {
+    name: "tsutsum",
+    tagline: "慶弔記録アプリ",
+    description:
+      "ご祝儀・香典の「贈った / もらった」からお返しまで記録する、完全オフラインの慶弔記録アプリ。記録は端末の中だけ。半返しの目安計算や関係性別の相場表も内蔵。iOS / Android で近日公開予定。",
+    accent: "#a9663f",
+    icon: "/images/apps/tsutsum.png",
+    comingSoon: ["App Store", "Google Play"],
   },
 ];
 
@@ -101,6 +114,8 @@ export const CATEGORY_SLUGS: Record<string, string> = {
   "アプリ開発": "app-develop",
   "wa/ri割り勘アプリ": "wa-ri",
   "maPengu ペンギン検索アプリ": "mapengu",
+  "tsutsum慶弔記録アプリ": "tsutsum",
+  "soroe日程調整アプリ": "soroe",
   "claude": "claude",
   "Github Copilot": "github-copilot",
 };
