@@ -20,7 +20,7 @@ const d = post.data;
 const published = d.pubDate.toISOString();
 const modified = (d.updatedDate ?? d.pubDate).toISOString();
 const pageUrl = new URL(articleHref(d.wpId), Astro.site ?? SITE.url).href;
-const ogImage = d.heroImage ?? "/icon-192.png";
+const ogImage = d.heroImage ?? "/og.png";
 const absImage = new URL(ogImage, Astro.site ?? SITE.url).href;
 const origin = (Astro.site ?? new URL(SITE.url)).origin;
 

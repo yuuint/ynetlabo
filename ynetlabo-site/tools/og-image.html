@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Y.NetLabo — OG image source (1200x630)</title>
+    <!--
+      Source for public/og.png (the social share thumbnail).
+      Re-render after adding an app:  npm run og
+      Keep this in sync with PROJECTS in src/consts.ts.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1d2b4d;
+        --muted: #6f7891;
+        --accent: #f97316;
+        --accent-ink: #c2560c;
+        --bg: #e7ebf2;
+        --nm-dark: #c3cad8;
+        --nm-light: #ffffff;
+        --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+        --display: "Comfortaa", var(--sans);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        font-family: var(--sans);
+        background: var(--bg);
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        padding: 60px 72px 56px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      /* same ambient wash as the site hero */
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            720px 520px at 80% 26%,
+            rgb(249 115 22 / 0.24),
+            rgb(249 115 22 / 0) 68%
+          ),
+          radial-gradient(
+            560px 460px at 2% 104%,
+            rgb(56 189 248 / 0.2),
+            rgb(56 189 248 / 0) 70%
+          );
+      }
+      .card > * {
+        position: relative;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        height: 44px;
+        width: auto;
+        display: block;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--display);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent-ink);
+      }
+      .eyebrow::before {
+        content: "";
+        width: 38px;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+
+      .middle {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+      }
+      .headline {
+        font-size: 72px;
+        font-weight: 700;
+        line-height: 1.32;
+        letter-spacing: 0.01em;
+        color: var(--ink);
+      }
+      .lead {
+        margin-top: 24px;
+        font-family: var(--display);
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--accent-ink);
+      }
+
+      /* soft raised medallion — the mascot, kept small on purpose */
+      .medallion {
+        position: relative;
+        flex: 0 0 auto;
+        width: 260px;
+        height: 260px;
+        margin-right: 18px;
+        border-radius: 50%;
+        background: var(--bg);
+        box-shadow:
+          16px 16px 34px var(--nm-dark),
+          -14px -14px 30px rgb(255 255 255 / 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .medallion::before {
+        content: "";
+        position: absolute;
+        inset: 22px;
+        border-radius: 50%;
+        box-shadow:
+          inset 5px 5px 11px var(--nm-dark),
+          inset -5px -5px 11px var(--nm-light);
+      }
+      .medallion img {
+        position: relative;
+        height: 150px;
+        width: auto;
+        transform: rotate(-5deg);
+        filter: drop-shadow(0 12px 20px rgba(20, 33, 61, 0.2));
+      }
+
+      .shelf {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 32px;
+      }
+      .apps {
+        display: flex;
+        gap: 28px;
+      }
+      .app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .app img {
+        width: 86px;
+        height: 86px;
+        border-radius: 22.5%;
+        box-shadow:
+          0 0 0 4px color-mix(in srgb, var(--brand) 24%, transparent),
+          6px 6px 14px var(--nm-dark),
+          -6px -6px 14px var(--nm-light);
+      }
+      .app span {
+        font-family: var(--display);
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--ink);
+      }
+      .site {
+        font-family: var(--display);
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="top">
+        <img
+          class="wordmark"
+          src="../public/ynetlabo-wordmark.png"
+        />
+        <span class="eyebrow">App Development Lab</span>
+      </div>
+
+      <div class="middle">
+        <div>
+          <h1 class="headline">シンプルなアプリに、<br />少しのペンギンを。</h1>
+          <p class="lead">Simple apps, with a touch of penguin.</p>
+        </div>
+        <div class="medallion">
+          <img
+            src="../public/penguin-mark.png"
+          />
+        </div>
+      </div>
+
+      <div class="shelf">
+        <div class="apps">
+          <div class="app" style="--brand: #f97316">
+            <img src="../public/images/apps/wari.png" />
+            <span>wa/ri</span>
+          </div>
+          <div class="app" style="--brand: #0ea5e9">
+            <img src="../public/images/apps/mapengu.png" />
+            <span>mapengu</span>
+          </div>
+          <div class="app" style="--brand: #8b5cf6">
+            <img src="../public/images/apps/hue.png" />
+            <span>hue</span>
+          </div>
+          <div class="app" style="--brand: #10b981">
+            <img src="../public/images/apps/soroe.png" />
+            <span>soroe</span>
+          </div>
+          <div class="app" style="--brand: #a9663f">
+            <img src="../public/images/apps/tsutsum.png" />
+            <span>tsutsum</span>
+          </div>
+        </div>
+        <span class="site">ynetlabo.net</span>
+      </div>
+    </div>
+  </body>
+</html>
