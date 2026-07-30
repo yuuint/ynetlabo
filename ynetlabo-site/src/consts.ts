@@ -91,10 +91,13 @@ export const PROJECTS: Project[] = [
     name: "tsutsum",
     tagline: "慶弔記録アプリ",
     description:
-      "ご祝儀・香典の「贈った / もらった」からお返しまで記録する、完全オフラインの慶弔記録アプリ。記録は端末の中だけ。半返しの目安計算や関係性別の相場表も内蔵。iOS / Android で近日公開予定。",
+      "ご祝儀・香典の「贈った / もらった」からお返しまで記録する、完全オフラインの慶弔記録アプリ。記録は端末の中だけ。半返しの目安計算や関係性別の相場表も内蔵。iOS / Android に対応。",
     accent: "#a9663f",
     icon: "/images/apps/tsutsum.png",
-    comingSoon: ["App Store", "Google Play"],
+    appStore:
+      "https://apps.apple.com/jp/app/%E3%83%84%E3%83%84%E3%83%A0-%E5%86%A0%E5%A9%9A%E8%91%AC%E7%A5%AD%E3%81%AE%E3%81%94%E7%A5%9D%E5%84%80-%E9%A6%99%E5%85%B8-%E3%81%8A%E8%BF%94%E3%81%97%E8%A8%98%E9%8C%B2/id6793942449",
+    googlePlay:
+      "https://play.google.com/store/apps/details?id=net.ynetlabo.tsutsum",
   },
 ];
 
