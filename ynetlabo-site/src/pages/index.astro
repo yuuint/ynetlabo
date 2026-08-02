@@ -223,7 +223,7 @@ const appLd = PROJECTS.map((p) => ({
     <div class="wrap profile-grid">
       <div class="profile-card card">
         <div class="profile-avatar">
-          <img src="/penguin-mark.png" alt="yuuki" width="235" height="235" />
+          <img src={PROFILE.avatar} alt={PROFILE.name} width="460" height="460" />
         </div>
         <div>
           <h3 class="profile-name">{PROFILE.name}</h3>
@@ -240,6 +240,7 @@ const appLd = PROJECTS.map((p) => ({
         <div class="profile-social">
           <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
           <a href={SOCIAL.x} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">X (Twitter)</a>
+          <a href={SOCIAL.qiita} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Qiita</a>
         </div>
       </div>
     </div>
@@ -733,8 +734,10 @@ const appLd = PROJECTS.map((p) => ({
     overflow: hidden;
   }
   .profile-avatar img {
-    width: 58%;
-    height: auto;
+    /* 写真なので円形の枠いっぱいに敷く（マーク画像だった頃は 58% で余白を作っていた） */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .profile-name {
     font-family: var(--font-display);

@@ -23,6 +23,7 @@ export const NAV = [
 export const SOCIAL = {
   github: "https://github.com/yuuint",
   x: "https://x.com/ynetlabo",
+  qiita: "https://qiita.com/ynetlabo",
 } as const;
 
 /** Embedded Google Form for the contact page */
@@ -105,7 +106,28 @@ export const PROFILE = {
   name: "yuuki",
   role: "System Engineer",
   bio: "シンプルで使いやすいアプリづくりが好きな個人開発者。業務システムからモバイルアプリまで、フロントからインフラまで一通り。",
-  stack: ["Swift", "Vue", "Flutter", "Java"],
+  /** Qiita のプロフィール画像を取り込んだもの（https://qiita.com/ynetlabo） */
+  avatar: "/images/profile.jpg",
+  /**
+   * 技術バッジ。Qiita の投稿タグから起こしている。
+   * 既存の Swift / Vue / Flutter / Java に、Qiita 側のタグを足したもの。
+   */
+  stack: [
+    "Swift",
+    "SwiftUI",
+    "Flutter",
+    "iOS",
+    "Android",
+    "Vue",
+    "Nuxt3",
+    "Vuetify",
+    "NestJS",
+    "Prisma",
+    "PostgreSQL",
+    "Docker",
+    "Firebase",
+    "Java",
+  ],
 };
 
 /**
