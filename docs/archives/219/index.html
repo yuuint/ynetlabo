@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/archives/219/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ | Y.NetLabo</title><meta name="description" content="AWS認定 DVA-C02 の前日に、Claudeで要点まとめと即時採点つきHTML模擬試験を作って合格した。効いたのは問題を作らせたことより、採点結果を貼り戻して「なぜ間違えたか」の型を分析させ、そこだけを狙った問題を追加させたループだった。"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ | Y.NetLabo"><meta property="og:description" content="AWS認定 DVA-C02 の前日に、Claudeで要点まとめと即時採点つきHTML模擬試験を作って合格した。効いたのは問題を作らせたことより、採点結果を貼り戻して「なぜ間違えたか」の型を分析させ、そこだけを狙った問題を追加させたループだった。"><meta property="og:url" content="https://ynetlabo.net/archives/219/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><meta property="article:published_time" content="2026-08-03T00:00:00.000Z"><meta property="article:modified_time" content="2026-08-03T00:00:00.000Z"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ | Y.NetLabo"><meta name="twitter:description" content="AWS認定 DVA-C02 の前日に、Claudeで要点まとめと即時採点つきHTML模擬試験を作って合格した。効いたのは問題を作らせたことより、採点結果を貼り戻して「なぜ間違えたか」の型を分析させ、そこだけを狙った問題を追加させたループだった。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"BlogPosting","@id":"https://ynetlabo.net/archives/219#article","headline":"試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ","description":"AWS認定 DVA-C02 の前日に、Claudeで要点まとめと即時採点つきHTML模擬試験を作って合格した。効いたのは問題を作らせたことより、採点結果を貼り戻して「なぜ間違えたか」の型を分析させ、そこだけを狙った問題を追加させたループだった。","inLanguage":"ja","url":"https://ynetlabo.net/archives/219","mainEntityOfPage":"https://ynetlabo.net/archives/219","datePublished":"2026-08-03T00:00:00.000Z","dateModified":"2026-08-03T00:00:00.000Z","image":"https://ynetlabo.net/og.png","author":{"@type":"Person","name":"yuuki","url":"https://github.com/yuuint"},"publisher":{"@id":"https://ynetlabo.net/#org"},"keywords":"claude"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"記事","item":"https://ynetlabo.net/article"},{"@type":"ListItem","position":3,"name":"試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ","item":"https://ynetlabo.net/archives/219"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.CW93pIRi.css">
+<style>.article-card[data-astro-cid-di2nlc57]{overflow:hidden}.article-card-link[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;height:100%;text-decoration:none;color:inherit}.thumb[data-astro-cid-di2nlc57]{aspect-ratio:16 / 9;overflow:hidden;background:var(--color-mist)}.thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}.article-card[data-astro-cid-di2nlc57]:hover .thumb[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{transform:scale(1.05)}.thumb-fallback[data-astro-cid-di2nlc57]{display:grid;place-items:center;height:100%;background:var(--color-mist)}.thumb-fallback[data-astro-cid-di2nlc57] img[data-astro-cid-di2nlc57]{width:3.5rem;height:auto;opacity:.7}.article-body[data-astro-cid-di2nlc57]{display:flex;flex-direction:column;flex:1;padding:1.25rem 1.4rem 1.5rem}.article-meta[data-astro-cid-di2nlc57]{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--color-muted);margin-bottom:.6rem}.article-title[data-astro-cid-di2nlc57]{font-size:1.08rem;line-height:1.5;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-desc[data-astro-cid-di2nlc57]{font-size:.88rem;color:var(--color-muted);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-more[data-astro-cid-di2nlc57]{margin-top:auto;padding-top:1rem;font-size:.85rem;font-weight:700;color:var(--color-accent-ink)}
+.article-hero[data-astro-cid-zvnupzzu]{padding-top:2.5rem;padding-bottom:1.75rem}.crumbs[data-astro-cid-zvnupzzu]{display:flex;gap:.5rem;font-size:.82rem;color:var(--color-muted);margin-bottom:1.25rem}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]{color:var(--color-muted);text-decoration:none}.crumbs[data-astro-cid-zvnupzzu] a[data-astro-cid-zvnupzzu]:hover{color:var(--color-ink)}.cat-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.article-title[data-astro-cid-zvnupzzu]{font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem);line-height:1.4}.article-meta[data-astro-cid-zvnupzzu]{display:flex;gap:1rem;margin-top:1.25rem;font-size:.88rem;color:var(--color-muted)}.hero-figure[data-astro-cid-zvnupzzu]{margin-block:1rem 2.5rem}.hero-figure[data-astro-cid-zvnupzzu] img[data-astro-cid-zvnupzzu]{width:100%;max-height:26rem;object-fit:cover;border-radius:18px;box-shadow:var(--shadow-card)}.tag-row[data-astro-cid-zvnupzzu]{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:3rem}.article-foot[data-astro-cid-zvnupzzu]{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--color-line)}.section[data-astro-cid-zvnupzzu]{padding-block:4rem}.section-mist[data-astro-cid-zvnupzzu]{background:var(--color-mist)}.related-title[data-astro-cid-zvnupzzu]{font-size:1.4rem;margin-bottom:2rem}.article-grid[data-astro-cid-zvnupzzu]{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}@media(max-width:900px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:repeat(2,1fr)}}@media(max-width:768px){.article-grid[data-astro-cid-zvnupzzu]{grid-template-columns:1fr}}
+</style></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article data-astro-cid-zvnupzzu> <!-- header --> <header class="article-hero" data-astro-cid-zvnupzzu> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-zvnupzzu> <a href="/" data-astro-cid-zvnupzzu>ホーム</a><span data-astro-cid-zvnupzzu>/</span><a href="/article" data-astro-cid-zvnupzzu>記事</a> </nav> <div class="cat-row" data-astro-cid-zvnupzzu> <a class="chip chip-link" href="/archives/category/claude" data-astro-cid-zvnupzzu> claude </a> </div> <h1 class="article-title" data-astro-cid-zvnupzzu>試験前日にClaudeで一夜漬けした ── 間違いの「型」を分析させて、そこだけ潰す学習ループ</h1> <div class="article-meta" data-astro-cid-zvnupzzu> <time datetime="2026-08-03T00:00:00.000Z" data-astro-cid-zvnupzzu> 2026年8月3日 </time> <span data-astro-cid-zvnupzzu>by yuuint</span> </div> </div> </header>  <!-- body --> <div class="wrap-narrow" data-astro-cid-zvnupzzu> <div class="prose" data-astro-cid-zvnupzzu> <h3 id="はじめに">はじめに</h3>
+<p>試験の前日に、試験があることを思い出した。</p>
+<p><strong>AWS Certified Developer - Associate（DVA-C02）</strong>。翌日である。参考書を最初から読む時間はない。そこでClaudeに一言だけ投げた。</p>
+<blockquote>
+<p>明日試験だってこと忘れてた。DVA-C02。試験対策作れる？</p>
+</blockquote>
+<p>先に結果を書いておくと、<strong>合格した</strong>。</p>
+<p>そしてこの一晩でやったことは、「Claudeに問題を作ってもらう」ではなかった。<strong>間違えた結果をClaudeに戻して、間違いの「型」を分析させ、その型だけを狙った問題を追加で作らせる</strong>というループだ。これが想像以上に効いた。</p>
+<p>やったことと、効かなかったことを書く。</p>
+<hr>
+<h3 id="ステップ1まず一夜漬け用の1枚を作らせる">ステップ1：まず「一夜漬け用の1枚」を作らせる</h3>
+<p>最初に出てきたのは、要点をまとめたMarkdownファイル1本。ここで良かったのは、Claudeが<strong>優先順位を勝手に付けてきた</strong>ことだ。</p>
+<blockquote>
+<p>時間ないなら Lambda → DynamoDB（LSI/GSIの違い）→ セキュリティ（Cognito・KMS・Secrets Manager）→ EBのデプロイポリシー の4つだけでもやっとき</p>
+</blockquote>
+<p>前日の学習で一番いらないのは網羅性で、一番ほしいのは<strong>捨てる判断</strong>だ。「全部大事」と返すまとめは前日には役に立たない。</p>
+<p>もうひとつ効いたのが、末尾に付いていた「<strong>この単語が出たらコレ</strong>」の対応表。設問のキーワードからサービスを引く、逆引きの表だ。試験直前に眺めるものとしては、体系的な解説よりこれが強い。</p>
+<hr>
+<h3 id="ステップ2読むだけでは残らないのでhtmlの模擬試験にする">ステップ2：読むだけでは残らないので、HTMLの模擬試験にする</h3>
+<p>まとめを読んでも、頭には残らない。そこでこう頼んだ。</p>
+<blockquote>
+<p>寝る前に一周と、HTMLページで選択肢選んですぐ答えと解説出るみたいな模擬試験できる？</p>
+</blockquote>
+<p>出てきたのは、単一ファイルのHTML。40問入りで、こういう作りになっていた。</p>
+<ul>
+<li><strong>選んだ瞬間に</strong>正誤と解説が出る（採点ボタンを押さない）</li>
+<li>上部のバーが「今の正答率なら本番スコアは何点くらいか」をリアルタイム換算し、<strong>合格ライン720に目印</strong>が入っている</li>
+<li>終了後に<strong>ドメイン別の正答率</strong>が出る</li>
+<li><strong>間違えた問題だけもう一周</strong>できる</li>
+<li>通し／ランダム20問の2モード</li>
+</ul>
+<p>ここでのポイントは、HTMLを1ファイルで作らせたことだ。ブラウザで開くだけで動く。環境構築もサーバも要らないので、前日の夜に手を止める理由がひとつも生まれない。</p>
+<p>そして<strong>まとめMarkdownと模擬試験の内容を対応させてある</strong>ので、外した問題の解説を読む → まとめの該当セクションに戻る、という導線がそのまま復習になる。</p>
+<hr>
+<h3 id="ステップ3本題--採点結果を貼り戻して間違いの型を分析させる">ステップ3：本題 ── 採点結果を貼り戻して「間違いの型」を分析させる</h3>
+<p>ここからが、この一晩で一番効いた部分だ。</p>
+<p>模擬試験を一周したあと、結果をそのままClaudeに貼った。スコア、ドメイン別の正答率、間違えた問題と自分が選んだ選択肢まで含めて。そのうえでこう頼んだ。</p>
+<blockquote>
+<p>この結果を見て、弱いドメインとつまずいてる考え方を分析して。
+そのうえで、弱点を潰すための追加問題を作って問題集をアップデートしてほしい。</p>
+</blockquote>
+<p>返ってきたのは「トラブルシューティングが弱いです」という集計ではなく、<strong>外し方のパターン</strong>だった。3つに整理されていた。</p>
+<h4 id="-メトリクスの定義を覚えていない推測が効かない領域">① メトリクスの定義を覚えていない（推測が効かない領域）</h4>
+<p><code>Latency</code> と <code>IntegrationLatency</code>、<code>ApproximateAgeOfOldestMessage</code> を、名前から意味を推測して外していた。この種のメトリクスは推測が構造的に効かない。<strong>理解ではなく暗記の領域だと切り分けられた</strong>のが大きい。</p>
+<h4 id="-どのレイヤーで制御するかの混同">② 「どのレイヤーで制御するか」の混同</h4>
+<p>API Gatewayのアクセス制限にセキュリティグループを選んでいた。<code>.ebextensions</code> に <code>buildspec.yml</code>（CodeBuild用）を選んだのも同じ根で、サービスごとの設定ファイルと制御の入り口が混ざっている。</p>
+<h4 id="-ペアで対比されるものが毎回どちらか分からない">③ ペアで対比されるものが、毎回どちらか分からない</h4>
+<p>これが一番刺さった指摘だった。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>今回外したペア</th><th>過去に外したペア</th></tr></thead><tbody><tr><td>MessageGroupId / MessageDeduplicationId</td><td>タスクロール / タスク実行ロール</td></tr><tr><td>Lazy Loading / Write Through</td><td>Annotation / Metadata</td></tr><tr><td>SSE-C / SSE-KMS</td><td>LSI / GSI</td></tr></tbody></table>
+<p>Lazy Loadingの問題で「使われないデータも載る」を選んでいた。それはWrite Throughの特徴だ。つまり<strong>知識自体はあるのに、貼り付け先が逆になっている</strong>。</p>
+<p>「知らない」と「知っているが逆」は、対策がまったく違う。前者は覚えるしかないが、後者は<strong>どちらから問われても答えられるか</strong>を測らないと発見できない。自分ひとりで復習していたら、たぶん一生「なんとなく苦手」で終わっていた。</p>
+<hr>
+<h3 id="ステップ4型に的を絞った問題を追加させる">ステップ4：型に的を絞った問題を追加させる</h3>
+<p>分析のあと、その型だけを狙った問題を追加してもらった。40問だった問題集は124問になり、追加分の内訳はこうなっていた。</p>
+<ul>
+<li><strong>メトリクス定義 5問</strong> — 名前と意味の対応（推測が効かないので表ごと暗記に回す）</li>
+<li><strong>ペア対比 7問</strong> — <strong>全部逆向きから出題</strong>。Write Through側、MessageDeduplicationId側、SSE-KMS側、IDトークン側…</li>
+<li><strong>制御レイヤー 4問</strong> — API GatewayのIP制限、S3のVPCエンドポイント制限、Lambda + NAT、ALB→EC2のSG参照</li>
+<li><strong>消去法 3問</strong> — 「使用量プランが要る＝REST API」側から</li>
+<li><strong>調査手順 3問</strong> — 「まず計測」が正解になる型</li>
+</ul>
+<p>ペアを<strong>全部ひっくり返して出題する</strong>のがうまい設計だと思った。「Lazy Loadingとは？」を何度解いても、逆から聞かれたときに答えられるかは測れない。</p>
+<p>スコアはこう動いた。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>回</th><th>スコア（1000点換算）</th><th>トラブルシューティング</th></tr></thead><tbody><tr><td>初見30問</td><td>730</td><td>57%</td></tr><tr><td>追加22問</td><td><strong>918</strong></td><td><strong>100%</strong></td></tr></tbody></table>
+<p>穴だった領域が、その晩のうちに埋まった。そして翌日、本番も通った。</p>
+<hr>
+<h3 id="おまけaiが間違いを生活の癖に紐づけてきた">おまけ：AIが間違いを「生活の癖」に紐づけてきた</h3>
+<p>最後に残った2問は両方ともAPI Gatewayで、しかも片方は2回連続で同じ間違い（IP制限にセキュリティグループを選ぶ）だった。それに対するClaudeの読みがこれだ。</p>
+<blockquote>
+<p>たぶん ConoHa の VPS を自分で運用してるからやと思う。「アクセス元を絞る＝ファイアウォールでIPを叩く」が体に染み付いてるんやろ。</p>
+</blockquote>
+<p>会話の中で話していた自分の運用環境から、<strong>間違いの出どころを推定してきた</strong>。当たっている。そのうえで、判断の基準はこう整理された。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>サービス</th><th>制御方法</th></tr></thead><tbody><tr><td>ENIを持つ</td><td>EC2 / RDS / ALB / ElastiCache / Lambda(VPC内) / VPCエンドポイント</td><td>セキュリティグループが使える</td></tr><tr><td>ENIを持たない</td><td>API Gateway / S3 / DynamoDB / SQS / SNS / KMS</td><td>リソース側のポリシーで制御</td></tr></tbody></table>
+<p>「IPを制限したい」と出たら、まず<strong>そのサービスがVPCの中にいるか</strong>を考える。VPCの外ならポリシー。単に正解を教わるより、こういう<strong>判断の入り口</strong>をもらうほうが本番で効く。</p>
+<hr>
+<h3 id="効かなかったこと限界">効かなかったこと・限界</h3>
+<p>正直に書いておく。</p>
+<p><strong>1. 指摘されても、癖は一度では直らない。</strong>
+セキュリティグループの件は、指摘を受けたあとの回でもう一度同じ選択をしている。解説を読んで納得することと、本番で手が止まることは別だ。<strong>同じ型を何度も出題させる</strong>ところまでやらないと上書きされない。</p>
+<p><strong>2. 問題の正確性は保証されない。</strong>
+生成された問題は本番そのものではないし、公式問題集と1問ずつ照合したわけでもない。<strong>間違いの型を見つける道具</strong>としては極めて有効だが、これで模試の点数が出たから合格圏、と単純には言えない。今回は結果的に合格したものの、n=1の話でもある。時間があるなら公式教材と併用するのが当然いい。</p>
+<p><strong>3. これは前日にやることではない。</strong>
+最大の学びはこれ。</p>
+<hr>
+<h3 id="claudeユーザへの持ち帰り">Claudeユーザへの持ち帰り</h3>
+<p>試験対策に限らず、AIと何かを学ぶときに使える型として3つ。</p>
+<ol>
+<li><strong>結果をAIに戻す。</strong> 問題を作らせて終わりにしない。点数・間違えた問題・自分が選んだ選択肢まで貼る。<strong>選ばなかった正解より、選んでしまった誤答のほうが情報量が多い。</strong></li>
+<li><strong>「何を間違えたか」ではなく「なぜ間違えたか」を聞く。</strong> 集計はツールでも出せる。AIに頼む価値があるのは、複数の誤答をまたいで<strong>共通する型</strong>を言語化させることだ。</li>
+<li><strong>見つけた型を、逆から問い直す形式にする。</strong> 「知っているが逆」は、順方向の復習では絶対に発見できない。対比するものが出てきたら、両側から出題させる。</li>
+</ol>
+<p>道具としても、<strong>ブラウザで開くだけの単一HTML</strong>にしてもらうのが結局いちばん続いた。環境構築が要らないものは、深夜でも手が止まらない。</p>
+<hr>
+<h3 id="まとめ">まとめ</h3>
+<p>一夜漬けの中身より、回し方の話だった。</p>
+<p>まとめを作らせる → 即時採点の模擬試験を作らせる → <strong>結果を貼り戻して間違いの型を分析させる</strong> → その型だけを狙った問題を追加させる。このループは、資格試験に限らず「自分の弱点が自分では見えない」あらゆる学習に使えると思う。</p>
+<p>自分の間違いを、自分よりよく整理してくれる相手がいる。それが一番の収穫だった。</p>
+<p>次はもっと早くから始める。</p> </div>  <div class="article-foot" data-astro-cid-zvnupzzu> <a href="/article" class="btn btn-ghost" data-astro-cid-zvnupzzu>← 記事一覧へ戻る</a> </div> </div> </article> <section class="section section-mist" data-astro-cid-zvnupzzu> <div class="wrap" data-astro-cid-zvnupzzu> <h2 class="related-title" data-astro-cid-zvnupzzu>関連する記事</h2> <div class="article-grid" data-astro-cid-zvnupzzu> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/215" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-215.jpg" alt="specs（現在の仕様）と ADR（なぜ）の二層でAIに現在地を渡す構成図" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>specとADRで、Claudeの「記憶喪失」を設計でカバーする ── 毎セッション記憶ゼロのAIと開発する仕組み</h3> <p class="article-desc" data-astro-cid-di2nlc57>Claude Code は毎セッション記憶ゼロで始まる。慶弔記録アプリ tsutsum の開発では、docs/specs（現在の仕様）と docs/adr（なぜそうしたか）の二層で「今の現在地」を常にAIへ渡す仕組みにした。その設計と運用を書く。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/216" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-216.jpg" alt="CLAUDE.md の構成 ── 芯・ガードレール・アダプティブ推論スタイル表" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>毎セッション読まれるCLAUDE.mdをどう書くか ── Claudeの「推論の深さ」まで設計する</h3> <p class="article-desc" data-astro-cid-di2nlc57>CLAUDE.md はClaude Codeが毎セッションの先頭で読むファイル。慣性で長くなりがちだが、長すぎれば効かない。慶弔記録アプリ tsutsum の CLAUDE.md で実際にやっている「簡潔さ」と「効き目」の両立、そして推論の深さまで制御する書き方を紹介する。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article> <article class="card card-link article-card" data-astro-cid-di2nlc57> <a href="/archives/217" class="article-card-link" data-astro-cid-di2nlc57> <div class="thumb" data-astro-cid-di2nlc57> <img src="/images/posts/hero-217.jpg" alt="SwiftUI(wari-ios) から Flutter(soroe) への構造対応表による移植の図" loading="lazy" data-astro-cid-di2nlc57> </div> <div class="article-body" data-astro-cid-di2nlc57> <div class="article-meta" data-astro-cid-di2nlc57> <time datetime="2026-07-25T00:00:00.000Z" data-astro-cid-di2nlc57>2026年7月25日</time> <span class="chip" data-astro-cid-di2nlc57>claude</span> </div> <h3 class="article-title" data-astro-cid-di2nlc57>既存アプリを「設計図」にして、AIで別スタックへ移植する ── SwiftUIアプリをFlutterに作り直した話</h3> <p class="article-desc" data-astro-cid-di2nlc57>日程調整アプリ soroe は、ゼロから設計したのではなく、既存の SwiftUI アプリ wari-ios を「設計図」として Claude で Flutter / Riverpod へ移植して作った。鍵になったのは、レイヤーの構造対応表を先に用意すること。AIに移植させるときの渡し方を書く。</p> <span class="article-more" data-astro-cid-di2nlc57>続きを読む →</span> </div> </a> </article>  </div> </div> </section> </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 
