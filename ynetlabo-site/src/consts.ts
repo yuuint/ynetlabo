@@ -17,9 +17,19 @@ export const SITE = {
 export const NAV = [
   { label: "ホーム", href: "/" },
   { label: "使い方ガイド", href: "/guide" },
+  { label: "スキル", href: "/skills" },
   { label: "記事", href: "/article" },
   { label: "お知らせ", href: "/archives/category/notice" },
 ] as const;
+
+/** 公開スキル集（Claude Agent Skills）。/skills は tools/sync-skills.mjs で同期する */
+export const SKILLS = {
+  repo: "https://github.com/yuuint/claude-skills",
+  /** git clone に使う URL */
+  clone: "https://github.com/yuuint/claude-skills.git",
+  /** 一覧でのカテゴリの並び。ここに無いカテゴリは末尾に回る */
+  categoryOrder: ["アプリ開発", "設計・UX", "開発プロセス", "旅行", "学習"],
+} as const;
 
 export const SOCIAL = {
   github: "https://github.com/yuuint",

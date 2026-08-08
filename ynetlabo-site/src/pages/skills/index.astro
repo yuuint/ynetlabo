@@ -1,0 +1,336 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CopyCode from "../../components/CopyCode.astro";
+import { SITE, SKILLS } from "../../consts";
+import { formatDate } from "../../utils";
+
+const skills = await getCollection("skills");
+
+// カテゴリごとにまとめる。consts の並び順が先、そこに無いものは名前順で後ろへ
+const order = SKILLS.categoryOrder as readonly string[];
+const rank = (c: string) => {
+  const i = order.indexOf(c);
+  return i === -1 ? order.length : i;
+};
+const groups = [...new Set(skills.map((s) => s.data.category))]
+  .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, "ja"))
+  .map((category) => ({
+    category,
+    items: skills
+      .filter((s) => s.data.category === category)
+      .sort((a, b) => a.data.name.localeCompare(b.data.name)),
+  }));
+
+const lastUpdated = skills.reduce<Date | null>(
+  (max, s) => (max === null || s.data.updated > max ? s.data.updated : max),
+  null
+);
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const description =
+  "Claude Code / Claude アプリで使える Agent Skills の公開コレクション。旅行計画、ストア申請、UI ラフ画、仕様駆動開発など、用途別のスキルを MIT ライセンスで公開しています。";
+
+const itemListLd = {
+  "@type": "ItemList",
+  name: "Y.NetLabo 公開スキル集",
+  description,
+  numberOfItems: skills.length,
+  itemListElement: skills.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `${s.data.name} — ${s.data.title}`,
+    url: `${origin}/skills/${s.id}`,
+  })),
+};
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "スキル", item: `${origin}/skills` },
+  ],
+};
+---
+
+<BaseLayout title="Claude スキル集" description={description} jsonLd={[itemListLd, breadcrumbLd]}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Agent Skills</span>
+      <h1 class="page-title">Claude スキル集</h1>
+      <p class="page-sub">
+        Claude Code / Claude アプリで使える <strong>Agent Skills</strong> を公開しています。
+        アプリ開発の実務で使っているものを、機密情報を抜いてそのまま出しています。
+      </p>
+
+      <ul class="head-meta">
+        <li><strong>{skills.length}</strong> スキル</li>
+        <li>MIT ライセンス</li>
+        {
+          lastUpdated && (
+            <li>
+              最終更新 <time datetime={lastUpdated.toISOString()}>{formatDate(lastUpdated)}</time>
+            </li>
+          )
+        }
+      </ul>
+
+      <div class="head-actions">
+        <a class="btn btn-accent" href={SKILLS.repo} target="_blank" rel="noopener noreferrer">
+          GitHub で見る
+        </a>
+        <a class="btn btn-ghost" href="#install">インストール方法</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="card note">
+        <h2 class="note__title">Agent Skills とは</h2>
+        <p>
+          <code>SKILL.md</code> にまとめた手順書を Claude に読み込ませ、特定のタスクで自動的に専門的な振る舞いをさせる仕組みです。
+          関連する作業が来たときだけ Claude が自分で読み込むため、<strong>常時コンテキストを消費しません</strong>。
+          置いておくだけでよく、呼び出しのためのコマンドを覚える必要もありません。
+        </p>
+      </div>
+
+      {
+        groups.map((group) => (
+          <div class="group">
+            <h2 class="group__title">
+              {group.category}
+              <span class="group__count">{group.items.length}</span>
+            </h2>
+            <div class="skill-grid">
+              {group.items.map((s) => (
+                <a class="card card-link skill-card" href={`/skills/${s.id}`}>
+                  <div class="skill-card__top">
+                    <code class="skill-card__name">{s.data.name}</code>
+                    <span class="chip">{s.data.category}</span>
+                  </div>
+                  <h3 class="skill-card__title">{s.data.title}</h3>
+                  <p class="skill-card__desc">{s.data.description}</p>
+                  <div class="skill-card__foot">
+                    <time datetime={s.data.updated.toISOString()}>
+                      更新 {formatDate(s.data.updated)}
+                    </time>
+                    {s.data.files.length > 0 && <span>同梱 {s.data.files.length} ファイル</span>}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--mist" id="install">
+    <div class="wrap">
+      <span class="eyebrow">Install</span>
+      <h2 class="install__title">インストール</h2>
+      <p class="install__lead">
+        スキルはディレクトリを置くだけで有効になります。インストール後、Claude Code
+        でスキルに関連する依頼をすると自動的に読み込まれます。
+      </p>
+
+      <div class="install-grid">
+        <div class="card install-card">
+          <h3 class="install-card__title">個人用（全プロジェクトで使う）</h3>
+          <CopyCode
+            code={`git clone ${SKILLS.clone}\ncp -r claude-skills/skills/<skill-name> ~/.claude/skills/`}
+          />
+        </div>
+
+        <div class="card install-card">
+          <h3 class="install-card__title">プロジェクト単位（チームで共有する）</h3>
+          <CopyCode code={"cp -r claude-skills/skills/<skill-name> <your-project>/.claude/skills/"} />
+        </div>
+
+        <div class="card install-card">
+          <h3 class="install-card__title">最新版に追従する（シンボリックリンク）</h3>
+          <CopyCode
+            code={'ln -s "$(pwd)/claude-skills/skills/<skill-name>" ~/.claude/skills/<skill-name>'}
+          />
+        </div>
+      </div>
+
+      <p class="install__note">
+        リポジトリは公開のため、API キー・トークン・個人情報・絶対パス・実データは含めていません。
+        すべてプレースホルダで、コミット前に機密情報スキャンを通しています。
+        気になる点は<a href="/contact">お問い合わせ</a>または GitHub の Issue からご連絡ください。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 2.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-muted);
+  }
+  .head-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.84rem;
+    color: var(--color-muted);
+  }
+  .head-meta strong {
+    color: var(--color-accent-ink);
+    font-size: 1.05rem;
+  }
+  .head-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .section {
+    padding-block: 3.5rem;
+  }
+  .section--mist {
+    background: var(--color-mist);
+    padding-block: 4rem 5rem;
+  }
+
+  /* ----- Agent Skills とは ----- */
+  .note {
+    padding: 1.75rem;
+    margin-bottom: 3rem;
+  }
+  .note__title {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+  .note p {
+    font-size: 0.94rem;
+  }
+  .note code {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: var(--color-mist);
+    color: var(--color-accent-ink);
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+  }
+
+  /* ----- カテゴリごとの一覧 ----- */
+  .group + .group {
+    margin-top: 3rem;
+  }
+  .group__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.15rem;
+    margin-bottom: 1.25rem;
+  }
+  .group__count {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    box-shadow: var(--shadow-pressed-sm);
+  }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .skill-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.6rem;
+    text-decoration: none;
+  }
+  .skill-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .skill-card__name {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-accent-ink);
+    word-break: break-all;
+  }
+  .skill-card__title {
+    font-size: 1.1rem;
+    line-height: 1.45;
+  }
+  .skill-card__desc {
+    margin-top: 0.65rem;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--color-body);
+    flex: 1;
+  }
+  .skill-card__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: 1.25rem;
+    font-size: 0.76rem;
+    color: var(--color-muted);
+  }
+
+  /* ----- インストール ----- */
+  .install__title {
+    font-size: clamp(1.4rem, 1.2rem + 1vw, 1.8rem);
+    margin-top: 0.6rem;
+  }
+  .install__lead {
+    margin-top: 0.75rem;
+    max-width: 44rem;
+    color: var(--color-muted);
+    font-size: 0.94rem;
+  }
+  .install-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .install-card {
+    padding: 1.5rem;
+  }
+  .install-card__title {
+    font-size: 0.98rem;
+    margin-bottom: 0.9rem;
+  }
+  .install__note {
+    margin-top: 2rem;
+    max-width: 44rem;
+    font-size: 0.86rem;
+    color: var(--color-muted);
+  }
+  .install__note a {
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

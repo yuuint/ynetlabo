@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/skills/app-design-philosophy/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>デザイン哲学ドキュメントを作る（app-design-philosophy） | Y.NetLabo</title><meta name="description" content="アプリの UI/UX 判断の基準を1枚のドキュメントにまとめる。ヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、生成される UI がフレームワークのデフォルトに落ちるのを防ぐ。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="デザイン哲学ドキュメントを作る（app-design-philosophy） | Y.NetLabo"><meta property="og:description" content="アプリの UI/UX 判断の基準を1枚のドキュメントにまとめる。ヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、生成される UI がフレームワークのデフォルトに落ちるのを防ぐ。"><meta property="og:url" content="https://ynetlabo.net/skills/app-design-philosophy/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="デザイン哲学ドキュメントを作る（app-design-philosophy） | Y.NetLabo"><meta name="twitter:description" content="アプリの UI/UX 判断の基準を1枚のドキュメントにまとめる。ヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、生成される UI がフレームワークのデフォルトに落ちるのを防ぐ。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"TechArticle","@id":"https://ynetlabo.net/skills/app-design-philosophy#skill","headline":"app-design-philosophy — デザイン哲学ドキュメントを作る","description":"アプリの UI/UX 判断の基準を1枚のドキュメントにまとめる。ヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、生成される UI がフレームワークのデフォルトに落ちるのを防ぐ。","inLanguage":"ja","url":"https://ynetlabo.net/skills/app-design-philosophy","mainEntityOfPage":"https://ynetlabo.net/skills/app-design-philosophy","dateModified":"2026-08-04T13:46:59.000Z","author":{"@type":"Person","name":"yuuki","url":"https://github.com/yuuint"},"publisher":{"@id":"https://ynetlabo.net/#org"},"license":"https://opensource.org/licenses/MIT","keywords":"Claude, Agent Skills, Claude Code, 設計・UX"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"スキル","item":"https://ynetlabo.net/skills"},{"@type":"ListItem","position":3,"name":"デザイン哲学ドキュメントを作る","item":"https://ynetlabo.net/skills/app-design-philosophy"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.DohivP3q.css">
+<style>.guide-toc[data-astro-cid-7fpw2346]{font-size:.86rem;line-height:1.6}.guide-toc__title[data-astro-cid-7fpw2346]{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}.guide-toc__list[data-astro-cid-7fpw2346]{margin-top:.9rem;max-height:calc(100vh - 12rem);overflow-y:auto;padding-right:.5rem}.guide-toc__item[data-astro-cid-7fpw2346]+.guide-toc__item[data-astro-cid-7fpw2346]{margin-top:.15rem}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{display:block;padding:.3rem .6rem;border-radius:8px;color:var(--color-muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]:hover{color:var(--color-accent-ink);border-left-color:var(--color-accent)}.guide-toc__item--d1[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{margin-top:.7rem;font-weight:700;color:var(--color-ink)}.guide-toc__item--d3[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{padding-left:1.5rem;font-size:.94em}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346][aria-current=true]{color:var(--color-accent-ink);font-weight:700;border-left-color:var(--color-accent);background:var(--color-mist)}.guide-toc--collapsible[data-astro-cid-7fpw2346]{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:var(--shadow-sm);padding:1rem 1.1rem}.guide-toc--collapsible[data-astro-cid-7fpw2346]>.guide-toc__title[data-astro-cid-7fpw2346]{cursor:pointer;display:flex;align-items:center;gap:.5rem}.guide-toc--collapsible[data-astro-cid-7fpw2346] .guide-toc__list[data-astro-cid-7fpw2346]{max-height:22rem}
+.copycode__label[data-astro-cid-a3hy7aej]{font-size:.82rem;font-weight:700;color:var(--color-muted);margin-bottom:.5rem}.copycode__box[data-astro-cid-a3hy7aej]{position:relative}.copycode__box[data-astro-cid-a3hy7aej] pre[data-astro-cid-a3hy7aej]{background:#0f172a;color:#e2e8f0;padding:1.1rem 7rem 1.1rem 1.25rem;border-radius:14px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;line-height:1.8;box-shadow:var(--shadow-card)}.copycode__btn[data-astro-cid-a3hy7aej]{position:absolute;top:.7rem;right:.7rem;padding:.35rem .8rem;border-radius:999px;font-size:.74rem;font-weight:700;color:#e2e8f0;background:#ffffff1f;cursor:pointer;transition:background-color .15s ease,color .15s ease}.copycode__btn[data-astro-cid-a3hy7aej]:hover{background:#ffffff38}.copycode__btn[data-astro-cid-a3hy7aej].is-done{background:var(--color-accent);color:#fff}
+</style>
+<link rel="stylesheet" href="/_astro/_skill_.BMKTXDtW.css"></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/guide" class="nav-link" data-astro-cid-3ef6ksr2> 使い方ガイド </a><a href="/skills" class="nav-link active" data-astro-cid-3ef6ksr2> スキル </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article class="skill" data-astro-cid-3mokt3zu> <header class="skill-head" data-astro-cid-3mokt3zu> <div class="wrap" data-astro-cid-3mokt3zu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-3mokt3zu> <a href="/" data-astro-cid-3mokt3zu>ホーム</a><span data-astro-cid-3mokt3zu>/</span><a href="/skills" data-astro-cid-3mokt3zu>スキル</a> </nav> <div class="skill-head__tags" data-astro-cid-3mokt3zu> <span class="chip" data-astro-cid-3mokt3zu>設計・UX</span> <code class="skill-head__name" data-astro-cid-3mokt3zu>app-design-philosophy</code> </div> <h1 class="skill-head__title" data-astro-cid-3mokt3zu>デザイン哲学ドキュメントを作る</h1> <p class="skill-head__desc" data-astro-cid-3mokt3zu>アプリの UI/UX 判断の基準を1枚のドキュメントにまとめる。ヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、生成される UI がフレームワークのデフォルトに落ちるのを防ぐ。</p> <div class="skill-head__meta" data-astro-cid-3mokt3zu> <span data-astro-cid-3mokt3zu>最終更新 <time datetime="2026-08-04T13:46:59.000Z" data-astro-cid-3mokt3zu>2026年8月4日</time></span> <span data-astro-cid-3mokt3zu>MIT ライセンス</span> </div> <div class="skill-head__links" data-astro-cid-3mokt3zu> <a class="btn btn-accent btn-sm" href="https://github.com/yuuint/claude-skills/tree/main/skills/app-design-philosophy" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu>
+GitHub で見る
+</a> <a class="btn btn-ghost btn-sm" href="#install" data-astro-cid-3mokt3zu>インストール</a> </div> </div> </header> <div class="wrap skill-body" data-astro-cid-3mokt3zu> <div class="skill-toc-mobile" data-astro-cid-3mokt3zu> <details data-astro-cid-7fpw2346="true" class="guide-toc guide-toc--collapsible"><summary class="guide-toc__title" data-astro-cid-7fpw2346>目次</summary><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#概要" data-astro-cid-7fpw2346>概要</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#手順" data-astro-cid-7fpw2346>手順</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#1-ヒアリング推測で書かない" data-astro-cid-7fpw2346>1. ヒアリング（推測で書かない）</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#2-執筆" data-astro-cid-7fpw2346>2. 執筆</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#3-実装への接続" data-astro-cid-7fpw2346>3. 実装への接続</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#4-維持" data-astro-cid-7fpw2346>4. 維持</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#必須の-3-節これが無いと機能しない" data-astro-cid-7fpw2346>必須の 3 節（これが無いと機能しない）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ルール" data-astro-cid-7fpw2346>ルール</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#効く質問抽象的な答えが返ってきたとき" data-astro-cid-7fpw2346>効く質問（抽象的な答えが返ってきたとき）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#出力形式" data-astro-cid-7fpw2346>出力形式</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#参考" data-astro-cid-7fpw2346>参考</a> </li> </ol> </details>  <script type="module">const i=new Map;document.querySelectorAll("nav.guide-toc .guide-toc__item a").forEach(e=>{const n=decodeURIComponent(e.getAttribute("href")?.slice(1)??"");n&&i.set(n,e)});const s=[...i.keys()].map(e=>document.getElementById(e)).filter(e=>e!==null);if(s.length){let e=null;const n=new Set,c=t=>{if(t!==e&&(e&&i.get(e)?.removeAttribute("aria-current"),e=t,t)){const r=i.get(t);r?.setAttribute("aria-current","true"),r?.scrollIntoView({block:"nearest"})}},l=new IntersectionObserver(t=>{for(const o of t)o.isIntersecting?n.add(o.target.id):n.delete(o.target.id);const r=s.find(o=>n.has(o.id));r&&c(r.id)},{rootMargin:"-80px 0px -55% 0px"});s.forEach(t=>l.observe(t))}</script> </div> <div class="skill-main" data-astro-cid-3mokt3zu> <details class="card trigger" data-astro-cid-3mokt3zu> <summary class="trigger__summary" data-astro-cid-3mokt3zu>Claude がこのスキルを読み込む条件</summary> <p class="trigger__text" data-astro-cid-3mokt3zu>アプリの UI/UX 判断の基準となる「デザイン哲学」を 1 枚のドキュメントにまとめる。ユーザーへのヒアリングからトレードオフ表・避ける語彙・良い文言/悪い文言の実例を引き出し、実装トークンに接続する。ユーザーがアプリの世界観・トーン・UI の方針を決めたいとき、生成される UI が没個性的になると感じているときに使う。Use when the user mentions design philosophy, design principles, brand tone, UI direction, look and feel, or says the UI feels generic or like a default template.</p> <p class="trigger__note" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> の frontmatter にある <code data-astro-cid-3mokt3zu>description</code> 
+です。依頼の内容がここに書かれた状況に当てはまると、Claude が自分でこのスキルを読み込みます。
+</p> </details> <div class="prose skill-prose" data-astro-cid-3mokt3zu> <!-- 自動生成: claude-skills/skills/app-design-philosophy/SKILL.md から取り込んだもの。直接編集せず、原稿を直して `npm run sync:skills` を実行すること。 -->
+<h2 id="概要">概要</h2>
+<p>画面ごとの判断は無数にあり、仕様書には書ききれない。「余白は広めか詰めるか」「この完了メッセージの
+文言は」といった細部が積み上がって、アプリの印象が決まる。そこを<strong>毎回その場の気分で決めない</strong>ための
+基準を 1 枚にする。</p>
+<p>AI に実装を任せるほど、この 1 枚が効く。<strong>曖昧な判断の分岐を先に言語化しておくと、指示していない
+細部まで揃う</strong>。逆にこれが無いと、生成された UI はフレームワークのデフォルト（Material の青、
+均一な密度、事務的な文言）に落ちる。「なんか普通」の正体はここ。</p>
+<p><strong>成果物は <code>docs/design-philosophy.md</code> 1 枚。</strong>「なぜ」だけを書き、具体の色・フォント・数値は
+テーマ/トークン側に置く。</p>
+<h2 id="手順">手順</h2>
+<h3 id="1-ヒアリング推測で書かない">1. ヒアリング（推測で書かない）</h3>
+<p>ユーザーに次を聞く。<strong>一度に全部聞かず、答えを見ながら 3〜4 問ずつ</strong>。
+抽象的な答え（「シンプルで使いやすく」）が返ってきたら、比較で聞き直す（下記「効く質問」）。</p>
+<ul>
+<li>このアプリは<strong>何ではないか</strong>（「これは生産性アプリではない」のように否定形で）</li>
+<li>ユーザーが開いた瞬間に<strong>感じてほしい形容詞</strong>を 3〜5 個。逆に<strong>感じてほしくない</strong>もの</li>
+<li>効率と◯◯が対立したらどちらを取るか（→ トレードオフ表の素材）</li>
+<li>参照したい<strong>質感</strong>（例: 手漉きの紙 / 朝の光 / 工具箱 / 図書館の静けさ）</li>
+<li>避けたい既存アプリ・避けたい印象</li>
+<li>「完了しました」系のメッセージを<strong>この人ならどう書くか</strong></li>
+</ul>
+<h3 id="2-執筆">2. 執筆</h3>
+<p><a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/assets/design-philosophy-template.md">assets/design-philosophy-template.md</a> を
+<code>docs/design-philosophy.md</code> にコピーし、ヒアリングの答えで埋める。</p>
+<ul>
+<li>埋まらなかった節は<strong>削る</strong>（空のプレースホルダを残さない。読まれなくなる）。</li>
+<li>抽象語だけの節を作らない。<strong>必ず実例か対比を入れる</strong>。</li>
+<li>実例が書けた <a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/references/example.md">references/example.md</a> を参考にしてよい。</li>
+</ul>
+<h3 id="3-実装への接続">3. 実装への接続</h3>
+<ul>
+<li>色・タイポ・角丸・余白・duration は<strong>トークン側に集約</strong>し、このドキュメントからは参照だけする
+（Flutter なら <code>core/theme/</code>。→ <code>flutter-lean-architecture</code> スキル）。</li>
+<li>ドキュメントで決めた「避ける語彙」を、コピーライティングの実装（メッセージ定数）に反映する。</li>
+<li>プロジェクトの <code>CLAUDE.md</code> から「UI/UX の細部で迷ったら <code>docs/design-philosophy.md</code> に従う」と参照させる。</li>
+</ul>
+<h3 id="4-維持">4. 維持</h3>
+<p>アプリの方向が変わったら<strong>本文を書き換える</strong>（差分を追記しない。履歴は git）。</p>
+<h2 id="必須の-3-節これが無いと機能しない">必須の 3 節（これが無いと機能しない）</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>節</th><th>なぜ必須か</th></tr></thead><tbody><tr><td><strong>トレードオフ表</strong>（A か B で迷ったら B）</td><td>実装時に<strong>一番参照される</strong>。判断の分岐そのもの</td></tr><tr><td><strong>避けるもの / 避ける語彙</strong></td><td>「〜しない」は「〜する」より判断に効く。禁止リストが無いと平均に戻る</td></tr><tr><td><strong>良い文言 / 避ける文言の実例</strong></td><td>抽象語（「温かい」）だけでは文章は揃わない。実例が唯一の伝達手段</td></tr></tbody></table>
+<h2 id="ルール">ルール</h2>
+<ul>
+<li><strong>ユーザーの言葉で書く。</strong> ヒアリングで出た比喩・言い回しをそのまま使う。こちらの語彙で言い換えない。</li>
+<li><strong>推測で埋めない。</strong> 分からない節は質問として残す。</li>
+<li><strong>「なぜ」だけを書き、実装値を書かない</strong>（<code>#6C4FD6</code> のような具体値はトークン側に置く。
+ここに書くと二重管理になり、必ずずれる）。</li>
+<li><strong>1 文が長くならないようにする。</strong> このドキュメントは実装中に流し読みされる。1 行 1 判断。</li>
+<li><strong>A4 で 2〜4 ページに収める。</strong> 網羅より「迷ったときに開いて答えが出る」ことを優先する。</li>
+</ul>
+<h2 id="効く質問抽象的な答えが返ってきたとき">効く質問（抽象的な答えが返ってきたとき）</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>抽象的な答え</th><th>聞き直し方</th></tr></thead><tbody><tr><td>「シンプルで使いやすく」</td><td>「情報が 1 画面に多く見えるのと、スクロールが増えるのはどちらがマシですか」</td></tr><tr><td>「モダンな感じ」</td><td>「3 年後に見て古く見えるのと、今すこし地味に見えるのはどちらが困りますか」</td></tr><tr><td>「親しみやすく」</td><td>「操作が完了したとき、褒めてほしいですか、静かに終わってほしいですか」</td></tr><tr><td>「速さが大事」</td><td>「1 タップ減らすために画面が複雑になるのは、どこまで許容できますか」</td></tr><tr><td>（形容詞が出てこない）</td><td>「このアプリを人にたとえると、どういう職業・年齢の人ですか」</td></tr></tbody></table>
+<h2 id="出力形式">出力形式</h2>
+<p><code>docs/design-philosophy.md</code> 1 ファイル。節の構成は
+<a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/assets/design-philosophy-template.md">assets/design-philosophy-template.md</a> を参照。
+最後に <strong>One-Sentence Brand Principle</strong>（「すべての画面をこう作れ」と一文で言い切る）を必ず置く。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/assets/design-philosophy-template.md">assets/design-philosophy-template.md</a> — 空のテンプレート</li>
+<li><a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/references/example.md">references/example.md</a> — 埋めた例（架空のアプリ）</li>
+<li>関連スキル: <code>spec-driven-dev</code>（spec に書ききれない判断がここに来る） / <code>flutter-lean-architecture</code>（トークンの置き場）</li>
+</ul> </div> <section class="install" id="install" data-astro-cid-3mokt3zu> <h2 class="install__title" data-astro-cid-3mokt3zu>インストール</h2> <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>個人用（全プロジェクトで使う）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/app-design-philosophy ~/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/app-design-philosophy ~/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div> <script type="module">document.querySelectorAll(".copycode__btn").forEach(e=>{e.addEventListener("click",async()=>{const t=e.querySelector(".copycode__btn-text");if(t){try{await navigator.clipboard.writeText(e.dataset.code??""),t.textContent="コピーしました"}catch{t.textContent="コピーできません"}e.classList.add("is-done"),setTimeout(()=>{t.textContent="コピー",e.classList.remove("is-done")},2e3)}})});</script>  <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>プロジェクト単位（チームで共有する）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>cp -r claude-skills/skills/app-design-philosophy &lt;your-project&gt;/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="cp -r claude-skills/skills/app-design-philosophy <your-project>/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div>   </section> <section class="files" data-astro-cid-3mokt3zu> <h2 class="files__title" data-astro-cid-3mokt3zu>同梱ファイル</h2> <p class="files__lead" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> から参照される参考資料・テンプレート・スクリプトです。ディレクトリごとコピーしてください。
+</p> <ul class="files__list" data-astro-cid-3mokt3zu> <li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/references/example.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>references/example.md</code> </a> </li><li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/app-design-philosophy/assets/design-philosophy-template.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>assets/design-philosophy-template.md</code> </a> </li> </ul> </section> </div> <aside class="skill-aside" data-astro-cid-3mokt3zu> <nav aria-label="目次" data-astro-cid-7fpw2346="true" class="guide-toc"><p class="guide-toc__title" data-astro-cid-7fpw2346>目次</p><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#概要" data-astro-cid-7fpw2346>概要</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#手順" data-astro-cid-7fpw2346>手順</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#1-ヒアリング推測で書かない" data-astro-cid-7fpw2346>1. ヒアリング（推測で書かない）</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#2-執筆" data-astro-cid-7fpw2346>2. 執筆</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#3-実装への接続" data-astro-cid-7fpw2346>3. 実装への接続</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#4-維持" data-astro-cid-7fpw2346>4. 維持</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#必須の-3-節これが無いと機能しない" data-astro-cid-7fpw2346>必須の 3 節（これが無いと機能しない）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ルール" data-astro-cid-7fpw2346>ルール</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#効く質問抽象的な答えが返ってきたとき" data-astro-cid-7fpw2346>効く質問（抽象的な答えが返ってきたとき）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#出力形式" data-astro-cid-7fpw2346>出力形式</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#参考" data-astro-cid-7fpw2346>参考</a> </li> </ol> </nav>   </aside> </div> <div class="wrap skill-foot" data-astro-cid-3mokt3zu>  <a href="/skills" class="btn btn-ghost" data-astro-cid-3mokt3zu>← スキル一覧へ</a> </div> </article>  </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/guide" data-astro-cid-sz7xmlte>使い方ガイド</a></li><li data-astro-cid-sz7xmlte><a href="/skills" data-astro-cid-sz7xmlte>スキル</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 

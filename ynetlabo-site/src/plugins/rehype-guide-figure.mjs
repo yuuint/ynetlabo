@@ -117,13 +117,27 @@ function toMermaidFigure(pre) {
   };
 }
 
-/** rehype プラグインは全 Markdown に適用されるので、ガイド本文だけを対象にする */
-const isGuideSource = (file) =>
-  (file?.history?.[0] ?? file?.path ?? "").replace(/\\/g, "/").includes("/src/content/guide/");
+/** rehype プラグインは全 Markdown に適用されるので、対象を絞る */
+const sourcePath = (file) => (file?.history?.[0] ?? file?.path ?? "").replace(/\\/g, "/");
+/**
+ * 図として扱うのは、ガイド本文と、frontmatter に `figures: true` を書いた記事。
+ * 記事を丸ごと対象にすると、本文中の小さなスクリーンショットまで「紙」の枠と
+ * キャプションが付いてしまうので、ラフ画を載せる記事だけが明示的に opt-in する。
+ */
+const hasFigures = (file) => {
+  const path = sourcePath(file);
+  if (path.includes("/src/content/guide/")) return true;
+  return (
+    path.includes("/src/content/blog/") && file?.data?.astro?.frontmatter?.figures === true
+  );
+};
+/** mermaid を描く script はガイドページにしか無いので、変換もガイドだけ */
+const hasDiagrams = (file) => sourcePath(file).includes("/src/content/guide/");
 
 export default function rehypeGuideFigure() {
   return (tree, file) => {
-    if (!isGuideSource(file)) return;
+    if (!hasFigures(file)) return;
+    const diagrams = hasDiagrams(file);
 
     const walk = (node) => {
       if (!Array.isArray(node.children)) return;
@@ -135,7 +149,7 @@ export default function rehypeGuideFigure() {
             return toFigure(child) ?? child;
           }
         }
-        if (isElement(child, "pre")) {
+        if (diagrams && isElement(child, "pre")) {
           const diagram = toMermaidFigure(child);
           if (diagram) return diagram;
         }

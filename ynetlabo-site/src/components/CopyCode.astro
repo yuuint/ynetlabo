@@ -1,0 +1,90 @@
+---
+/**
+ * コピーボタンつきのコードブロック。
+ * インストール手順のように「読ませる」より「貼らせる」ことが目的の箇所で使う。
+ */
+interface Props {
+  /** 表示する内容。行頭・行末の空行は落として整形する */
+  code: string;
+  /** ブロックの上に出す小見出し */
+  label?: string;
+}
+
+const { code, label } = Astro.props;
+const text = code.replace(/^\n+|\n+$/g, "");
+---
+
+<div class="copycode">
+  {label && <p class="copycode__label">{label}</p>}
+  <div class="copycode__box">
+    <pre><code>{text}</code></pre>
+    <button type="button" class="copycode__btn" data-code={text}>
+      <span class="copycode__btn-text">コピー</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".copycode__btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const label = btn.querySelector(".copycode__btn-text");
+      if (!label) return;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.code ?? "");
+        label.textContent = "コピーしました";
+      } catch {
+        label.textContent = "コピーできません";
+      }
+      btn.classList.add("is-done");
+      setTimeout(() => {
+        label.textContent = "コピー";
+        btn.classList.remove("is-done");
+      }, 2000);
+    });
+  });
+</script>
+
+<style>
+  .copycode__label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+  .copycode__box {
+    position: relative;
+  }
+  .copycode__box pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1.1rem 1.25rem;
+    /* ボタンと重ならないよう右を空ける */
+    padding-right: 7rem;
+    border-radius: 14px;
+    overflow-x: auto;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.84rem;
+    line-height: 1.8;
+    box-shadow: var(--shadow-card);
+  }
+  .copycode__btn {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    background: rgb(255 255 255 / 0.12);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .copycode__btn:hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+  .copycode__btn.is-done {
+    background: var(--color-accent);
+    color: #fff;
+  }
+</style>

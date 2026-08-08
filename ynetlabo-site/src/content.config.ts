@@ -14,6 +14,11 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     heroImage: z.string().optional(),
     heroAlt: z.string().optional(),
+    /**
+     * true にすると、本文中の画像だけの段落がガイドと同じ figure（白い枠 +
+     * キャプション + 原寸表示リンク）になる。画面図を載せる記事で使う。
+     */
+    figures: z.boolean().default(false),
   }),
 });
 
@@ -36,4 +41,28 @@ const guide = defineCollection({
   }),
 });
 
-export const collections = { blog, guide };
+/**
+ * 公開している Claude Agent Skills。本文は claude-skills リポジトリの
+ * skills/<name>/SKILL.md が正で、`npm run sync:skills`（tools/sync-skills.mjs）が生成する。
+ */
+const skills = defineCollection({
+  loader: glob({ base: "./src/content/skills", pattern: "**/*.md" }),
+  schema: z.object({
+    /** スキル名（= ディレクトリ名 = ページの slug） */
+    name: z.string(),
+    /** SKILL.md の H1（日本語の見出し） */
+    title: z.string(),
+    /** README のスキル一覧テーブルにある説明文 */
+    description: z.string(),
+    category: z.string(),
+    /** SKILL.md の description。Claude がスキルを読み込む判断に使う文 */
+    trigger: z.string().default(""),
+    updated: z.coerce.date(),
+    /** references/ assets/ scripts/ examples/ に同梱されたファイル */
+    files: z.array(z.string()).default([]),
+    /** 生成元のパス（GitHub/ からの相対） */
+    source: z.string(),
+  }),
+});
+
+export const collections = { blog, guide, skills };

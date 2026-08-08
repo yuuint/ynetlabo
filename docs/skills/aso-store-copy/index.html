@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/skills/aso-store-copy/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>ストア掲載コピー / ASO（aso-store-copy） | Y.NetLabo</title><meta name="description" content="ストア掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を作成。App Store と Google Play で検索インデックスの仕組みが違う点を踏まえて欄ごとに語を配分し、実在しない機能を書かないための禁則を先に決める。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="ストア掲載コピー / ASO（aso-store-copy） | Y.NetLabo"><meta property="og:description" content="ストア掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を作成。App Store と Google Play で検索インデックスの仕組みが違う点を踏まえて欄ごとに語を配分し、実在しない機能を書かないための禁則を先に決める。"><meta property="og:url" content="https://ynetlabo.net/skills/aso-store-copy/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="ストア掲載コピー / ASO（aso-store-copy） | Y.NetLabo"><meta name="twitter:description" content="ストア掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を作成。App Store と Google Play で検索インデックスの仕組みが違う点を踏まえて欄ごとに語を配分し、実在しない機能を書かないための禁則を先に決める。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"TechArticle","@id":"https://ynetlabo.net/skills/aso-store-copy#skill","headline":"aso-store-copy — ストア掲載コピー / ASO","description":"ストア掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を作成。App Store と Google Play で検索インデックスの仕組みが違う点を踏まえて欄ごとに語を配分し、実在しない機能を書かないための禁則を先に決める。","inLanguage":"ja","url":"https://ynetlabo.net/skills/aso-store-copy","mainEntityOfPage":"https://ynetlabo.net/skills/aso-store-copy","dateModified":"2026-08-04T13:46:59.000Z","author":{"@type":"Person","name":"yuuki","url":"https://github.com/yuuint"},"publisher":{"@id":"https://ynetlabo.net/#org"},"license":"https://opensource.org/licenses/MIT","keywords":"Claude, Agent Skills, Claude Code, アプリ開発"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"スキル","item":"https://ynetlabo.net/skills"},{"@type":"ListItem","position":3,"name":"ストア掲載コピー / ASO","item":"https://ynetlabo.net/skills/aso-store-copy"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.DohivP3q.css">
+<style>.guide-toc[data-astro-cid-7fpw2346]{font-size:.86rem;line-height:1.6}.guide-toc__title[data-astro-cid-7fpw2346]{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}.guide-toc__list[data-astro-cid-7fpw2346]{margin-top:.9rem;max-height:calc(100vh - 12rem);overflow-y:auto;padding-right:.5rem}.guide-toc__item[data-astro-cid-7fpw2346]+.guide-toc__item[data-astro-cid-7fpw2346]{margin-top:.15rem}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{display:block;padding:.3rem .6rem;border-radius:8px;color:var(--color-muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]:hover{color:var(--color-accent-ink);border-left-color:var(--color-accent)}.guide-toc__item--d1[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{margin-top:.7rem;font-weight:700;color:var(--color-ink)}.guide-toc__item--d3[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{padding-left:1.5rem;font-size:.94em}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346][aria-current=true]{color:var(--color-accent-ink);font-weight:700;border-left-color:var(--color-accent);background:var(--color-mist)}.guide-toc--collapsible[data-astro-cid-7fpw2346]{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:var(--shadow-sm);padding:1rem 1.1rem}.guide-toc--collapsible[data-astro-cid-7fpw2346]>.guide-toc__title[data-astro-cid-7fpw2346]{cursor:pointer;display:flex;align-items:center;gap:.5rem}.guide-toc--collapsible[data-astro-cid-7fpw2346] .guide-toc__list[data-astro-cid-7fpw2346]{max-height:22rem}
+.copycode__label[data-astro-cid-a3hy7aej]{font-size:.82rem;font-weight:700;color:var(--color-muted);margin-bottom:.5rem}.copycode__box[data-astro-cid-a3hy7aej]{position:relative}.copycode__box[data-astro-cid-a3hy7aej] pre[data-astro-cid-a3hy7aej]{background:#0f172a;color:#e2e8f0;padding:1.1rem 7rem 1.1rem 1.25rem;border-radius:14px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;line-height:1.8;box-shadow:var(--shadow-card)}.copycode__btn[data-astro-cid-a3hy7aej]{position:absolute;top:.7rem;right:.7rem;padding:.35rem .8rem;border-radius:999px;font-size:.74rem;font-weight:700;color:#e2e8f0;background:#ffffff1f;cursor:pointer;transition:background-color .15s ease,color .15s ease}.copycode__btn[data-astro-cid-a3hy7aej]:hover{background:#ffffff38}.copycode__btn[data-astro-cid-a3hy7aej].is-done{background:var(--color-accent);color:#fff}
+</style>
+<link rel="stylesheet" href="/_astro/_skill_.BMKTXDtW.css"></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/guide" class="nav-link" data-astro-cid-3ef6ksr2> 使い方ガイド </a><a href="/skills" class="nav-link active" data-astro-cid-3ef6ksr2> スキル </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article class="skill" data-astro-cid-3mokt3zu> <header class="skill-head" data-astro-cid-3mokt3zu> <div class="wrap" data-astro-cid-3mokt3zu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-3mokt3zu> <a href="/" data-astro-cid-3mokt3zu>ホーム</a><span data-astro-cid-3mokt3zu>/</span><a href="/skills" data-astro-cid-3mokt3zu>スキル</a> </nav> <div class="skill-head__tags" data-astro-cid-3mokt3zu> <span class="chip" data-astro-cid-3mokt3zu>アプリ開発</span> <code class="skill-head__name" data-astro-cid-3mokt3zu>aso-store-copy</code> </div> <h1 class="skill-head__title" data-astro-cid-3mokt3zu>ストア掲載コピー / ASO</h1> <p class="skill-head__desc" data-astro-cid-3mokt3zu>ストア掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を作成。App Store と Google Play で検索インデックスの仕組みが違う点を踏まえて欄ごとに語を配分し、実在しない機能を書かないための禁則を先に決める。</p> <div class="skill-head__meta" data-astro-cid-3mokt3zu> <span data-astro-cid-3mokt3zu>最終更新 <time datetime="2026-08-04T13:46:59.000Z" data-astro-cid-3mokt3zu>2026年8月4日</time></span> <span data-astro-cid-3mokt3zu>MIT ライセンス</span> </div> <div class="skill-head__links" data-astro-cid-3mokt3zu> <a class="btn btn-accent btn-sm" href="https://github.com/yuuint/claude-skills/tree/main/skills/aso-store-copy" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu>
+GitHub で見る
+</a> <a class="btn btn-ghost btn-sm" href="#install" data-astro-cid-3mokt3zu>インストール</a> </div> </div> </header> <div class="wrap skill-body" data-astro-cid-3mokt3zu> <div class="skill-toc-mobile" data-astro-cid-3mokt3zu> <details data-astro-cid-7fpw2346="true" class="guide-toc guide-toc--collapsible"><summary class="guide-toc__title" data-astro-cid-7fpw2346>目次</summary><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#概要" data-astro-cid-7fpw2346>概要</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#手順" data-astro-cid-7fpw2346>手順</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#1-禁則を先に決める最重要ここを飛ばさない" data-astro-cid-7fpw2346>1. 禁則を先に決める（最重要・ここを飛ばさない）</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#2-差別化の軸を-1-つ決める" data-astro-cid-7fpw2346>2. 差別化の軸を 1 つ決める</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#3-キーワードを設計する" data-astro-cid-7fpw2346>3. キーワードを設計する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#4-各フィールドを書く" data-astro-cid-7fpw2346>4. 各フィールドを書く</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#5-最後に禁則の再確認" data-astro-cid-7fpw2346>5. 最後に禁則の再確認</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ストア別の鉄則" data-astro-cid-7fpw2346>ストア別の鉄則</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#app-store" data-astro-cid-7fpw2346>App Store</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#google-play" data-astro-cid-7fpw2346>Google Play</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#日本語での注意" data-astro-cid-7fpw2346>日本語での注意</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ルール" data-astro-cid-7fpw2346>ルール</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#運用継続で伸ばす" data-astro-cid-7fpw2346>運用（継続で伸ばす）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#出力形式" data-astro-cid-7fpw2346>出力形式</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#参考" data-astro-cid-7fpw2346>参考</a> </li> </ol> </details>  <script type="module">const i=new Map;document.querySelectorAll("nav.guide-toc .guide-toc__item a").forEach(e=>{const n=decodeURIComponent(e.getAttribute("href")?.slice(1)??"");n&&i.set(n,e)});const s=[...i.keys()].map(e=>document.getElementById(e)).filter(e=>e!==null);if(s.length){let e=null;const n=new Set,c=t=>{if(t!==e&&(e&&i.get(e)?.removeAttribute("aria-current"),e=t,t)){const r=i.get(t);r?.setAttribute("aria-current","true"),r?.scrollIntoView({block:"nearest"})}},l=new IntersectionObserver(t=>{for(const o of t)o.isIntersecting?n.add(o.target.id):n.delete(o.target.id);const r=s.find(o=>n.has(o.id));r&&c(r.id)},{rootMargin:"-80px 0px -55% 0px"});s.forEach(t=>l.observe(t))}</script> </div> <div class="skill-main" data-astro-cid-3mokt3zu> <details class="card trigger" data-astro-cid-3mokt3zu> <summary class="trigger__summary" data-astro-cid-3mokt3zu>Claude がこのスキルを読み込む条件</summary> <p class="trigger__text" data-astro-cid-3mokt3zu>App Store と Google Play の掲載コピー（アプリ名・サブタイトル・キーワード・説明文）を、両ストアの検索インデックスの違いを踏まえて作成する。実在しない機能を書かないための「禁則」を先に決めてから本文を書く。ユーザーがストアの掲載文・アプリ名・キーワード・ASO・ダウンロード数の改善について話しているときに使う。Use when the user mentions ASO, app store optimization, store listing, app title, subtitle, keywords, app description, or promotional text.</p> <p class="trigger__note" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> の frontmatter にある <code data-astro-cid-3mokt3zu>description</code> 
+です。依頼の内容がここに書かれた状況に当てはまると、Claude が自分でこのスキルを読み込みます。
+</p> </details> <div class="prose skill-prose" data-astro-cid-3mokt3zu> <!-- 自動生成: claude-skills/skills/aso-store-copy/SKILL.md から取り込んだもの。直接編集せず、原稿を直して `npm run sync:skills` を実行すること。 -->
+<h2 id="概要">概要</h2>
+<p>App Store と Google Play では<strong>検索インデックスの仕組みが違う</strong>。同じ文章を両方に貼ると、
+どちらでも中途半端になる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>App Store</th><th>Google Play</th></tr></thead><tbody><tr><td>検索対象</td><td>アプリ名 + サブタイトル + <strong>キーワード欄（100 字）</strong></td><td>タイトル + <strong>簡単な説明（80 字）</strong> + 詳細な説明の本文</td></tr><tr><td>説明文</td><td>検索に<strong>効かない</strong>（読み物）</td><td>検索に<strong>効く</strong></td></tr><tr><td>専用キーワード欄</td><td>ある</td><td><strong>ない</strong></td></tr><tr><td>最重要フィールド</td><td>キーワード欄の配分</td><td>簡単な説明（80 字）</td></tr></tbody></table>
+<p>このスキルは、その差を踏まえて両ストア分のコピーを 1 枚の <code>docs/aso.md</code> にまとめる。
+申請フォームの全項目チェックは <code>app-store-submission</code> スキル。</p>
+<h2 id="手順">手順</h2>
+<h3 id="1-禁則を先に決める最重要ここを飛ばさない">1. 禁則を先に決める（最重要・ここを飛ばさない）</h3>
+<p><strong>アプリに無い機能の語を、先に禁止リストにする。</strong></p>
+<ul>
+<li>例: 共有機能が無いなら「共有」「みんなで」「一緒に」を使わない</li>
+<li>例: 広告 SDK を入れているなら「完全オフライン」「一切通信しない」を使わない</li>
+<li>例: バックアップが手動なら「自動でバックアップ」を使わない</li>
+</ul>
+<p>無い機能を書くと<strong>リジェクト対象</strong>になり、書き直しは全フィールドに波及する。
+本文を書いてから禁則に気づくと、名前・サブタイトル・キーワード・説明文を全部やり直すことになる。</p>
+<h3 id="2-差別化の軸を-1-つ決める">2. 差別化の軸を 1 つ決める</h3>
+<p>「他と何が違うか」を一文にする。全フィールドがこの一文の言い換えになる。
+軸が 2 つ以上あるとどの欄も焦点がぼやける。</p>
+<h3 id="3-キーワードを設計する">3. キーワードを設計する</h3>
+<p>狙う主要語を 3〜5 個選ぶ。<strong>実際の機能の範囲で</strong>。
+配分ルールは <a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/references/keyword-strategy.md">references/keyword-strategy.md</a>。</p>
+<h3 id="4-各フィールドを書く">4. 各フィールドを書く</h3>
+<p><a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/assets/aso-template.md">assets/aso-template.md</a> を <code>docs/aso.md</code> にコピーして埋める。
+文字数は必ず数える（全角・半角の扱いに注意。<strong>超過分は切り捨てられる</strong>）。</p>
+<h3 id="5-最後に禁則の再確認">5. 最後に禁則の再確認</h3>
+<p><strong>全フィールドを通しで読み返し</strong>、禁則に挙げた語が混ざっていないか確認する。
+特に説明文の後半で無意識に使いがち。</p>
+<h2 id="ストア別の鉄則">ストア別の鉄則</h2>
+<h3 id="app-store">App Store</h3>
+<ul>
+<li>「アプリ名 + サブタイトル + キーワード欄」を<strong>横断でインデックス</strong>する。
+→ <strong>3 欄で同じ語を繰り返さない</strong>（重複は枠の無駄）。</li>
+<li>キーワード欄は<strong>カンマ区切り・スペースを入れない</strong>（スペースは 1 字を消費するだけ）。</li>
+<li>説明文は検索に効かない。読んで納得させる文章に徹する。</li>
+<li><strong>プロモーションテキスト（170 字）は審査なしでいつでも変更できる</strong>。
+季節訴求・お知らせに使える唯一の欄。ここを遊ばせておくのはもったいない。</li>
+</ul>
+<h3 id="google-play">Google Play</h3>
+<ul>
+<li>専用キーワード欄が無く、<strong>タイトル・簡単な説明・詳細な説明の本文中の語</strong>で拾われる。</li>
+<li><strong>簡単な説明（80 字）が最重要</strong>。検索結果とアプリ一覧の両方に出る。
+詰め込みすぎず、自然な文で主要語を 1〜2 回。</li>
+<li>詳細な説明でも語を拾うが、キーワードの羅列はポリシー違反になりうる。文章として成立させる。</li>
+</ul>
+<h3 id="日本語での注意">日本語での注意</h3>
+<ul>
+<li>助詞（の・を・と・で）はインデックス対象になりにくい。<strong>短い欄では削って語を詰める</strong>。</li>
+<li>表記ゆれは別の語として扱われる（「割り勘」「割勘」「わりかん」）。
+短い欄では検索ボリュームが大きい表記を優先し、詳細説明でゆれを吸収する。</li>
+</ul>
+<h2 id="ルール">ルール</h2>
+<ul>
+<li><strong>禁則を先に決めてから本文を書く。</strong> 順序を逆にしない。</li>
+<li><strong>無い機能を書かない。</strong> 誇張表現（「最速」「No.1」）は根拠が要る。</li>
+<li><strong>競合のアプリ名を掲載文に書かない</strong>（両ストアでポリシー違反）。</li>
+<li><strong>文字数は必ず数える。</strong> 「だいたい」で書かない。</li>
+<li>掲載文を変えたら <code>docs/aso.md</code> を書き換える（差分を追記しない）。ストアの実値と 1 対 1 に保つ。</li>
+</ul>
+<h2 id="運用継続で伸ばす">運用（継続で伸ばす）</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>施策</th><th>効果 / コスト</th></tr></thead><tbody><tr><td><strong>1 枚目のスクショ</strong>を作り込む</td><td>一覧で見えるのは先頭 1〜2 枚。最も効く</td></tr><tr><td><strong>アイコンの視認性</strong></td><td>検索一覧で小さく表示されて形が分かるか。CVR を左右する</td></tr><tr><td><strong>季節での差し替え</strong></td><td>iOS のプロモーションテキストは審査不要なのでコストが低い</td></tr><tr><td><strong>A/B（ストアリスティング実験）</strong></td><td>効果が大きい順に「サブタイトル / 簡単な説明」→「1 枚目スクショ」</td></tr><tr><td><strong>レビュー依頼のタイミング</strong></td><td>ユーザーが「できた」と感じた直後に控えめに。低頻度利用のアプリで催促しない</td></tr><tr><td>ローカライズ</td><td>文化依存が強いアプリは他言語の優先度を下げてよい</td></tr></tbody></table>
+<h2 id="出力形式">出力形式</h2>
+<p><code>docs/aso.md</code> 1 ファイル。<strong>そのままストアのフォームに貼れる形</strong>でコードブロックに入れる
+（前後に説明文を混ぜない）。構成は <a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/assets/aso-template.md">assets/aso-template.md</a>。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/assets/aso-template.md">assets/aso-template.md</a> — テンプレート</li>
+<li><a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/references/keyword-strategy.md">references/keyword-strategy.md</a> — キーワードの選び方と配分</li>
+<li>関連スキル: <code>app-store-submission</code>（申請項目の網羅チェック）</li>
+</ul> </div> <section class="install" id="install" data-astro-cid-3mokt3zu> <h2 class="install__title" data-astro-cid-3mokt3zu>インストール</h2> <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>個人用（全プロジェクトで使う）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/aso-store-copy ~/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/aso-store-copy ~/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div> <script type="module">document.querySelectorAll(".copycode__btn").forEach(e=>{e.addEventListener("click",async()=>{const t=e.querySelector(".copycode__btn-text");if(t){try{await navigator.clipboard.writeText(e.dataset.code??""),t.textContent="コピーしました"}catch{t.textContent="コピーできません"}e.classList.add("is-done"),setTimeout(()=>{t.textContent="コピー",e.classList.remove("is-done")},2e3)}})});</script>  <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>プロジェクト単位（チームで共有する）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>cp -r claude-skills/skills/aso-store-copy &lt;your-project&gt;/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="cp -r claude-skills/skills/aso-store-copy <your-project>/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div>   </section> <section class="files" data-astro-cid-3mokt3zu> <h2 class="files__title" data-astro-cid-3mokt3zu>同梱ファイル</h2> <p class="files__lead" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> から参照される参考資料・テンプレート・スクリプトです。ディレクトリごとコピーしてください。
+</p> <ul class="files__list" data-astro-cid-3mokt3zu> <li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/references/keyword-strategy.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>references/keyword-strategy.md</code> </a> </li><li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/aso-store-copy/assets/aso-template.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>assets/aso-template.md</code> </a> </li> </ul> </section> </div> <aside class="skill-aside" data-astro-cid-3mokt3zu> <nav aria-label="目次" data-astro-cid-7fpw2346="true" class="guide-toc"><p class="guide-toc__title" data-astro-cid-7fpw2346>目次</p><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#概要" data-astro-cid-7fpw2346>概要</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#手順" data-astro-cid-7fpw2346>手順</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#1-禁則を先に決める最重要ここを飛ばさない" data-astro-cid-7fpw2346>1. 禁則を先に決める（最重要・ここを飛ばさない）</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#2-差別化の軸を-1-つ決める" data-astro-cid-7fpw2346>2. 差別化の軸を 1 つ決める</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#3-キーワードを設計する" data-astro-cid-7fpw2346>3. キーワードを設計する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#4-各フィールドを書く" data-astro-cid-7fpw2346>4. 各フィールドを書く</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#5-最後に禁則の再確認" data-astro-cid-7fpw2346>5. 最後に禁則の再確認</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ストア別の鉄則" data-astro-cid-7fpw2346>ストア別の鉄則</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#app-store" data-astro-cid-7fpw2346>App Store</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#google-play" data-astro-cid-7fpw2346>Google Play</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#日本語での注意" data-astro-cid-7fpw2346>日本語での注意</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#ルール" data-astro-cid-7fpw2346>ルール</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#運用継続で伸ばす" data-astro-cid-7fpw2346>運用（継続で伸ばす）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#出力形式" data-astro-cid-7fpw2346>出力形式</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#参考" data-astro-cid-7fpw2346>参考</a> </li> </ol> </nav>   </aside> </div> <div class="wrap skill-foot" data-astro-cid-3mokt3zu> <section class="related" data-astro-cid-3mokt3zu> <h2 class="related__title" data-astro-cid-3mokt3zu>アプリ開発の他のスキル</h2> <ul class="related__list" data-astro-cid-3mokt3zu> <li data-astro-cid-3mokt3zu> <a class="card card-link related__card" href="/skills/app-store-submission" data-astro-cid-3mokt3zu> <code class="related__name" data-astro-cid-3mokt3zu>app-store-submission</code> <span class="related__heading" data-astro-cid-3mokt3zu>ストア申請チェックリスト（iOS / Android）</span> </a> </li><li data-astro-cid-3mokt3zu> <a class="card card-link related__card" href="/skills/flutter-lean-architecture" data-astro-cid-3mokt3zu> <code class="related__name" data-astro-cid-3mokt3zu>flutter-lean-architecture</code> <span class="related__heading" data-astro-cid-3mokt3zu>Flutter lean アーキテクチャ（コード生成なし）</span> </a> </li><li data-astro-cid-3mokt3zu> <a class="card card-link related__card" href="/skills/ui-sketch" data-astro-cid-3mokt3zu> <code class="related__name" data-astro-cid-3mokt3zu>ui-sketch</code> <span class="related__heading" data-astro-cid-3mokt3zu>UI ラフ画ジェネレータ</span> </a> </li> </ul> </section> <a href="/skills" class="btn btn-ghost" data-astro-cid-3mokt3zu>← スキル一覧へ</a> </div> </article>  </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/guide" data-astro-cid-sz7xmlte>使い方ガイド</a></li><li data-astro-cid-sz7xmlte><a href="/skills" data-astro-cid-sz7xmlte>スキル</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 

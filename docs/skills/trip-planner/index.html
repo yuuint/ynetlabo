@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/skills/trip-planner/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>旅行計画書メーカー（国内グループ旅行）（trip-planner） | Y.NetLabo</title><meta name="description" content="複数人の国内旅行の計画書を Markdown 一式で作成・改訂。日別工程表（確定／未手配／提案の区分）、確定額と見込額を分けた予算、出発地の違いを考慮した割り勘精算、グルメ・アクティビティ候補、期限を逆算した TODO まで。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="旅行計画書メーカー（国内グループ旅行）（trip-planner） | Y.NetLabo"><meta property="og:description" content="複数人の国内旅行の計画書を Markdown 一式で作成・改訂。日別工程表（確定／未手配／提案の区分）、確定額と見込額を分けた予算、出発地の違いを考慮した割り勘精算、グルメ・アクティビティ候補、期限を逆算した TODO まで。"><meta property="og:url" content="https://ynetlabo.net/skills/trip-planner/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="旅行計画書メーカー（国内グループ旅行）（trip-planner） | Y.NetLabo"><meta name="twitter:description" content="複数人の国内旅行の計画書を Markdown 一式で作成・改訂。日別工程表（確定／未手配／提案の区分）、確定額と見込額を分けた予算、出発地の違いを考慮した割り勘精算、グルメ・アクティビティ候補、期限を逆算した TODO まで。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"TechArticle","@id":"https://ynetlabo.net/skills/trip-planner#skill","headline":"trip-planner — 旅行計画書メーカー（国内グループ旅行）","description":"複数人の国内旅行の計画書を Markdown 一式で作成・改訂。日別工程表（確定／未手配／提案の区分）、確定額と見込額を分けた予算、出発地の違いを考慮した割り勘精算、グルメ・アクティビティ候補、期限を逆算した TODO まで。","inLanguage":"ja","url":"https://ynetlabo.net/skills/trip-planner","mainEntityOfPage":"https://ynetlabo.net/skills/trip-planner","dateModified":"2026-08-03T17:10:29.000Z","author":{"@type":"Person","name":"yuuki","url":"https://github.com/yuuint"},"publisher":{"@id":"https://ynetlabo.net/#org"},"license":"https://opensource.org/licenses/MIT","keywords":"Claude, Agent Skills, Claude Code, 旅行"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"スキル","item":"https://ynetlabo.net/skills"},{"@type":"ListItem","position":3,"name":"旅行計画書メーカー（国内グループ旅行）","item":"https://ynetlabo.net/skills/trip-planner"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.DohivP3q.css">
+<style>.guide-toc[data-astro-cid-7fpw2346]{font-size:.86rem;line-height:1.6}.guide-toc__title[data-astro-cid-7fpw2346]{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}.guide-toc__list[data-astro-cid-7fpw2346]{margin-top:.9rem;max-height:calc(100vh - 12rem);overflow-y:auto;padding-right:.5rem}.guide-toc__item[data-astro-cid-7fpw2346]+.guide-toc__item[data-astro-cid-7fpw2346]{margin-top:.15rem}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{display:block;padding:.3rem .6rem;border-radius:8px;color:var(--color-muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]:hover{color:var(--color-accent-ink);border-left-color:var(--color-accent)}.guide-toc__item--d1[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{margin-top:.7rem;font-weight:700;color:var(--color-ink)}.guide-toc__item--d3[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{padding-left:1.5rem;font-size:.94em}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346][aria-current=true]{color:var(--color-accent-ink);font-weight:700;border-left-color:var(--color-accent);background:var(--color-mist)}.guide-toc--collapsible[data-astro-cid-7fpw2346]{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:var(--shadow-sm);padding:1rem 1.1rem}.guide-toc--collapsible[data-astro-cid-7fpw2346]>.guide-toc__title[data-astro-cid-7fpw2346]{cursor:pointer;display:flex;align-items:center;gap:.5rem}.guide-toc--collapsible[data-astro-cid-7fpw2346] .guide-toc__list[data-astro-cid-7fpw2346]{max-height:22rem}
+.copycode__label[data-astro-cid-a3hy7aej]{font-size:.82rem;font-weight:700;color:var(--color-muted);margin-bottom:.5rem}.copycode__box[data-astro-cid-a3hy7aej]{position:relative}.copycode__box[data-astro-cid-a3hy7aej] pre[data-astro-cid-a3hy7aej]{background:#0f172a;color:#e2e8f0;padding:1.1rem 7rem 1.1rem 1.25rem;border-radius:14px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.84rem;line-height:1.8;box-shadow:var(--shadow-card)}.copycode__btn[data-astro-cid-a3hy7aej]{position:absolute;top:.7rem;right:.7rem;padding:.35rem .8rem;border-radius:999px;font-size:.74rem;font-weight:700;color:#e2e8f0;background:#ffffff1f;cursor:pointer;transition:background-color .15s ease,color .15s ease}.copycode__btn[data-astro-cid-a3hy7aej]:hover{background:#ffffff38}.copycode__btn[data-astro-cid-a3hy7aej].is-done{background:var(--color-accent);color:#fff}
+</style>
+<link rel="stylesheet" href="/_astro/_skill_.BMKTXDtW.css"></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/guide" class="nav-link" data-astro-cid-3ef6ksr2> 使い方ガイド </a><a href="/skills" class="nav-link active" data-astro-cid-3ef6ksr2> スキル </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article class="skill" data-astro-cid-3mokt3zu> <header class="skill-head" data-astro-cid-3mokt3zu> <div class="wrap" data-astro-cid-3mokt3zu> <nav class="crumbs" aria-label="パンくず" data-astro-cid-3mokt3zu> <a href="/" data-astro-cid-3mokt3zu>ホーム</a><span data-astro-cid-3mokt3zu>/</span><a href="/skills" data-astro-cid-3mokt3zu>スキル</a> </nav> <div class="skill-head__tags" data-astro-cid-3mokt3zu> <span class="chip" data-astro-cid-3mokt3zu>旅行</span> <code class="skill-head__name" data-astro-cid-3mokt3zu>trip-planner</code> </div> <h1 class="skill-head__title" data-astro-cid-3mokt3zu>旅行計画書メーカー（国内グループ旅行）</h1> <p class="skill-head__desc" data-astro-cid-3mokt3zu>複数人の国内旅行の計画書を Markdown 一式で作成・改訂。日別工程表（確定／未手配／提案の区分）、確定額と見込額を分けた予算、出発地の違いを考慮した割り勘精算、グルメ・アクティビティ候補、期限を逆算した TODO まで。</p> <div class="skill-head__meta" data-astro-cid-3mokt3zu> <span data-astro-cid-3mokt3zu>最終更新 <time datetime="2026-08-03T17:10:29.000Z" data-astro-cid-3mokt3zu>2026年8月4日</time></span> <span data-astro-cid-3mokt3zu>MIT ライセンス</span> </div> <div class="skill-head__links" data-astro-cid-3mokt3zu> <a class="btn btn-accent btn-sm" href="https://github.com/yuuint/claude-skills/tree/main/skills/trip-planner" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu>
+GitHub で見る
+</a> <a class="btn btn-ghost btn-sm" href="#install" data-astro-cid-3mokt3zu>インストール</a> </div> </div> </header> <div class="wrap skill-body" data-astro-cid-3mokt3zu> <div class="skill-toc-mobile" data-astro-cid-3mokt3zu> <details data-astro-cid-7fpw2346="true" class="guide-toc guide-toc--collapsible"><summary class="guide-toc__title" data-astro-cid-7fpw2346>目次</summary><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#大原則" data-astro-cid-7fpw2346>大原則</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#進め方" data-astro-cid-7fpw2346>進め方</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-1--骨格をつくる" data-astro-cid-7fpw2346>Phase 1 — 骨格をつくる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-2--予算と精算" data-astro-cid-7fpw2346>Phase 2 — 予算と精算</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-3--現地の中身を調べる" data-astro-cid-7fpw2346>Phase 3 — 現地の中身を調べる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-4--期限を逆算する" data-astro-cid-7fpw2346>Phase 4 — 期限を逆算する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-5--崩れたときの備え" data-astro-cid-7fpw2346>Phase 5 — 崩れたときの備え</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-6--改訂" data-astro-cid-7fpw2346>Phase 6 — 改訂</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#生成するファイル" data-astro-cid-7fpw2346>生成するファイル</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#記法" data-astro-cid-7fpw2346>記法</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#守ること" data-astro-cid-7fpw2346>守ること</a> </li> </ol> </details>  <script type="module">const i=new Map;document.querySelectorAll("nav.guide-toc .guide-toc__item a").forEach(e=>{const n=decodeURIComponent(e.getAttribute("href")?.slice(1)??"");n&&i.set(n,e)});const s=[...i.keys()].map(e=>document.getElementById(e)).filter(e=>e!==null);if(s.length){let e=null;const n=new Set,c=t=>{if(t!==e&&(e&&i.get(e)?.removeAttribute("aria-current"),e=t,t)){const r=i.get(t);r?.setAttribute("aria-current","true"),r?.scrollIntoView({block:"nearest"})}},l=new IntersectionObserver(t=>{for(const o of t)o.isIntersecting?n.add(o.target.id):n.delete(o.target.id);const r=s.find(o=>n.has(o.id));r&&c(r.id)},{rootMargin:"-80px 0px -55% 0px"});s.forEach(t=>l.observe(t))}</script> </div> <div class="skill-main" data-astro-cid-3mokt3zu> <details class="card trigger" data-astro-cid-3mokt3zu> <summary class="trigger__summary" data-astro-cid-3mokt3zu>Claude がこのスキルを読み込む条件</summary> <p class="trigger__text" data-astro-cid-3mokt3zu>複数人の国内旅行について、日別工程表・予算・割り勘精算・グルメ/アクティビティ候補・TODO をまとめた旅行計画書を Markdown 一式で作成し、情報が固まるたびに改訂する。ユーザーが旅行の計画、旅程、しおり、旅行の予算やスケジュール、友人との旅費の割り勘についてまとめたいと言ったときに使う。Use when the user mentions trip planning, itinerary, travel budget, or splitting travel costs with friends.</p> <p class="trigger__note" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> の frontmatter にある <code data-astro-cid-3mokt3zu>description</code> 
+です。依頼の内容がここに書かれた状況に当てはまると、Claude が自分でこのスキルを読み込みます。
+</p> </details> <div class="prose skill-prose" data-astro-cid-3mokt3zu> <!-- 自動生成: claude-skills/skills/trip-planner/SKILL.md から取り込んだもの。直接編集せず、原稿を直して `npm run sync:skills` を実行すること。 -->
+<p>複数人・複数出発地の国内旅行を対象に、当日そのまま使える計画書を Markdown 一式で作る。</p>
+<h2 id="大原則">大原則</h2>
+<p>この 5 つを外すと計画書は使い物にならない。</p>
+<ol>
+<li><strong>確定・未手配・提案を混ぜない。</strong> すべての予定に区分を付ける。「確定 と 未手配 の行だけ守れば旅程は成立する」状態にすること。提案行は当日の気分で自由に捨てられる。</li>
+<li><strong>金額は 確定 と 見込 を分ける。</strong> 確定＝領収書・予約確認書で金額を確認済み。見込＝相場からの試算。合計も別立てで出し、予約が済むたびに見込を確定へ置き換える。</li>
+<li><strong>期限はすべて日付に変換する。</strong> 「2ヶ月前から予約可」ではなく「8月下旬に電話」と書く。キャンセル無料期限・予約解禁日・当日予約不可のものは、カレンダーと TODO の両方に載せる。</li>
+<li><strong>調べた情報には出典と調査日を書く。</strong> 評価点・料金・営業時間は変わる。「2026年7月時点」と明記し、直前に再確認すべきものは TODO に入れる。</li>
+<li><strong>憶測を確定として書かない。</strong> ユーザーが言っていないこと・裏を取っていないことは <code>未確認</code> と明示する。勝手に予約したことにしない。</li>
+</ol>
+<h2 id="進め方">進め方</h2>
+<p>情報は一度に揃わない。<strong>骨格 → 金 → 中身 → 期限</strong> の順に層を重ね、そのたびに Rev を上げる。
+最初から全フェーズを完璧にやろうとせず、Phase 1〜2 で一度成果物を出してユーザーに見せること。</p>
+<h3 id="phase-1--骨格をつくる">Phase 1 — 骨格をつくる</h3>
+<p>ユーザーから聞き出す（分からない項目は <code>未定</code> のまま進める）：</p>
+<ul>
+<li>期間・行先・参加者（<strong>それぞれの出発地</strong>。出発地が違うと精算ルールが変わる）</li>
+<li>すでに予約済みのもの（航空券・宿・レンタカー）とその金額・立替者</li>
+<li>移動手段、運転できる人</li>
+<li>やりたいこと、予算感、宿のグレード配分</li>
+</ul>
+<p><code>00_サマリー.md</code> と <code>01_日別工程表.md</code> を作る。予約済みは 確定、未定は 未手配、動線から埋めた案は 提案。</p>
+<h3 id="phase-2--予算と精算">Phase 2 — 予算と精算</h3>
+<p><code>02_予算.md</code> と <code>03_精算ルール.md</code> を作る。詳細は <code>references/settlement.md</code>。</p>
+<ul>
+<li>確定分は予約番号・立替者・対象者まで含めて表にする</li>
+<li>見込分は算出根拠を必ず書く（「1人 20,000円 × 3名＝夕食3回＋昼食3回」）</li>
+<li>ⒶⒷⒸの分担ルールを適用し、個人別の負担額と現時点の立替バランスを出す</li>
+<li>圧縮できるポイント／増える要因を各3項目ほど添える</li>
+</ul>
+<h3 id="phase-3--現地の中身を調べる">Phase 3 — 現地の中身を調べる</h3>
+<p><code>04_グルメ.md</code> <code>05_アクティビティ.md</code> <code>06_宿とレンタカー.md</code> を作る。調べ方は <code>references/research-checklist.md</code>。</p>
+<p>ここで計画書の質が決まる。特に <strong>「この日ならでは」の発掘</strong>（月齢、祭りとの前後関係、施設の公開開始日、シーズンの境目）に時間をかける。</p>
+<h3 id="phase-4--期限を逆算する">Phase 4 — 期限を逆算する</h3>
+<p>調べた予約期限を日付に落とし、<code>07_TODO.md</code> と <code>00_サマリー.md</code> のカレンダーに反映する。</p>
+<ul>
+<li>予約解禁日（人気店は数ヶ月前から）</li>
+<li>キャンセル無料期限（ここが人数・日程の最終確定デッドライン）</li>
+<li>当日予約不可のもの（前日までに押さえる）</li>
+</ul>
+<h3 id="phase-5--崩れたときの備え">Phase 5 — 崩れたときの備え</h3>
+<p>天候・欠航・満席で崩れる前提で、バックアップを本文に書き込む。</p>
+<ul>
+<li>欠航しやすい区間（離島便・悪天候期）を特定し、その日の宿は当日キャンセル可の条件で取る</li>
+<li>足止め時の代替宿・代替便を1つ控えておく</li>
+<li>競合する予定（同じ時間帯にしか入らない2案）は「どちらか一方」と明記し、判断期限を書く</li>
+</ul>
+<h3 id="phase-6--改訂">Phase 6 — 改訂</h3>
+<p>情報が増えたら Rev を上げて更新する。<strong>更新時は必ず</strong>：</p>
+<ul>
+<li>見込 → 確定 への昇格（金額を実額に差し替え）</li>
+<li>済んだ TODO にチェック、新たに判明した TODO を追加</li>
+<li>章番号がずれたら本文中の相互参照（「候補は 6-2 参照」）も直す</li>
+</ul>
+<h2 id="生成するファイル">生成するファイル</h2>
+<p>出力先は <code>&#x3C;旅行名>/</code> ディレクトリ。規模が小さければ 00・01・02・07 だけでもよい。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>ファイル</th><th>内容</th></tr></thead><tbody><tr><td><code>00_サマリー.md</code></td><td>基本情報、参加者、概算総額、気候、カレンダー、期間中のイベント、この日ならではのトピック</td></tr><tr><td><code>01_日別工程表.md</code></td><td>DAY 別の時刻入り工程表。全行に区分を付ける</td></tr><tr><td><code>02_予算.md</code></td><td>確定分の内訳、見込分の内訳と算出根拠、圧縮ポイント</td></tr><tr><td><code>03_精算ルール.md</code></td><td>ⒶⒷⒸの分担ルール、個人別負担額、立替バランス、精算の進め方</td></tr><tr><td><code>04_グルメ.md</code></td><td>エリア別・日別の飲食候補。複数サイト横断の評価</td></tr><tr><td><code>05_アクティビティ.md</code></td><td>候補と料金・所要時間、競合関係、予約期限一覧</td></tr><tr><td><code>06_宿とレンタカー.md</code></td><td>未予約分の候補比較、レンタカーの要否判断、運転体制</td></tr><tr><td><code>07_TODO.md</code></td><td>🔴🟡🟢 の3段階 × 担当者 × 判断基準</td></tr><tr><td><code>リサーチ資料/</code></td><td>調査メモ。出典 URL と調査日を残す置き場</td></tr></tbody></table>
+<p>各ファイルの書式は <code>references/document-set.md</code> を参照。</p>
+<p>印刷して配れる形にしたいと言われたら、<code>trip-planner-pdf</code> スキルがこの一式を A4 の提案書 PDF に組み上げる。</p>
+<h2 id="記法">記法</h2>
+<p><strong>予定の区分</strong>（工程表の全行に付ける）</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>区分</th><th>意味</th><th>扱い</th></tr></thead><tbody><tr><td><code>確定</code></td><td>予約済み・時刻が動かない</td><td>動かさない。時刻・便名・予約番号を書く</td></tr><tr><td><code>未手配</code></td><td>これから予約・決定が必要</td><td>TODO に対応する項目が必ず存在すること</td></tr><tr><td><code>提案</code></td><td>動線と所要時間から組んだ案</td><td>差し替え自由と明記する</td></tr></tbody></table>
+<p><strong>金額</strong>：<code>確定</code> ＝実額確認済み ／ <code>見込</code> ＝試算。混ぜて合計しない。</p>
+<p><strong>TODO の優先度</strong>：🔴 直近（期限が近い・他が依存する） ／ 🟡 中期 ／ 🟢 直前</p>
+<p><strong>未確認</strong>：裏が取れていない情報には <code>※未確認</code> を付け、誰が何を確認するかを TODO 化する。</p>
+<h2 id="守ること">守ること</h2>
+<ul>
+<li><strong>移動時間を実測ベースで持つ。</strong> 主要地点間の所要時間を先に表にし、1日に詰め込みすぎていないか機械的に判定する。往復3時間かかる場所は、その日の他の予定と両立しない。</li>
+<li><strong>口約束を計画書のルールで上書きしない。</strong> 「ここは俺が払う」のような会話上のやりとりがあっても、精算ルールに従った金額を書き、口約束との差異は注記で触れる。</li>
+<li><strong>人数・金額の端数を丸めない。</strong> 3等分で1円余るなら誰が1円多く負担するかまで書く。</li>
+<li><strong>予約番号・電話番号・住所・共有 URL は、ユーザーの計画書には書いてよいが、外部に共有する版では伏せる。</strong> 計画書を公開・転載する話が出たら、個人情報を落とした共有用の版を別に作ることを提案する。</li>
+</ul> </div> <section class="install" id="install" data-astro-cid-3mokt3zu> <h2 class="install__title" data-astro-cid-3mokt3zu>インストール</h2> <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>個人用（全プロジェクトで使う）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/trip-planner ~/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="git clone https://github.com/yuuint/claude-skills.git
+cp -r claude-skills/skills/trip-planner ~/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div> <script type="module">document.querySelectorAll(".copycode__btn").forEach(e=>{e.addEventListener("click",async()=>{const t=e.querySelector(".copycode__btn-text");if(t){try{await navigator.clipboard.writeText(e.dataset.code??""),t.textContent="コピーしました"}catch{t.textContent="コピーできません"}e.classList.add("is-done"),setTimeout(()=>{t.textContent="コピー",e.classList.remove("is-done")},2e3)}})});</script>  <div class="copycode" data-astro-cid-a3hy7aej> <p class="copycode__label" data-astro-cid-a3hy7aej>プロジェクト単位（チームで共有する）</p> <div class="copycode__box" data-astro-cid-a3hy7aej> <pre data-astro-cid-a3hy7aej><code data-astro-cid-a3hy7aej>cp -r claude-skills/skills/trip-planner &lt;your-project&gt;/.claude/skills/</code></pre> <button type="button" class="copycode__btn" data-code="cp -r claude-skills/skills/trip-planner <your-project>/.claude/skills/" data-astro-cid-a3hy7aej> <span class="copycode__btn-text" data-astro-cid-a3hy7aej>コピー</span> </button> </div> </div>   </section> <section class="files" data-astro-cid-3mokt3zu> <h2 class="files__title" data-astro-cid-3mokt3zu>同梱ファイル</h2> <p class="files__lead" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>SKILL.md</code> から参照される参考資料・テンプレート・スクリプトです。ディレクトリごとコピーしてください。
+</p> <ul class="files__list" data-astro-cid-3mokt3zu> <li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/trip-planner/references/document-set.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>references/document-set.md</code> </a> </li><li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/trip-planner/references/research-checklist.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>references/research-checklist.md</code> </a> </li><li data-astro-cid-3mokt3zu> <a href="https://github.com/yuuint/claude-skills/blob/main/skills/trip-planner/references/settlement.md" target="_blank" rel="noopener noreferrer" data-astro-cid-3mokt3zu> <code data-astro-cid-3mokt3zu>references/settlement.md</code> </a> </li> </ul> </section> </div> <aside class="skill-aside" data-astro-cid-3mokt3zu> <nav aria-label="目次" data-astro-cid-7fpw2346="true" class="guide-toc"><p class="guide-toc__title" data-astro-cid-7fpw2346>目次</p><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#大原則" data-astro-cid-7fpw2346>大原則</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#進め方" data-astro-cid-7fpw2346>進め方</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-1--骨格をつくる" data-astro-cid-7fpw2346>Phase 1 — 骨格をつくる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-2--予算と精算" data-astro-cid-7fpw2346>Phase 2 — 予算と精算</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-3--現地の中身を調べる" data-astro-cid-7fpw2346>Phase 3 — 現地の中身を調べる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-4--期限を逆算する" data-astro-cid-7fpw2346>Phase 4 — 期限を逆算する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-5--崩れたときの備え" data-astro-cid-7fpw2346>Phase 5 — 崩れたときの備え</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#phase-6--改訂" data-astro-cid-7fpw2346>Phase 6 — 改訂</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#生成するファイル" data-astro-cid-7fpw2346>生成するファイル</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#記法" data-astro-cid-7fpw2346>記法</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#守ること" data-astro-cid-7fpw2346>守ること</a> </li> </ol> </nav>   </aside> </div> <div class="wrap skill-foot" data-astro-cid-3mokt3zu> <section class="related" data-astro-cid-3mokt3zu> <h2 class="related__title" data-astro-cid-3mokt3zu>旅行の他のスキル</h2> <ul class="related__list" data-astro-cid-3mokt3zu> <li data-astro-cid-3mokt3zu> <a class="card card-link related__card" href="/skills/trip-map" data-astro-cid-3mokt3zu> <code class="related__name" data-astro-cid-3mokt3zu>trip-map</code> <span class="related__heading" data-astro-cid-3mokt3zu>旅行地図ジェネレータ</span> </a> </li><li data-astro-cid-3mokt3zu> <a class="card card-link related__card" href="/skills/trip-planner-pdf" data-astro-cid-3mokt3zu> <code class="related__name" data-astro-cid-3mokt3zu>trip-planner-pdf</code> <span class="related__heading" data-astro-cid-3mokt3zu>旅行計画書 → 提案書 PDF</span> </a> </li> </ul> </section> <a href="/skills" class="btn btn-ghost" data-astro-cid-3mokt3zu>← スキル一覧へ</a> </div> </article>  </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/guide" data-astro-cid-sz7xmlte>使い方ガイド</a></li><li data-astro-cid-sz7xmlte><a href="/skills" data-astro-cid-sz7xmlte>スキル</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 
