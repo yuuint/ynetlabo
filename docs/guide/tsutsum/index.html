@@ -1,0 +1,1185 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/guide/tsutsum/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>tsutsum 使い方ガイド | Y.NetLabo</title><meta name="description" content="慶弔記録アプリ tsutsum の使い方ガイド。ご祝儀・香典の記録から、お返しの管理・相場の目安・リマインド・バックアップまで、画面図つきで説明します。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="tsutsum 使い方ガイド | Y.NetLabo"><meta property="og:description" content="慶弔記録アプリ tsutsum の使い方ガイド。ご祝儀・香典の記録から、お返しの管理・相場の目安・リマインド・バックアップまで、画面図つきで説明します。"><meta property="og:url" content="https://ynetlabo.net/guide/tsutsum/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="tsutsum 使い方ガイド | Y.NetLabo"><meta name="twitter:description" content="慶弔記録アプリ tsutsum の使い方ガイド。ご祝儀・香典の記録から、お返しの管理・相場の目安・リマインド・バックアップまで、画面図つきで説明します。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"使い方ガイド","item":"https://ynetlabo.net/guide"},{"@type":"ListItem","position":3,"name":"tsutsum 使い方ガイド","item":"https://ynetlabo.net/guide/tsutsum"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.DohivP3q.css">
+<style>.guide-toc[data-astro-cid-7fpw2346]{font-size:.86rem;line-height:1.6}.guide-toc__title[data-astro-cid-7fpw2346]{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}.guide-toc__list[data-astro-cid-7fpw2346]{margin-top:.9rem;max-height:calc(100vh - 12rem);overflow-y:auto;padding-right:.5rem}.guide-toc__item[data-astro-cid-7fpw2346]+.guide-toc__item[data-astro-cid-7fpw2346]{margin-top:.15rem}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{display:block;padding:.3rem .6rem;border-radius:8px;color:var(--color-muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]:hover{color:var(--color-accent-ink);border-left-color:var(--color-accent)}.guide-toc__item--d1[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{margin-top:.7rem;font-weight:700;color:var(--color-ink)}.guide-toc__item--d3[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{padding-left:1.5rem;font-size:.94em}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346][aria-current=true]{color:var(--color-accent-ink);font-weight:700;border-left-color:var(--color-accent);background:var(--color-mist)}.guide-toc--collapsible[data-astro-cid-7fpw2346]{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:var(--shadow-sm);padding:1rem 1.1rem}.guide-toc--collapsible[data-astro-cid-7fpw2346]>.guide-toc__title[data-astro-cid-7fpw2346]{cursor:pointer;display:flex;align-items:center;gap:.5rem}.guide-toc--collapsible[data-astro-cid-7fpw2346] .guide-toc__list[data-astro-cid-7fpw2346]{max-height:22rem}
+.guide-head[data-astro-cid-yhdcghlb]{padding-top:2.5rem;padding-bottom:2rem;background:var(--color-mist)}.crumbs[data-astro-cid-yhdcghlb]{display:flex;gap:.5rem;font-size:.82rem;color:var(--color-muted);margin-bottom:1.25rem}.crumbs[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]{color:var(--color-muted);text-decoration:none}.crumbs[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]:hover{color:var(--color-ink)}.guide-head__row[data-astro-cid-yhdcghlb]{display:flex;align-items:center;gap:1rem}.guide-head__icon[data-astro-cid-yhdcghlb]{width:3.5rem;height:3.5rem;flex-shrink:0;border-radius:22.5%;box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 22%,transparent),var(--shadow-sm)}.guide-head__title[data-astro-cid-yhdcghlb]{font-size:clamp(1.5rem,1.2rem + 1.6vw,2.1rem);line-height:1.3}.guide-head__tag[data-astro-cid-yhdcghlb]{font-size:.85rem;font-weight:700;color:var(--color-muted)}.guide-head__desc[data-astro-cid-yhdcghlb]{margin-top:1.1rem;max-width:44rem;color:var(--color-body);font-size:.94rem}.guide-head__meta[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-top:1.1rem;font-size:.82rem;color:var(--color-muted)}.guide-head__links[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}.btn-sm[data-astro-cid-yhdcghlb]{padding:.5rem 1.1rem;font-size:.84rem}.guide-body[data-astro-cid-yhdcghlb]{display:grid;grid-template-columns:minmax(0,1fr) 15rem;gap:3rem;align-items:start;padding-block:3rem}.guide-aside[data-astro-cid-yhdcghlb]{position:sticky;top:5.5rem}.guide-toc-mobile[data-astro-cid-yhdcghlb]{display:none}.guide-foot[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:4rem;padding-top:2rem;border-top:1px solid var(--color-line)}.guide-foot__note[data-astro-cid-yhdcghlb]{font-size:.88rem;color:var(--color-muted)}.guide-foot__note[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]{color:var(--color-accent-ink);font-weight:700}@media(max-width:900px){.guide-body[data-astro-cid-yhdcghlb]{grid-template-columns:1fr;gap:1.75rem}.guide-aside[data-astro-cid-yhdcghlb]{display:none}.guide-toc-mobile[data-astro-cid-yhdcghlb]{display:block}}
+</style></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/guide" class="nav-link active" data-astro-cid-3ef6ksr2> 使い方ガイド </a><a href="/skills" class="nav-link" data-astro-cid-3ef6ksr2> スキル </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article class="guide" data-astro-cid-yhdcghlb> <header class="guide-head" data-astro-cid-yhdcghlb> <div class="wrap" data-astro-cid-yhdcghlb> <nav class="crumbs" aria-label="パンくず" data-astro-cid-yhdcghlb> <a href="/" data-astro-cid-yhdcghlb>ホーム</a><span data-astro-cid-yhdcghlb>/</span><a href="/guide" data-astro-cid-yhdcghlb>使い方ガイド</a> </nav> <div class="guide-head__row" style="--brand:#a9663f" data-astro-cid-yhdcghlb> <img class="guide-head__icon" src="/images/apps/tsutsum.png" alt="tsutsum アプリアイコン" width="64" height="64" data-astro-cid-yhdcghlb> <div data-astro-cid-yhdcghlb> <h1 class="guide-head__title" data-astro-cid-yhdcghlb>tsutsum 使い方ガイド</h1> <p class="guide-head__tag" data-astro-cid-yhdcghlb>慶弔記録アプリ</p> </div> </div> <p class="guide-head__desc" data-astro-cid-yhdcghlb>慶弔記録アプリ tsutsum の使い方ガイド。ご祝儀・香典の記録から、お返しの管理・相場の目安・リマインド・バックアップまで、画面図つきで説明します。</p> <div class="guide-head__meta" data-astro-cid-yhdcghlb> <span data-astro-cid-yhdcghlb>最終更新 <time datetime="2026-08-08T09:19:40.330Z" data-astro-cid-yhdcghlb>2026年8月8日</time></span>  </div> <div class="guide-head__links" data-astro-cid-yhdcghlb> <a class="btn btn-ghost btn-sm" href="https://apps.apple.com/jp/app/%E3%83%84%E3%83%84%E3%83%A0-%E5%86%A0%E5%A9%9A%E8%91%AC%E7%A5%AD%E3%81%AE%E3%81%94%E7%A5%9D%E5%84%80-%E9%A6%99%E5%85%B8-%E3%81%8A%E8%BF%94%E3%81%97%E8%A8%98%E9%8C%B2/id6793942449" target="_blank" rel="noopener noreferrer" data-astro-cid-yhdcghlb> App Store </a><a class="btn btn-ghost btn-sm" href="https://play.google.com/store/apps/details?id=net.ynetlabo.tsutsum" target="_blank" rel="noopener noreferrer" data-astro-cid-yhdcghlb> Google Play </a> </div> </div> </header> <div class="wrap guide-body" data-astro-cid-yhdcghlb> <div class="guide-toc-mobile" data-astro-cid-yhdcghlb> <details data-astro-cid-7fpw2346="true" class="guide-toc guide-toc--collapsible"><summary class="guide-toc__title" data-astro-cid-7fpw2346>目次</summary><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#用語" data-astro-cid-7fpw2346>用語</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#全体の流れ" data-astro-cid-7fpw2346>全体の流れ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第1部-はじめかた" data-astro-cid-7fpw2346>第1部 はじめかた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#1-tsutsum-でできること" data-astro-cid-7fpw2346>1. tsutsum でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#2-はじめての記録--6つのステップ" data-astro-cid-7fpw2346>2. はじめての記録 — 6つのステップ</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#名目とやりとりを選ぶ" data-astro-cid-7fpw2346>名目とやりとりを選ぶ</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#相手日付金額を入れる" data-astro-cid-7fpw2346>相手・日付・金額を入れる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#確認して保存する" data-astro-cid-7fpw2346>確認して保存する</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第2部-記録を見る直す" data-astro-cid-7fpw2346>第2部 記録を見る・直す</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#3-きろくタイムラインの見かた" data-astro-cid-7fpw2346>3. きろく（タイムライン）の見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#4-記録の詳細を見る" data-astro-cid-7fpw2346>4. 記録の詳細を見る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#5-記録を直す" data-astro-cid-7fpw2346>5. 記録を直す</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第3部-相手とお返し" data-astro-cid-7fpw2346>第3部 相手とお返し</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#6-ひと相手一覧の見かた" data-astro-cid-7fpw2346>6. ひと（相手一覧）の見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#7-相手を追加する編集する" data-astro-cid-7fpw2346>7. 相手を追加する・編集する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#アイコンを設定する" data-astro-cid-7fpw2346>アイコンを設定する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#8-相手の情報を見る" data-astro-cid-7fpw2346>8. 相手の情報を見る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#9-お返しを管理する" data-astro-cid-7fpw2346>9. お返しを管理する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#10-相場の目安を調べる" data-astro-cid-7fpw2346>10. 相場の目安を調べる</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第4部-贈りもの候補アイデア" data-astro-cid-7fpw2346>第4部 贈りもの候補（アイデア）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#11-候補をためる" data-astro-cid-7fpw2346>11. 候補をためる</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#12-候補を追加する編集する" data-astro-cid-7fpw2346>12. 候補を追加する・編集する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#13-候補の詳細" data-astro-cid-7fpw2346>13. 候補の詳細</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第5部-通知データ設定" data-astro-cid-7fpw2346>第5部 通知・データ・設定</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#14-リマインドを設定する" data-astro-cid-7fpw2346>14. リマインドを設定する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#15-バックアップと復元" data-astro-cid-7fpw2346>15. バックアップと復元</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#16-そのほかタブ" data-astro-cid-7fpw2346>16. そのほかタブ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#巻末" data-astro-cid-7fpw2346>巻末</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#困ったとき" data-astro-cid-7fpw2346>困ったとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#プライバシーについて" data-astro-cid-7fpw2346>プライバシーについて</a> </li> </ol> </details>  <script type="module">const i=new Map;document.querySelectorAll("nav.guide-toc .guide-toc__item a").forEach(e=>{const n=decodeURIComponent(e.getAttribute("href")?.slice(1)??"");n&&i.set(n,e)});const s=[...i.keys()].map(e=>document.getElementById(e)).filter(e=>e!==null);if(s.length){let e=null;const n=new Set,c=t=>{if(t!==e&&(e&&i.get(e)?.removeAttribute("aria-current"),e=t,t)){const r=i.get(t);r?.setAttribute("aria-current","true"),r?.scrollIntoView({block:"nearest"})}},l=new IntersectionObserver(t=>{for(const o of t)o.isIntersecting?n.add(o.target.id):n.delete(o.target.id);const r=s.find(o=>n.has(o.id));r&&c(r.id)},{rootMargin:"-80px 0px -55% 0px"});s.forEach(t=>l.observe(t))}</script> </div> <div class="prose guide-prose" data-astro-cid-yhdcghlb> <!-- 自動生成: tsutsum/docs/user-guide.md から取り込んだもの。直接編集せず、原稿を直して `npm run sync:guide` を実行すること。 -->
+<p>ご祝儀・香典・お見舞いなどの「贈った／もらった」を記録して、お返しまで管理するアプリ <strong>tsutsum</strong> の使い方。</p>
+<blockquote>
+<p><strong>記録はすべて端末の中だけに保存されます。</strong> サーバーには送られず、アカウント登録も要りません。
+そのぶん機種変更のときは、ご自身でバックアップを取っていただく必要があります（→ <a href="#15-%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%81%A8%E5%BE%A9%E5%85%83">15. バックアップと復元</a>）。</p>
+</blockquote>
+<blockquote>
+<p><strong>図はすべてラフ画</strong>（画面の構造を説明するための図）。実機の配色・余白・書体・写真とは異なる。
+図に出てくる氏名・金額・日付はサンプル値。</p>
+</blockquote>
+<h2 id="用語">用語</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>用語</th><th>意味</th></tr></thead><tbody><tr><td>記録</td><td>「誰に・いつ・いくら包んだか／もらったか」の1件。</td></tr><tr><td>名目</td><td>結婚・葬儀・誕生日など、そのやりとりの理由。慶事・弔事・お見舞い・ギフトの4分類で全15種。</td></tr><tr><td>やりとり</td><td>「贈った」か「もらった」かの別。</td></tr><tr><td>相手</td><td>記録の相手。ご関係（家族・友人など）や住所・誕生日も持てる。</td></tr><tr><td>連名</td><td>「営業部一同」のように複数人でまとめた相手。人数を入れると1人あたりの額が出る。</td></tr><tr><td>お返し</td><td>「もらった」記録に自動で付く返礼の管理。これから／済んだ／今回なし の3つの状況を持つ。</td></tr><tr><td>候補（アイデア）</td><td>「これを贈ろうかな」を写真やURLつきでためておくメモ。</td></tr><tr><td>相場の目安</td><td>名目 × ご関係の金額の幅。アプリに内蔵されていて、通信せずに引ける。</td></tr></tbody></table>
+<h2 id="全体の流れ">全体の流れ</h2>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">flowchart TD
+  R["記録する&#x3C;br/>誰に・いつ・いくら"] --> D{"やりとりは？"}
+  D -->|もらった| K["お返しの管理が始まる"]
+  D -->|贈った| T["きろくに残る"]
+  K --> O["お返しを記録する"]
+  O --> T
+  M["相場の目安"] -.-> R
+  I["贈りもの候補&#x3C;br/>（アイデア）"] -.-> O
+</pre></figure>
+<p>「もらった」記録を保存すると、お返しの管理が自動で始まります。
+「贈った」記録は、そのまま履歴として残ります。</p>
+<hr>
+<h1 id="第1部-はじめかた">第1部 はじめかた</h1>
+<h2 id="1-tsutsum-でできること">1. tsutsum でできること</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/21-splash.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="起動画面（スプラッシュ）（原寸で開く）"><img src="/images/guide/tsutsum/21-splash.svg" alt="起動画面（スプラッシュ）"></a><figcaption>起動画面（スプラッシュ）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>アイコン</td><td>起動直後は画面中央にあり、立ち上がりで少し上へ収まる。</td></tr><tr><td>2</td><td>アプリ名</td><td>アイコンが収まったあとに現れる。</td></tr><tr><td>3</td><td>ひとこと</td><td>アプリ名より少し遅れて現れる。</td></tr><tr><td>4</td><td>季節の背景</td><td>季節ごとの色と粒（花びら・落ち葉・雪など）が浮かぶ。</td></tr></tbody></table>
+<p>画面のどこかを押すと演出を飛ばして、すぐにアプリへ入れます。</p>
+<p>画面は下の4つのタブに分かれています。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>タブ</th><th>内容</th></tr></thead><tbody><tr><td>きろく</td><td>記録の一覧。お返しやお祝いのお知らせもここに出る</td></tr><tr><td>ひと</td><td>相手の一覧。相手ごとの履歴と収支をまとめて見られる</td></tr><tr><td>アイデア</td><td>贈りもの候補のメモ</td></tr><tr><td>そのほか</td><td>相場の目安・リマインド・バックアップなどの設定</td></tr></tbody></table>
+<h2 id="2-はじめての記録--6つのステップ">2. はじめての記録 — 6つのステップ</h2>
+<p>記録は1画面に1つずつ答えていく形です。ページをまたいでも入力は保たれます。</p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">flowchart TD
+  S1["1 名目"] --> S2["2 やりとり"] --> S3["3 相手"] --> S4["4 日付"] --> S5["5 金額"] --> S6["6 確認"]
+  S6 --> F["保存"]
+  F -. "同じイベントにもう1件" .-> S3
+</pre></figure>
+<p>葬儀の香典や結婚式のご祝儀のように何十件も登録するときは、保存後の「もう1件」から
+<strong>相手と金額だけの短縮ループ</strong>に戻れます。名目・やりとり・日付は引き継がれます。</p>
+<h3 id="名目とやりとりを選ぶ">名目とやりとりを選ぶ</h3>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/07-record-wizard-1.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録する（1/3）名目・やりとり（原寸で開く）"><img src="/images/guide/tsutsum/07-record-wizard-1.svg" alt="記録する（1/3）名目・やりとり"></a><figcaption>記録する（1/3）名目・やりとり</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>閉じる</td><td>何か入力していたら破棄の確認が入る（端末の戻る操作も同じ）。</td></tr><tr><td>2</td><td>進み具合</td><td>「水引の一本道」。いまの段階名と「n / 6」だけが出る。</td></tr><tr><td>3</td><td>大分類</td><td>慶事・弔事・お見舞い・ギフトの4つ。押すと同じ画面が種別の一覧に切り替わる。</td></tr><tr><td>4</td><td>分類名</td><td>押すと大分類の選び直しに戻る。</td></tr><tr><td>5</td><td>種別</td><td>選ぶとチェックが付き、そのまま次へ自動で進む。慶事6／弔事3／お見舞い1／ギフト5 の全15種。</td></tr><tr><td>6</td><td>贈った／もらった</td><td>選ぶとそのまま次へ進む。「もらった」を選ぶと、保存後にお返しの目安が出る。</td></tr><tr><td>7</td><td>戻る</td><td>2ステップ目以降に出る。</td></tr></tbody></table>
+<p><strong>名目の一覧</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>分類</th><th>種別</th></tr></thead><tbody><tr><td>慶事</td><td>結婚／出産／入学・入園／新築・引越／昇進・退職／その他のお祝い</td></tr><tr><td>弔事</td><td>葬儀／法要／その他の弔事</td></tr><tr><td>お見舞い</td><td>お見舞い</td></tr><tr><td>ギフト</td><td>誕生日／お礼／お中元／お歳暮／その他の贈り物</td></tr></tbody></table>
+<h3 id="相手日付金額を入れる">相手・日付・金額を入れる</h3>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/08-record-wizard-2.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録する（2/3）相手・日付・金額（原寸で開く）"><img src="/images/guide/tsutsum/08-record-wizard-2.svg" alt="記録する（2/3）相手・日付・金額"></a><figcaption>記録する（2/3）相手・日付・金額</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>新しい相手</td><td>その場で相手を作れる。既存の相手を選ぶとこちらの選択は外れる。</td></tr><tr><td>2</td><td>個人／連名</td><td>切り替えると下の入力欄が変わる（個人＝ご関係／連名＝人数）。連名の名前は「営業部一同」のように入れる。</td></tr><tr><td>3</td><td>ご関係</td><td>家族／親戚／友人／同僚／上司・目上／ご近所／その他。</td></tr><tr><td>4</td><td>検索</td><td>登録済みの相手が増えてきたときだけ出る。かな・カナ・漢字の表記ゆれを吸収する。</td></tr><tr><td>5</td><td>登録済みの相手</td><td>押すと選択の印が付く（ここは自動では進まない）。</td></tr><tr><td>6</td><td>日付</td><td>既定は今日。<strong>選ばずに進んでよい唯一のステップ</strong>。</td></tr><tr><td>7</td><td>日付を選ぶ</td><td>2000年1月1日〜翌年12月31日から選べる。</td></tr><tr><td>8</td><td>相場の目安</td><td>名目とご関係から引いた金額の幅。該当するデータがあるときだけ出る。</td></tr><tr><td>9</td><td>目安を詳しく</td><td>その名目で相場の目安の画面を開く。</td></tr><tr><td>10</td><td>候補から選ぶ</td><td>「贈った」記録のときだけ出る。選ぶと品物と金額が入る。</td></tr><tr><td>11</td><td>キーボードの上のバー</td><td>金額・品物・メモを行き来する。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>金額と品物は<strong>どちらか一方が入っていれば保存できます</strong>。両方でも構いません。</li>
+<li>連名で人数を入れておくと、あとから1人あたりの額が出ます。</li>
+</ul>
+<h3 id="確認して保存する">確認して保存する</h3>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/09-record-wizard-3.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録する（3/3）確認・完了（原寸で開く）"><img src="/images/guide/tsutsum/09-record-wizard-3.svg" alt="記録する（3/3）確認・完了"></a><figcaption>記録する（3/3）確認・完了</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>内容の一覧</td><td>入力したものだけが行として並ぶ。</td></tr><tr><td>2</td><td>写真を足す</td><td>カメラかライブラリから。<strong>1件につき5枚まで</strong>。右上の×で取り消せる。</td></tr><tr><td>3</td><td>保存する</td><td>保存中は戻れない。失敗したときはこの画面に留まる。</td></tr><tr><td>4</td><td>お返しの目安</td><td>「もらった」記録で金額が入っているときだけ出る。</td></tr><tr><td>5</td><td>同じイベントにもう1件</td><td>名目・やりとり・日付を引き継いで、相手の選択に戻る。</td></tr><tr><td>6</td><td>完了</td><td>閉じる。画面の外を押しても閉じない。</td></tr></tbody></table>
+<hr>
+<h1 id="第2部-記録を見る直す">第2部 記録を見る・直す</h1>
+<h2 id="3-きろくタイムラインの見かた">3. きろく（タイムライン）の見かた</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/01-timeline.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="きろく（タイムライン）（原寸で開く）"><img src="/images/guide/tsutsum/01-timeline.svg" alt="きろく（タイムライン）"></a><figcaption>きろく（タイムライン）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>挨拶ヘッダ</td><td>上へスクロールすると、どの位置からでも戻ってくる。</td></tr><tr><td>2</td><td>虫めがね</td><td>「相手を探す」。ひとタブへ移る。</td></tr><tr><td>3</td><td>記録する</td><td>記録の入口。</td></tr><tr><td>4</td><td>バックアップの案内</td><td>30日以上バックアップしていないときだけ出る。「あとで」で一定期間しまえる。</td></tr><tr><td>5</td><td>お返し</td><td>未対応があるときに出る。行を押すとお返しの記録へ。</td></tr><tr><td>6</td><td>お祝いが近い相手</td><td>到来日の近い順に最大3件。無いときはセクションごと出ない。</td></tr><tr><td>7</td><td>月の見出し</td><td>日付の新しい順。「YYYY年M月」で区切る。</td></tr><tr><td>8</td><td>記録の行</td><td>1行＝1件。右に金額または品名。お返しがまだの記録には淡い印が付く。</td></tr></tbody></table>
+<p>記録が0件のときは、代わりに「まだ記録がありません」と、記録する／目安を調べる への案内が出ます。</p>
+<h2 id="4-記録の詳細を見る">4. 記録の詳細を見る</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/05-record-detail.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録の詳細（原寸で開く）"><img src="/images/guide/tsutsum/05-record-detail.svg" alt="記録の詳細"></a><figcaption>記録の詳細</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>編集</td><td>記録を直す。</td></tr><tr><td>2</td><td>削除</td><td>確認のうえ削除する。写真も一緒に消える。<strong>戻せない</strong>。</td></tr><tr><td>3</td><td>金額</td><td>登録されているときだけ行が出る。</td></tr><tr><td>4</td><td>1人あたり</td><td>連名で人数と金額が入っているときだけ。割り切れないときは「約 …」が付く。</td></tr><tr><td>5</td><td>品物・メモ</td><td>登録されているときだけ行が出る。</td></tr><tr><td>6</td><td>写真を足す</td><td>1件につき5枚まで。超えるとその場で知らせる。</td></tr><tr><td>7</td><td>お返しの節</td><td><strong>「もらった」記録のときだけ</strong>ここから下が出る。</td></tr><tr><td>8</td><td>お返しの状況</td><td>「これから」「今回なし」はその場で1タップ。「済んだ」だけ内容を記録する画面へ移る（記録を飛ばすこともできる）。</td></tr><tr><td>9</td><td>候補を紐づける</td><td>既存の候補をこの相手に紐づける。</td></tr><tr><td>10</td><td>候補を作る</td><td>この相手・この記録に紐づけた状態で候補を新規作成する。</td></tr><tr><td>11</td><td>紐づいた候補</td><td>1件も無いときは「候補はまだありません。」と出る。</td></tr></tbody></table>
+<h2 id="5-記録を直す">5. 記録を直す</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/06-record-edit.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録を編集（原寸で開く）"><img src="/images/guide/tsutsum/06-record-edit.svg" alt="記録を編集"></a><figcaption>記録を編集</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>相手・やりとり</td><td><strong>変更できません</strong>（記録の意味が変わってしまうため）。直したいときは削除して作り直します。</td></tr><tr><td>2</td><td>名目</td><td>「慶事・結婚」のように大分類つきで並ぶ。</td></tr><tr><td>3</td><td>日付</td><td>2000年1月1日〜翌年12月31日。</td></tr><tr><td>4</td><td>金額</td><td>数字以外は無視して取り込む。</td></tr><tr><td>5</td><td>保存</td><td>金額も品物も空だと押せない。</td></tr><tr><td>6</td><td>キーボードの上のバー</td><td>入力欄にフォーカスがあるときだけ出る。</td></tr></tbody></table>
+<hr>
+<h1 id="第3部-相手とお返し">第3部 相手とお返し</h1>
+<h2 id="6-ひと相手一覧の見かた">6. ひと（相手一覧）の見かた</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/02-people.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ひと（相手一覧）（原寸で開く）"><img src="/images/guide/tsutsum/02-people.svg" alt="ひと（相手一覧）"></a><figcaption>ひと（相手一覧）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>連絡先から取り込む</td><td>アドレス帳から<strong>手動で1回だけ取り込む</strong>（一方向）。事前説明は「続ける」だけで、閉じると端末の許可確認へ進む。</td></tr><tr><td>2</td><td>相手を追加</td><td>手で追加する。</td></tr><tr><td>3</td><td>検索</td><td>名前の部分一致。かな・カナ・漢字の表記ゆれを吸収する。</td></tr><tr><td>4</td><td>表示方式</td><td>横スクロールするピル列で切り替える。</td></tr><tr><td>5</td><td>相手の行</td><td>1行＝1人。副文は表示方式によって収支・誕生日・お返し件数に変わる。</td></tr><tr><td>6</td><td>関係ごとのタブ</td><td>登録のある関係だけが件数つきで並ぶ。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>取り込みは<strong>取り込むだけ</strong>です。tsutsum 側の変更がアドレス帳に書き戻されることはありません。</li>
+<li>相手が0人のときは「連絡先から取り込む」だけが出ます。</li>
+</ul>
+<h2 id="7-相手を追加する編集する">7. 相手を追加する・編集する</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/17-person-form.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="相手を追加／編集（原寸で開く）"><img src="/images/guide/tsutsum/17-person-form.svg" alt="相手を追加／編集"></a><figcaption>相手を追加／編集</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>アイコン</td><td>右下のバッジを押すとシートが開く（写真から選ぶ／カメラで撮る／外す）。</td></tr><tr><td>2</td><td>アイコンの文言</td><td>未設定なら「アイコンを設定」、設定済みなら「アイコンを変える」。</td></tr><tr><td>3</td><td>ご関係</td><td>家族／親戚／友人／同僚／上司・目上／ご近所／その他。</td></tr><tr><td>4</td><td>人数</td><td>連名の相手のときだけ出る。</td></tr><tr><td>5</td><td>誕生日</td><td>月・日はドロップダウン（「—」で未設定に戻せる）、年は任意。</td></tr><tr><td>6</td><td>お祝いの通知</td><td>月と日が両方そろっているときだけ出る、この相手だけの切り替え。</td></tr><tr><td>7</td><td>住所・連絡先・メモ</td><td>すべて任意。香典返しの発送先などに使える。</td></tr><tr><td>8</td><td>保存</td><td>お名前が入っていれば押せる（連名は人数も必要）。</td></tr><tr><td>9</td><td>キーボードの上のバー</td><td>入力欄にフォーカスがあるときだけ出る。</td></tr></tbody></table>
+<h3 id="アイコンを設定する">アイコンを設定する</h3>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/18-avatar-crop.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="アイコンの設定・切り抜き（原寸で開く）"><img src="/images/guide/tsutsum/18-avatar-crop.svg" alt="アイコンの設定・切り抜き"></a><figcaption>アイコンの設定・切り抜き</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>写真から選ぶ</td><td>選んだ画像を切り抜き画面へ渡す。</td></tr><tr><td>2</td><td>カメラで撮る</td><td>撮った写真も同じ切り抜き画面へ。</td></tr><tr><td>3</td><td>画像を外す</td><td>アイコンが設定されているときだけ出る。</td></tr><tr><td>4</td><td>位置を合わせる</td><td>円形のガイドに合わせる。等倍〜5倍まで拡大できる。</td></tr><tr><td>5</td><td>決定</td><td>切り抜いた画像を返す。処理中は閉じられない。</td></tr></tbody></table>
+<h2 id="8-相手の情報を見る">8. 相手の情報を見る</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/16-person-detail.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="相手の情報（人物詳細）（原寸で開く）"><img src="/images/guide/tsutsum/16-person-detail.svg" alt="相手の情報（人物詳細）"></a><figcaption>相手の情報（人物詳細）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>編集</td><td>プロフィールの編集へ。</td></tr><tr><td>2</td><td>削除</td><td><strong>記録が残っている相手は削除できません</strong>。件数を添えて知らせます。</td></tr><tr><td>3</td><td>プロフィール</td><td>未入力の項目は「未登録」と細字で置く。</td></tr><tr><td>4</td><td>連絡先との紐づけ</td><td>アドレス帳と紐づいた相手にだけ出る。解除しても取り込んだ情報や記録は残る。</td></tr><tr><td>5</td><td>収支</td><td>もらった・包んだの合計金額と件数。</td></tr><tr><td>6</td><td>候補を紐づける</td><td>既存の候補をこの相手に紐づける。</td></tr><tr><td>7</td><td>候補を作る</td><td>この相手に紐づけた状態で新規作成する。</td></tr><tr><td>8</td><td>紐づいた候補</td><td>無いときは「候補はまだありません。」。</td></tr><tr><td>9</td><td>この相手との記録</td><td>新しい順。無いときは「まだ記録がありません。」。</td></tr></tbody></table>
+<h2 id="9-お返しを管理する">9. お返しを管理する</h2>
+<p>「もらった」記録には、保存と同時にお返しの管理が付きます。状況は3つです。</p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">stateDiagram-v2
+  [*] --> これから: 「もらった」記録を保存
+  これから --> 済んだ: お返しを記録する
+  これから --> 今回なし: お返しはしないと決める
+  済んだ --> これから: 状況を戻す
+  今回なし --> これから: 状況を戻す
+  済んだ --> [*]
+</pre></figure>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/10-returns.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="お返し（一覧・記録）（原寸で開く）"><img src="/images/guide/tsutsum/10-returns.svg" alt="お返し（一覧・記録）"></a><figcaption>お返し（一覧・記録）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>絞り込み</td><td>状況で切り替える。既定は「これから」。</td></tr><tr><td>2</td><td>お返しの行</td><td>名目・日付・もらった金額（または品物）。「これから」のときだけ目安の行が付く。</td></tr><tr><td>3</td><td>目安</td><td>もらった額の<strong>3分の1〜半分</strong>。連名は「1人あたり」が基準。名目ごとの時期の目安も添える。</td></tr><tr><td>4</td><td>候補から選ぶ</td><td>アイデアにためた候補から選ぶ。品物名が入り、金額が空なら目安金額も入る。</td></tr><tr><td>5</td><td>日付</td><td>既定は今日。</td></tr><tr><td>6</td><td>保存</td><td><strong>全項目が任意</strong>。何も入れずに押して、状況だけ「済んだ」にもできる。</td></tr><tr><td>7</td><td>急かさない一文</td><td>あとから記録しても構いません。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>「贈った」記録にはお返しの管理は付きません。</li>
+<li>金額の目安は<strong>幅</strong>で出します。正解を断定するものではありません。</li>
+</ul>
+<h2 id="10-相場の目安を調べる">10. 相場の目安を調べる</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/11-market-price.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="相場の目安（原寸で開く）"><img src="/images/guide/tsutsum/11-market-price.svg" alt="相場の目安"></a><figcaption>相場の目安</figcaption></figure>
+<p>いくら包めばよいか迷ったときに引きます。通信しないので圏外でも使えます。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>名目</td><td>相場データを持つ名目だけが並ぶ。</td></tr><tr><td>2</td><td>金額の表</td><td>ご関係ごとの金額の幅。7つの関係すべてを並べ、データが無い組み合わせは「—」。</td></tr><tr><td>3</td><td>弔事の注記</td><td>弔事の名目のときだけ添える。</td></tr><tr><td>4</td><td>注意書き</td><td>常に最後に置く。</td></tr></tbody></table>
+<p>記録の「金額」のステップからも、その名目を選んだ状態で開けます。</p>
+<hr>
+<h1 id="第4部-贈りもの候補アイデア">第4部 贈りもの候補（アイデア）</h1>
+<h2 id="11-候補をためる">11. 候補をためる</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/03-gift-ideas.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="アイデア（贈りもの候補の一覧）（原寸で開く）"><img src="/images/guide/tsutsum/03-gift-ideas.svg" alt="アイデア（贈りもの候補の一覧）"></a><figcaption>アイデア（贈りもの候補の一覧）</figcaption></figure>
+<p>「これを贈ろうかな」を思いついたときにためておく場所です。お返しを記録するときに、ここから選べます。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>候補を追加</td><td>新しい候補を作る。</td></tr><tr><td>2</td><td>一覧／アーカイブ</td><td>「アーカイブ」はしまった分。既定は「一覧」。</td></tr><tr><td>3</td><td>写真ありのタイル</td><td>サムネイルの上にタイトルを重ねる。左上に紐づけた相手、右上に「…」。</td></tr><tr><td>4</td><td>写真なしのタイル</td><td>タイトル主役。目安金額とメモ抜粋を控えめに添える。</td></tr><tr><td>5</td><td>グリッド</td><td>新しい順。画面の幅に応じて列数が変わる。</td></tr><tr><td>6</td><td>リンクを開く</td><td>候補にURLが入っているときだけ出る。</td></tr><tr><td>7</td><td>アーカイブ</td><td>アーカイブ中の候補では「一覧に戻す」に変わる。</td></tr><tr><td>8</td><td>削除</td><td>確認のうえ削除し、写真も消える。<strong>戻せない</strong>。</td></tr></tbody></table>
+<h2 id="12-候補を追加する編集する">12. 候補を追加する・編集する</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/19-gift-idea-form.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="候補を追加／編集（原寸で開く）"><img src="/images/guide/tsutsum/19-gift-idea-form.svg" alt="候補を追加／編集"></a><figcaption>候補を追加／編集</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>名前</td><td><strong>唯一の必須項目</strong>。ここが空だと保存できない。</td></tr><tr><td>2</td><td>相手のチップ</td><td>選んだ相手。×で個別に外せる。</td></tr><tr><td>3</td><td>相手を選ぶ</td><td>検索つきの複数選択。相手が1人もいないときはこの節ごと出ない。</td></tr><tr><td>4</td><td>写真</td><td><strong>1枚だけ</strong>。設定済みならサムネイルに変わり、右上の×で外せる。</td></tr><tr><td>5</td><td>保存</td><td>名前が入っていれば押せる。</td></tr></tbody></table>
+<p>記録の詳細や相手の情報から作ると、その相手・記録に紐づいた状態で始まります。</p>
+<h2 id="13-候補の詳細">13. 候補の詳細</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/20-gift-idea-detail.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="アイデア（候補の詳細）（原寸で開く）"><img src="/images/guide/tsutsum/20-gift-idea-detail.svg" alt="アイデア（候補の詳細）"></a><figcaption>アイデア（候補の詳細）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>編集</td><td>候補の編集へ。</td></tr><tr><td>2</td><td>「…」</td><td>アーカイブ・削除のシートを開く。</td></tr><tr><td>3</td><td>写真</td><td>登録されているときだけ、先頭に大きく出る。</td></tr><tr><td>4</td><td>目安金額</td><td>入っているときだけ出る。</td></tr><tr><td>5</td><td>リンク</td><td>押すと外部ブラウザで開く。</td></tr><tr><td>6</td><td>メモ</td><td>入っているときだけ節ごと出る。</td></tr><tr><td>7</td><td>紐づいた相手</td><td>押すとその相手の情報へ。1人もいなければ節ごと出ない。</td></tr><tr><td>8</td><td>アーカイブ</td><td>アーカイブ中は「一覧に戻す」に変わる。</td></tr><tr><td>9</td><td>削除</td><td>確認のうえ削除し、写真も消える。<strong>戻せない</strong>。</td></tr></tbody></table>
+<hr>
+<h1 id="第5部-通知データ設定">第5部 通知・データ・設定</h1>
+<h2 id="14-リマインドを設定する">14. リマインドを設定する</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/12-reminder-settings.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="リマインド（通知の設定）（原寸で開く）"><img src="/images/guide/tsutsum/12-reminder-settings.svg" alt="リマインド（通知の設定）"></a><figcaption>リマインド（通知の設定）</figcaption></figure>
+<p>お返しの時期や、お祝いの日が近づいたときに知らせます。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>名目ごとのリマインド</td><td>リマインドを持つ名目だけが並ぶ（葬儀・結婚・出産・お見舞い・誕生日・お中元・お歳暮の7つ）。</td></tr><tr><td>2</td><td>日数</td><td>「◯日後」（もらった日から）は 7/10/14/21/30/42/49、「◯日前」（到来日に向けて）は 3/5/7/10/14/21/30。</td></tr><tr><td>3</td><td>オフの行</td><td>日数を出さず「オフ」と表示する。</td></tr><tr><td>4</td><td>お祝いのリマインド</td><td>記録によらないお祝い。誕生日は「誕生日を登録した相手」、長寿は「生まれ年のある相手」が対象。</td></tr><tr><td>5</td><td>通知の許可</td><td>オンにするとき端末の許可を求める。許可されなければオフのまま戻る。</td></tr></tbody></table>
+<h2 id="15-バックアップと復元">15. バックアップと復元</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/13-backup.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="バックアップ（原寸で開く）"><img src="/images/guide/tsutsum/13-backup.svg" alt="バックアップ"></a><figcaption>バックアップ</figcaption></figure>
+<p>記録は端末の中だけにあります。<strong>機種変更や端末の故障に備えて、ときどきバックアップを取ってください。</strong></p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">flowchart TD
+  A["端末の記録"] -->|"バックアップを作る"| Z["zipファイル"]
+  Z -->|"共有シート"| C["ご自身のクラウド&#x3C;br/>iCloud Drive / Google ドライブ"]
+  C -->|"ファイルを選ぶ"| R["復元&#x3C;br/>（丸ごと置き換え）"]
+  R --> A
+</pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>最終バックアップ</td><td>一度も取っていなければ「まだバックアップしていません」と出る。</td></tr><tr><td>2</td><td>バックアップを作る</td><td>zipを作って共有シートに渡す。保存・送信が完了したときだけ日時が更新される。</td></tr><tr><td>3</td><td>保存先の案内</td><td>端末によって文言が変わる（iOS＝iCloud Drive、Android＝Google ドライブ）。</td></tr><tr><td>4</td><td>復元</td><td>zipを選び、壊れていないか・アプリより新しくないかを確かめてから、いまの記録の件数を添えて確認する。</td></tr><tr><td>5</td><td>自動バックアップの案内</td><td>案内のみで操作はない。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>保存先は<strong>ご自身のクラウド</strong>です。開発者側にデータは渡りません。</li>
+<li>復元するとデータは<strong>丸ごと置き換わり</strong>、いまの記録は消えます。<strong>取り消せません</strong>。</li>
+<li>アプリより新しいバージョンで作られたバックアップは読み込めません。先にアプリを更新してください。</li>
+</ul>
+<h2 id="16-そのほかタブ">16. そのほかタブ</h2>
+<figure class="guide-figure"><a href="/images/guide/tsutsum/04-others.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="そのほか（設定・情報）（原寸で開く）"><img src="/images/guide/tsutsum/04-others.svg" alt="そのほか（設定・情報）"></a><figcaption>そのほか（設定・情報）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>相場の目安</td><td>名目・ご関係から金額の目安を引く。</td></tr><tr><td>2</td><td>リマインド</td><td>お返し・お祝いの通知の設定。</td></tr><tr><td>3</td><td>バックアップ</td><td>ファイルへの書き出しと読み込み。</td></tr><tr><td>6</td><td>レビューを書く</td><td>ストアのレビューを外部ブラウザで開く。</td></tr><tr><td>7</td><td>お問い合わせ</td><td>問い合わせフォームを開く。</td></tr><tr><td>8</td><td>規約・プライバシー</td><td>いずれも外部ブラウザで開く。</td></tr><tr><td>9</td><td>アプリの情報</td><td>アプリ名とバージョン。表示のみ。</td></tr><tr><td>10</td><td>ライセンス</td><td>同梱ライブラリのライセンス一覧を開く。</td></tr></tbody></table>
+<blockquote>
+<p>図の 4「エクスポート」と 5「tsutsum Pro」は準備中の項目で、いまは表示されません。</p>
+</blockquote>
+<hr>
+<h1 id="巻末">巻末</h1>
+<h2 id="困ったとき">困ったとき</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>症状</th><th>対処</th></tr></thead><tbody><tr><td>相手を削除できない</td><td>その相手の記録が残っています。先に記録を消してから削除してください。</td></tr><tr><td>記録の相手／贈った・もらったを直したい</td><td>この2つは変更できません。削除して作り直してください。</td></tr><tr><td>保存ボタンが押せない</td><td>記録は金額か品物のどちらかが必要です。相手は名前（連名は人数も）、候補は名前が必要です。</td></tr><tr><td>写真がこれ以上追加できない</td><td>記録は1件5枚まで、贈りもの候補は1枚までです。</td></tr><tr><td>お返しの節が出てこない</td><td>「もらった」記録にだけ出ます。「贈った」記録には付きません。</td></tr><tr><td>通知が来ない</td><td>リマインドの設定がオフか、端末側で通知が許可されていない可能性があります。</td></tr><tr><td>相場の目安に金額が出ない</td><td>その名目とご関係の組み合わせにデータがありません（「—」で表示されます）。</td></tr><tr><td>バックアップを読み込めない</td><td>ファイルが壊れているか、いまのアプリより新しいバージョンで作られています。アプリを更新してからお試しください。</td></tr><tr><td>機種変更したい</td><td>旧端末でバックアップを作り、新端末で復元してください（→ <a href="#15-%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%81%A8%E5%BE%A9%E5%85%83">15. バックアップと復元</a>）。</td></tr><tr><td>それでも解決しない</td><td>そのほかタブ → お問い合わせ（<code>https://ynetlabo.net/contact</code>）からご連絡ください。</td></tr></tbody></table>
+<h2 id="プライバシーについて">プライバシーについて</h2>
+<ul>
+<li>記録・写真はすべて<strong>端末の中</strong>に保存されます。サーバーには送られません。</li>
+<li>アカウント登録は不要です。</li>
+<li>バックアップの保存先は、ご自身のクラウド（iCloud Drive／Google ドライブ）です。</li>
+<li>連絡先の取り込みは、許可したときに<strong>一度だけ・取り込む方向のみ</strong>行います。</li>
+</ul> <script type="module" src="/_astro/GuideDiagrams.astro_astro_type_script_index_0_lang.BlIo-dZ_.js"></script> </div> <aside class="guide-aside" data-astro-cid-yhdcghlb> <nav aria-label="目次" data-astro-cid-7fpw2346="true" class="guide-toc"><p class="guide-toc__title" data-astro-cid-7fpw2346>目次</p><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#用語" data-astro-cid-7fpw2346>用語</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#全体の流れ" data-astro-cid-7fpw2346>全体の流れ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第1部-はじめかた" data-astro-cid-7fpw2346>第1部 はじめかた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#1-tsutsum-でできること" data-astro-cid-7fpw2346>1. tsutsum でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#2-はじめての記録--6つのステップ" data-astro-cid-7fpw2346>2. はじめての記録 — 6つのステップ</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#名目とやりとりを選ぶ" data-astro-cid-7fpw2346>名目とやりとりを選ぶ</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#相手日付金額を入れる" data-astro-cid-7fpw2346>相手・日付・金額を入れる</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#確認して保存する" data-astro-cid-7fpw2346>確認して保存する</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第2部-記録を見る直す" data-astro-cid-7fpw2346>第2部 記録を見る・直す</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#3-きろくタイムラインの見かた" data-astro-cid-7fpw2346>3. きろく（タイムライン）の見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#4-記録の詳細を見る" data-astro-cid-7fpw2346>4. 記録の詳細を見る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#5-記録を直す" data-astro-cid-7fpw2346>5. 記録を直す</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第3部-相手とお返し" data-astro-cid-7fpw2346>第3部 相手とお返し</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#6-ひと相手一覧の見かた" data-astro-cid-7fpw2346>6. ひと（相手一覧）の見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#7-相手を追加する編集する" data-astro-cid-7fpw2346>7. 相手を追加する・編集する</a> </li><li class="guide-toc__item guide-toc__item--d3" data-astro-cid-7fpw2346> <a href="#アイコンを設定する" data-astro-cid-7fpw2346>アイコンを設定する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#8-相手の情報を見る" data-astro-cid-7fpw2346>8. 相手の情報を見る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#9-お返しを管理する" data-astro-cid-7fpw2346>9. お返しを管理する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#10-相場の目安を調べる" data-astro-cid-7fpw2346>10. 相場の目安を調べる</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第4部-贈りもの候補アイデア" data-astro-cid-7fpw2346>第4部 贈りもの候補（アイデア）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#11-候補をためる" data-astro-cid-7fpw2346>11. 候補をためる</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#12-候補を追加する編集する" data-astro-cid-7fpw2346>12. 候補を追加する・編集する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#13-候補の詳細" data-astro-cid-7fpw2346>13. 候補の詳細</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第5部-通知データ設定" data-astro-cid-7fpw2346>第5部 通知・データ・設定</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#14-リマインドを設定する" data-astro-cid-7fpw2346>14. リマインドを設定する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#15-バックアップと復元" data-astro-cid-7fpw2346>15. バックアップと復元</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#16-そのほかタブ" data-astro-cid-7fpw2346>16. そのほかタブ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#巻末" data-astro-cid-7fpw2346>巻末</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#困ったとき" data-astro-cid-7fpw2346>困ったとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#プライバシーについて" data-astro-cid-7fpw2346>プライバシーについて</a> </li> </ol> </nav>   </aside> </div> <div class="wrap guide-foot" data-astro-cid-yhdcghlb> <p class="guide-foot__note" data-astro-cid-yhdcghlb>
+解決しないときは<a href="/contact" data-astro-cid-yhdcghlb>お問い合わせ</a>からご連絡ください。
+</p> <a href="/guide" class="btn btn-ghost" data-astro-cid-yhdcghlb>← 使い方ガイド一覧へ</a> </div> </article>  </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/guide" data-astro-cid-sz7xmlte>使い方ガイド</a></li><li data-astro-cid-sz7xmlte><a href="/skills" data-astro-cid-sz7xmlte>スキル</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 

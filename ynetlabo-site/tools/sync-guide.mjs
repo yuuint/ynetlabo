@@ -16,7 +16,11 @@ const siteRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 /** GitHub/ 直下に全リポジトリが並んでいる前提 */
 const reposRoot = resolve(siteRoot, "../..");
 
-/** @type {{slug: string, app: string, title: string, description: string, src: string, images: string, draft: boolean}[]} */
+/**
+ * @type {{slug: string, app: string, title: string, description: string,
+ *   src: string, images: string, imagePrefix?: string, draft: boolean}[]}
+ * imagePrefix は原稿の中で図を指しているパス（既定 "images/"）。
+ */
 const GUIDES = [
   {
     slug: "soroe",
@@ -37,6 +41,17 @@ const GUIDES = [
       "割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。",
     src: "wari-ios/docs/user-guide/user-guide.md",
     images: "wari-ios/docs/user-guide/images",
+    draft: false,
+  },
+  {
+    slug: "tsutsum",
+    app: "tsutsum",
+    title: "tsutsum 使い方ガイド",
+    description:
+      "慶弔記録アプリ tsutsum の使い方ガイド。ご祝儀・香典の記録から、お返しの管理・相場の目安・リマインド・バックアップまで、画面図つきで説明します。",
+    src: "tsutsum/docs/user-guide.md",
+    images: "tsutsum/docs/screens",
+    imagePrefix: "screens/",
     draft: false,
   },
 ];
@@ -70,7 +85,9 @@ function parseHeading(line) {
  * 開発者向けの節・行を落として、画像パスをサイト内の絶対パスに直す。
  * 併せて、ページ側でヘッダとして描く先頭の H1 を取り除く。
  */
-function transform(markdown, slug) {
+function transform(markdown, slug, imagePrefix = "images/") {
+  const from = `](${imagePrefix}`;
+  const to = `](/images/guide/${slug}/`;
   const out = [];
   /** 除去中の節のレベル（0 = 除去していない） */
   let skipLevel = 0;
@@ -85,7 +102,7 @@ function transform(markdown, slug) {
       else if (fenceMark[0] === fence) fence = null;
     }
     if (fence !== null || fenceMark) {
-      if (!skipLevel) out.push(line.replaceAll("](images/", `](/images/guide/${slug}/`));
+      if (!skipLevel) out.push(line.replaceAll(from, to));
       continue;
     }
 
@@ -109,7 +126,7 @@ function transform(markdown, slug) {
 
     if (DEV_ONLY_LINK_PATTERNS.some((p) => line.includes(p))) continue;
 
-    out.push(line.replaceAll("](images/", `](/images/guide/${slug}/`));
+    out.push(line.replaceAll(from, to));
   }
 
   return out
@@ -122,18 +139,31 @@ function transform(markdown, slug) {
 /** frontmatter 値のクォート（原稿由来の文字列が入るので最低限のエスケープをする） */
 const yamlString = (s) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
-async function syncImages(fromDir, toDir) {
+/**
+ * 本文から参照されている図だけをコピーする。
+ * 原稿と同じ場所には未公開機能の図も置かれているので、まとめて配信しない。
+ */
+async function syncImages(fromDir, toDir, body, slug) {
   await rm(toDir, { recursive: true, force: true });
   await mkdir(toDir, { recursive: true });
 
+  const referenced = new Set(
+    [...body.matchAll(new RegExp(`/images/guide/${slug}/([^)\\s]+)`, "g"))].map((m) => m[1])
+  );
+
   const entries = await readdir(fromDir, { withFileTypes: true });
   const images = entries.filter(
-    (e) => e.isFile() && [".svg", ".png", ".jpg", ".jpeg", ".webp"].includes(extname(e.name).toLowerCase())
+    (e) =>
+      e.isFile() &&
+      [".svg", ".png", ".jpg", ".jpeg", ".webp"].includes(extname(e.name).toLowerCase()) &&
+      referenced.has(e.name)
   );
   for (const image of images) {
     await copyFile(join(fromDir, image.name), join(toDir, image.name));
   }
-  return images.length;
+
+  const missing = [...referenced].filter((name) => !images.some((i) => i.name === name));
+  return { copied: images.length, missing };
 }
 
 for (const guide of GUIDES) {
@@ -141,7 +171,7 @@ for (const guide of GUIDES) {
   const raw = await readFile(srcPath, "utf8");
   const { mtime } = await stat(srcPath);
 
-  const body = transform(raw, guide.slug);
+  const body = transform(raw, guide.slug, guide.imagePrefix);
   const frontmatter = [
     "---",
     `title: ${yamlString(guide.title)}`,
@@ -161,10 +191,16 @@ for (const guide of GUIDES) {
   await mkdir(dirname(outPath), { recursive: true });
   await writeFile(outPath, `${frontmatter}${body}\n`, "utf8");
 
-  const imageCount = await syncImages(
+  const { copied, missing } = await syncImages(
     join(reposRoot, guide.images),
-    join(siteRoot, "public/images/guide", guide.slug)
+    join(siteRoot, "public/images/guide", guide.slug),
+    body,
+    guide.slug
   );
 
-  console.log(`${guide.slug}: 本文 ${body.split("\n").length} 行 / 図 ${imageCount} 枚 <- ${guide.src}`);
+  console.log(`${guide.slug}: 本文 ${body.split("\n").length} 行 / 図 ${copied} 枚 <- ${guide.src}`);
+  if (missing.length) {
+    console.error(`  ⚠️ 本文が参照しているのに見つからない図: ${missing.join(", ")}`);
+    process.exitCode = 1;
+  }
 }
