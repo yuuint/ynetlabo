@@ -17,4 +17,23 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+/**
+ * アプリの使い方ガイド。本文はアプリ側リポジトリの docs/ が正で、
+ * `npm run sync:guide`（tools/sync-guide.mjs）が生成する。
+ */
+const guide = defineCollection({
+  loader: glob({ base: "./src/content/guide", pattern: "**/*.md" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    /** consts.ts の PROJECTS[].name と対応（アイコン・ストアリンクを引く） */
+    app: z.string(),
+    updated: z.coerce.date(),
+    /** true の間は noindex かつ一覧に出さない */
+    draft: z.boolean().default(false),
+    /** 生成元のパス（GitHub/ からの相対） */
+    source: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, guide };

@@ -1,0 +1,1373 @@
+<!DOCTYPE html><html lang="ja" data-astro-cid-37fxchfa> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#e7ebf2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#272b34" media="(prefers-color-scheme: dark)"><!-- Resolve theme before paint to avoid a flash --><script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="Y.NetLabo — 記事" href="/rss.xml"><link rel="canonical" href="https://ynetlabo.net/guide/wa-ri/"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><title>wa/ri 使い方ガイド | Y.NetLabo</title><meta name="description" content="割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Y.NetLabo"><meta property="og:title" content="wa/ri 使い方ガイド | Y.NetLabo"><meta property="og:description" content="割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。"><meta property="og:url" content="https://ynetlabo.net/guide/wa-ri/"><meta property="og:image" content="https://ynetlabo.net/og.png"><meta property="og:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@ynetlabo"><meta name="twitter:creator" content="@ynetlabo"><meta name="twitter:title" content="wa/ri 使い方ガイド | Y.NetLabo"><meta name="twitter:description" content="割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。"><meta name="twitter:image" content="https://ynetlabo.net/og.png"><meta name="twitter:image:alt" content="Y.NetLabo — シンプルなアプリに、少しのペンギンを"><!-- Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ynetlabo.net/#org","name":"Y.NetLabo","url":"https://ynetlabo.net/","logo":"https://ynetlabo.net/ynetlabo-logo.png","email":"ynetlabo@gmail.com","sameAs":["https://github.com/yuuint","https://x.com/ynetlabo","https://qiita.com/ynetlabo"]},{"@type":"WebSite","@id":"https://ynetlabo.net/#website","name":"Y.NetLabo","url":"https://ynetlabo.net/","description":"Y.NetLabo は、シンプルで使いやすいアプリを個人開発するラボです。不要な機能をそぎ落とし、本当に必要な機能だけを丁寧に作っています。","inLanguage":"ja","publisher":{"@id":"https://ynetlabo.net/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://ynetlabo.net/"},{"@type":"ListItem","position":2,"name":"使い方ガイド","item":"https://ynetlabo.net/guide"},{"@type":"ListItem","position":3,"name":"wa/ri 使い方ガイド","item":"https://ynetlabo.net/guide/wa-ri"}]}]}</script><!-- Google Analytics 4 (production only) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LSBSP801C4"></script><script>(function(){const gaId = "G-LSBSP801C4";
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaId);
+          })();</script><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/account.BDFePIbi.css">
+<style>.guide-toc[data-astro-cid-7fpw2346]{font-size:.86rem;line-height:1.6}.guide-toc__title[data-astro-cid-7fpw2346]{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}.guide-toc__list[data-astro-cid-7fpw2346]{margin-top:.9rem;max-height:calc(100vh - 12rem);overflow-y:auto;padding-right:.5rem}.guide-toc__item[data-astro-cid-7fpw2346]+.guide-toc__item[data-astro-cid-7fpw2346]{margin-top:.15rem}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{display:block;padding:.3rem .6rem;border-radius:8px;color:var(--color-muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]:hover{color:var(--color-accent-ink);border-left-color:var(--color-accent)}.guide-toc__item--d1[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{margin-top:.7rem;font-weight:700;color:var(--color-ink)}.guide-toc__item--d3[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346]{padding-left:1.5rem;font-size:.94em}.guide-toc__item[data-astro-cid-7fpw2346] a[data-astro-cid-7fpw2346][aria-current=true]{color:var(--color-accent-ink);font-weight:700;border-left-color:var(--color-accent);background:var(--color-mist)}.guide-toc--collapsible[data-astro-cid-7fpw2346]{background:var(--color-bg);border-radius:var(--radius-card);box-shadow:var(--shadow-sm);padding:1rem 1.1rem}.guide-toc--collapsible[data-astro-cid-7fpw2346]>.guide-toc__title[data-astro-cid-7fpw2346]{cursor:pointer;display:flex;align-items:center;gap:.5rem}.guide-toc--collapsible[data-astro-cid-7fpw2346] .guide-toc__list[data-astro-cid-7fpw2346]{max-height:22rem}.guide-head[data-astro-cid-yhdcghlb]{padding-top:2.5rem;padding-bottom:2rem;background:var(--color-mist)}.crumbs[data-astro-cid-yhdcghlb]{display:flex;gap:.5rem;font-size:.82rem;color:var(--color-muted);margin-bottom:1.25rem}.crumbs[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]{color:var(--color-muted);text-decoration:none}.crumbs[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]:hover{color:var(--color-ink)}.guide-head__row[data-astro-cid-yhdcghlb]{display:flex;align-items:center;gap:1rem}.guide-head__icon[data-astro-cid-yhdcghlb]{width:3.5rem;height:3.5rem;flex-shrink:0;border-radius:22.5%;box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 22%,transparent),var(--shadow-sm)}.guide-head__title[data-astro-cid-yhdcghlb]{font-size:clamp(1.5rem,1.2rem + 1.6vw,2.1rem);line-height:1.3}.guide-head__tag[data-astro-cid-yhdcghlb]{font-size:.85rem;font-weight:700;color:var(--color-muted)}.guide-head__desc[data-astro-cid-yhdcghlb]{margin-top:1.1rem;max-width:44rem;color:var(--color-body);font-size:.94rem}.guide-head__meta[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-top:1.1rem;font-size:.82rem;color:var(--color-muted)}.guide-head__links[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}.btn-sm[data-astro-cid-yhdcghlb]{padding:.5rem 1.1rem;font-size:.84rem}.guide-body[data-astro-cid-yhdcghlb]{display:grid;grid-template-columns:minmax(0,1fr) 15rem;gap:3rem;align-items:start;padding-block:3rem}.guide-aside[data-astro-cid-yhdcghlb]{position:sticky;top:5.5rem}.guide-toc-mobile[data-astro-cid-yhdcghlb]{display:none}.guide-foot[data-astro-cid-yhdcghlb]{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:4rem;padding-top:2rem;border-top:1px solid var(--color-line)}.guide-foot__note[data-astro-cid-yhdcghlb]{font-size:.88rem;color:var(--color-muted)}.guide-foot__note[data-astro-cid-yhdcghlb] a[data-astro-cid-yhdcghlb]{color:var(--color-accent-ink);font-weight:700}@media(max-width:900px){.guide-body[data-astro-cid-yhdcghlb]{grid-template-columns:1fr;gap:1.75rem}.guide-aside[data-astro-cid-yhdcghlb]{display:none}.guide-toc-mobile[data-astro-cid-yhdcghlb]{display:block}}
+</style></head> <body data-astro-cid-37fxchfa> <a href="#main" class="skip-link" data-astro-cid-37fxchfa>本文へスキップ</a> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="wrap header-inner" data-astro-cid-3ef6ksr2> <a href="/" class="brand" aria-label="Y.NetLabo" data-astro-cid-3ef6ksr2> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="brand-logo" width="891" height="231" data-astro-cid-3ef6ksr2> </a> <nav class="nav" aria-label="グローバルナビゲーション" data-astro-cid-3ef6ksr2> <a href="/" class="nav-link" data-astro-cid-3ef6ksr2> ホーム </a><a href="/guide" class="nav-link active" data-astro-cid-3ef6ksr2> 使い方ガイド </a><a href="/article" class="nav-link" data-astro-cid-3ef6ksr2> 記事 </a><a href="/archives/category/notice" class="nav-link" data-astro-cid-3ef6ksr2> お知らせ </a> <a href="/contact" class="btn btn-accent nav-cta" data-astro-cid-3ef6ksr2>お問い合わせ</a> </nav> <div class="header-actions" data-astro-cid-3ef6ksr2> <button class="theme-toggle" aria-label="テーマを切り替える" type="button" data-astro-cid-3ef6ksr2> <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <circle cx="12" cy="12" r="4" data-astro-cid-3ef6ksr2></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-3ef6ksr2></path> </svg> <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-3ef6ksr2> <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-3ef6ksr2></path> </svg> </button> <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span><span data-astro-cid-3ef6ksr2></span> </button> </div> </div> </header>  <script type="module">const o=document.querySelector(".nav-toggle"),n=document.querySelector(".nav");o?.addEventListener("click",()=>{const e=n?.classList.toggle("open");o.setAttribute("aria-expanded",String(!!e))});const c=document.querySelector(".theme-toggle");c?.addEventListener("click",()=>{const e=document.documentElement,t=e.dataset.theme==="dark"?"light":"dark";e.dataset.theme=t;try{localStorage.setItem("theme",t)}catch{}});</script> <main id="main" data-astro-cid-37fxchfa>  <article class="guide" data-astro-cid-yhdcghlb> <header class="guide-head" data-astro-cid-yhdcghlb> <div class="wrap" data-astro-cid-yhdcghlb> <nav class="crumbs" aria-label="パンくず" data-astro-cid-yhdcghlb> <a href="/" data-astro-cid-yhdcghlb>ホーム</a><span data-astro-cid-yhdcghlb>/</span><a href="/guide" data-astro-cid-yhdcghlb>使い方ガイド</a> </nav> <div class="guide-head__row" style="--brand:#f97316" data-astro-cid-yhdcghlb> <img class="guide-head__icon" src="/images/apps/wari.png" alt="wa/ri アプリアイコン" width="64" height="64" data-astro-cid-yhdcghlb> <div data-astro-cid-yhdcghlb> <h1 class="guide-head__title" data-astro-cid-yhdcghlb>wa/ri 使い方ガイド</h1> <p class="guide-head__tag" data-astro-cid-yhdcghlb>割り勘計算アプリ</p> </div> </div> <p class="guide-head__desc" data-astro-cid-yhdcghlb>割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。</p> <div class="guide-head__meta" data-astro-cid-yhdcghlb> <span data-astro-cid-yhdcghlb>最終更新 <time datetime="2026-08-08T02:31:53.578Z" data-astro-cid-yhdcghlb>2026年8月8日</time></span>  </div> <div class="guide-head__links" data-astro-cid-yhdcghlb> <a class="btn btn-ghost btn-sm" href="https://apps.apple.com/jp/app/wa-ri/id6743655018" target="_blank" rel="noopener noreferrer" data-astro-cid-yhdcghlb> App Store </a><a class="btn btn-ghost btn-sm" href="https://play.google.com/store/apps/details?id=ynetlabo.net.wari" target="_blank" rel="noopener noreferrer" data-astro-cid-yhdcghlb> Google Play </a><a class="btn btn-ghost btn-sm" href="https://wa-ri.ynetlabo.net/" target="_blank" rel="noopener noreferrer" data-astro-cid-yhdcghlb> Web版 </a> </div> </div> </header> <div class="wrap guide-body" data-astro-cid-yhdcghlb> <div class="guide-toc-mobile" data-astro-cid-yhdcghlb> <details data-astro-cid-7fpw2346="true" class="guide-toc guide-toc--collapsible"><summary class="guide-toc__title" data-astro-cid-7fpw2346>目次</summary><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#用語" data-astro-cid-7fpw2346>用語</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#全体の流れ" data-astro-cid-7fpw2346>全体の流れ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第1部-はじめかた" data-astro-cid-7fpw2346>第1部 はじめかた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#1-wari-でできること" data-astro-cid-7fpw2346>1. wa/ri でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#2-はじめての割り勘--3ステップ" data-astro-cid-7fpw2346>2. はじめての割り勘 — 3ステップ</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#3-アカウントは必要-ゲストのままだとどうなる" data-astro-cid-7fpw2346>3. アカウントは必要？ ゲストのままだとどうなる</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第2部-基本の使い方" data-astro-cid-7fpw2346>第2部 基本の使い方</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#4-ルームを作る" data-astro-cid-7fpw2346>4. ルームを作る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#5-ルームトップの見かた" data-astro-cid-7fpw2346>5. ルームトップの見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#6-メンバーを登録する" data-astro-cid-7fpw2346>6. メンバーを登録する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#7-支払いを記録する" data-astro-cid-7fpw2346>7. 支払いを記録する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#8-記録を見なおす直す" data-astro-cid-7fpw2346>8. 記録を見なおす・直す</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#9-割り勘結果を見る" data-astro-cid-7fpw2346>9. 割り勘結果を見る</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第3部-みんなで使う" data-astro-cid-7fpw2346>第3部 みんなで使う</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#10-メンバーを招待する" data-astro-cid-7fpw2346>10. メンバーを招待する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#11-招待された側の見え方とできることできないこと" data-astro-cid-7fpw2346>11. 招待された側の見え方と、できること・できないこと</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#12-記録を確定して締める" data-astro-cid-7fpw2346>12. 記録を確定して締める</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第4部-もっと便利に" data-astro-cid-7fpw2346>第4部 もっと便利に</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#13-あとで登録する一時記録" data-astro-cid-7fpw2346>13. あとで登録する「一時記録」</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#14-レシートをカメラで読み取る" data-astro-cid-7fpw2346>14. レシートをカメラで読み取る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#15-集金を記録して精算を追う" data-astro-cid-7fpw2346>15. 集金を記録して精算を追う</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#16-海外旅行で使う外貨ルーム" data-astro-cid-7fpw2346>16. 海外旅行で使う（外貨ルーム）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#17-結果を共有するcsvpdfで残す" data-astro-cid-7fpw2346>17. 結果を共有する・CSV／PDFで残す</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第5部-設定と困ったとき" data-astro-cid-7fpw2346>第5部 設定と困ったとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#18-設定でできること" data-astro-cid-7fpw2346>18. 設定でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#19-アカウントの管理引き継ぎ退会" data-astro-cid-7fpw2346>19. アカウントの管理・引き継ぎ・退会</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#20-圏外オフラインのとき" data-astro-cid-7fpw2346>20. 圏外・オフラインのとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#21-よくあるエラーと対処" data-astro-cid-7fpw2346>21. よくあるエラーと対処</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#巻末" data-astro-cid-7fpw2346>巻末</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#画面のどこにでも出る表示" data-astro-cid-7fpw2346>画面のどこにでも出る表示</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#許可とお願いのダイアログ" data-astro-cid-7fpw2346>許可とお願いのダイアログ</a> </li> </ol> </details>  <script type="module">const i=new Map;document.querySelectorAll("nav.guide-toc .guide-toc__item a").forEach(e=>{const n=decodeURIComponent(e.getAttribute("href")?.slice(1)??"");n&&i.set(n,e)});const s=[...i.keys()].map(e=>document.getElementById(e)).filter(e=>e!==null);if(s.length){let e=null;const n=new Set,c=t=>{if(t!==e&&(e&&i.get(e)?.removeAttribute("aria-current"),e=t,t)){const r=i.get(t);r?.setAttribute("aria-current","true"),r?.scrollIntoView({block:"nearest"})}},l=new IntersectionObserver(t=>{for(const o of t)o.isIntersecting?n.add(o.target.id):n.delete(o.target.id);const r=s.find(o=>n.has(o.id));r&&c(r.id)},{rootMargin:"-80px 0px -55% 0px"});s.forEach(t=>l.observe(t))}</script> </div> <div class="prose guide-prose" data-astro-cid-yhdcghlb> <!-- 自動生成: wari-ios/docs/user-guide/user-guide.md から取り込んだもの。直接編集せず、原稿を直して `npm run sync:guide` を実行すること。 -->
+<p>割り勘アプリ <strong>wa/ri</strong> の使い方。
+旅行や飲み会の支払いをその場で記録しておくと、「誰が誰にいくら払えば終わりか」を計算してくれる。</p>
+<blockquote>
+<p><strong>図はすべてラフ画</strong>（画面の構造を説明するための図）。実機の配色・余白・書体とは異なる。
+図に出てくる氏名・金額・日付・IDはサンプル値。</p>
+</blockquote>
+<h2 id="用語">用語</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>用語</th><th>意味</th></tr></thead><tbody><tr><td>ルーム</td><td>1つのイベント（旅行・飲み会など）の入れ物。記録とメンバーがぶら下がる。</td></tr><tr><td>メンバー</td><td>割り勘の対象になる人。名前だけで登録でき、アプリのアカウントとは別物。</td></tr><tr><td>記録</td><td>1件の支払い、または集金。</td></tr><tr><td>支払（立替）</td><td>1人が立て替えて、N人で割る。割り勘の計算に入る。</td></tr><tr><td>集金</td><td>1人が1人から受け取る。割り勘のプールには入らない、メンバー間の受け渡しの記録。</td></tr><tr><td>一時記録</td><td>ルームを決めずに金額だけ控えるメモ。端末の中にだけ保存される。</td></tr><tr><td>確定</td><td>ルームの記録をロックして、追加・編集・削除をできなくすること。</td></tr><tr><td>ルームオーナー</td><td>ルームを作った人。管理操作ができる。</td></tr><tr><td>参加者</td><td>招待リンクから入った人。</td></tr><tr><td>ゲスト</td><td>アカウントを作らずに使っている状態。</td></tr></tbody></table>
+<h2 id="全体の流れ">全体の流れ</h2>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">flowchart TD
+  R["ルームを作る"] --> M["メンバーを登録する"]
+  M --> T["支払いを記録する"]
+  T --> T
+  T --> W["割り勘結果を見る"]
+  W --> S["結果を共有する"]
+  W --> C["記録を確定して締める"]
+</pre></figure>
+<p>メンバーを増やしたいとき・支払いが増えたときは、いつでも戻って足せる。
+ほかの人にも入力してもらいたいときは、<a href="#10-%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%92%E6%8B%9B%E5%BE%85%E3%81%99%E3%82%8B">メンバーを招待する</a>へ。</p>
+<hr>
+<h1 id="第1部-はじめかた">第1部 はじめかた</h1>
+<h2 id="1-wari-でできること">1. wa/ri でできること</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s13-startup.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="起動時（スプラッシュ／チュートリアル）（原寸で開く）"><img src="/images/guide/wa-ri/s13-startup.svg" alt="起動時（スプラッシュ／チュートリアル）"></a><figcaption>起動時（スプラッシュ／チュートリアル）</figcaption></figure>
+<p>はじめて開くと、全5ページのチュートリアルが出る。あとから 設定 → チュートリアルでいつでも見直せる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>起動中の表示</td><td>ログイン状態の確認とバージョンチェックをしている。ログイン済みなら「ようこそ、○○さん」に変わる。</td></tr><tr><td>2</td><td>スキップ</td><td>いつでも飛ばせる。飛ばしても「見た」ことになり、次回から出ない。</td></tr><tr><td>3</td><td>ページ</td><td>①ルーム作成 ②記録の追加 ③割り勘結果 ④外貨対応 ⑤さぁ始めましょう の5ページ。左右スワイプでも進む。</td></tr><tr><td>4</td><td>次へ</td><td>最終ページでは「はじめる」になる。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>サーバに繋がらないときは、トップメニューではなく<a href="#20-%E5%9C%8F%E5%A4%96%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E3%81%A8%E3%81%8D">オフライン画面</a>に入る。</li>
+<li>アップデートでページが増えたときは、既存の利用者には増えた分だけが「アップデート情報」として出る。</li>
+<li>チュートリアルを終えたあと、広告トラッキングの説明が一度だけ出る（→ <a href="#%E8%A8%B1%E5%8F%AF%E3%81%A8%E3%81%8A%E9%A1%98%E3%81%84%E3%81%AE%E3%83%80%E3%82%A4%E3%82%A2%E3%83%AD%E3%82%B0">許可とお願いのダイアログ</a>）。</li>
+</ul>
+<h2 id="2-はじめての割り勘--3ステップ">2. はじめての割り勘 — 3ステップ</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/f01-flow-first-warikan.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="はじめての割り勘（3ステップ）（原寸で開く）"><img src="/images/guide/wa-ri/f01-flow-first-warikan.svg" alt="はじめての割り勘（3ステップ）"></a><figcaption>はじめての割り勘（3ステップ）</figcaption></figure>
+<p>ルームを作る → 支払いを記録する → 割り勘結果を見る。この3つだけで精算できる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>クイックスタート</td><td>ONにすると人数分のメンバー（自分・A・B…）が自動で登録されるので、メンバー登録の手間が省ける。</td></tr><tr><td>2</td><td>「作成」ボタン</td><td>作成するとそのままルームトップへ移動する。</td></tr><tr><td>3</td><td>誰が払った？</td><td>立て替えた人を1人選ぶ。</td></tr><tr><td>4</td><td>誰で割る？</td><td>初期状態は全員が対象。外したい人だけタップして解除する。</td></tr><tr><td>5</td><td>「登録」ボタン</td><td>連続登録をONにしておくと、続けて次の支払いを入力できる。</td></tr><tr><td>6</td><td>割り勘結果の行</td><td>この人に払う相手と金額。1行が1回の送金にあたる。</td></tr></tbody></table>
+<h2 id="3-アカウントは必要-ゲストのままだとどうなる">3. アカウントは必要？ ゲストのままだとどうなる</h2>
+<p>アカウントを作らなくても（ゲストのまま）すべての機能が使える。
+ただしゲストのデータは<strong>その端末だけ</strong>のもので、一定期間で消える可能性がある。</p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">stateDiagram-v2
+  [*] --> ゲスト: 起動すると自動で
+  ゲスト --> ログイン済み: 新規登録／ID・パスワード／LINE／Apple
+  ログイン済み --> ゲスト: ログアウト
+  ログイン済み --> [*]: 削除して退会
+</pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>ゲストのままでも</th><th>アカウントを作ると</th></tr></thead><tbody><tr><td>ルームの作成・記録・割り勘・共有はすべてできる</td><td>同じアカウントで他の端末からも同じルームを開ける</td></tr><tr><td>データはこの端末だけ。<strong>一定期間で消える可能性がある</strong></td><td>機種変更しても引き継げる</td></tr></tbody></table>
+<p>作り方と引き継ぎは <a href="#19-%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%81%AE%E7%AE%A1%E7%90%86%E5%BC%95%E3%81%8D%E7%B6%99%E3%81%8E%E9%80%80%E4%BC%9A">19. アカウントの管理・引き継ぎ・退会</a>へ。</p>
+<hr>
+<h1 id="第2部-基本の使い方">第2部 基本の使い方</h1>
+<h2 id="4-ルームを作る">4. ルームを作る</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s02-room-create.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ルームを作成（原寸で開く）"><img src="/images/guide/wa-ri/s02-room-create.svg" alt="ルームを作成"></a><figcaption>ルームを作成</figcaption></figure>
+<p>トップメニューの「新規作成」から。イベント名を入れるだけでよい。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドをアプリ内ブラウザで開く。</td></tr><tr><td>2</td><td>テンプレート</td><td>「YYYY.MM.DD わりかん／飲み会／お食事会／おでかけ／あそび」の5種からルーム名に流し込む。</td></tr><tr><td>3</td><td>ルーム名</td><td>空のまま登録すると「ルーム名を正しく入力してください」で弾かれる。</td></tr><tr><td>4</td><td>アイコン</td><td>一覧やルームトップの見出しに使われる。</td></tr><tr><td>5</td><td>クイックスタート</td><td>ONにすると、指定人数分のメンバーを作成と同時に自動登録する。</td></tr><tr><td>6</td><td>人数</td><td>2〜20人。クイックスタートがOFFのときは操作できない。</td></tr><tr><td>7</td><td>通貨</td><td>既定値は設定の「新規ルームの通貨」に従う。<strong>作成後は変更できない</strong>。</td></tr><tr><td>8</td><td>「作成」ボタン</td><td>作成するとそのままルームトップへ移動する。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>通貨だけは後から変えられない。海外旅行で使うなら作るときに決める（→ <a href="#16-%E6%B5%B7%E5%A4%96%E6%97%85%E8%A1%8C%E3%81%A7%E4%BD%BF%E3%81%86%E5%A4%96%E8%B2%A8%E3%83%AB%E3%83%BC%E3%83%A0">16. 海外旅行で使う</a>）。</li>
+<li>既存ルームの設定変更は <a href="#12-%E8%A8%98%E9%8C%B2%E3%82%92%E7%A2%BA%E5%AE%9A%E3%81%97%E3%81%A6%E7%B7%A0%E3%82%81%E3%82%8B">12. 記録を確定して締める</a>を参照。</li>
+</ul>
+<h2 id="5-ルームトップの見かた">5. ルームトップの見かた</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s03-room-top.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ルームトップ（原寸で開く）"><img src="/images/guide/wa-ri/s03-room-top.svg" alt="ルームトップ"></a><figcaption>ルームトップ</figcaption></figure>
+<p>1ルームの入口。上半分が「見る」、下半分が「管理する」。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>鍵アイコン</td><td>ルームの設定へ。確定済みなら閉じた鍵になる。オーナー以外は押せない。</td></tr><tr><td>3</td><td>共有ボタン</td><td>招待リンクの共有と、CSV／PDF出力。中央の「共有」も同じ画面。</td></tr><tr><td>4</td><td>ルーム情報</td><td>タップでルーム設定。オーナー以外は押せない。</td></tr><tr><td>5</td><td>メンバー</td><td>横スクロールで全員見られる。0人のときは「ここをタップしてメンバーを追加する」が出る（オーナーのみ）。</td></tr><tr><td>6</td><td>合計カード</td><td>支払いの合計と件数。カード全体がタップ領域で、記録の一覧へ移動する。</td></tr><tr><td>7</td><td>「割り勘」ボタン</td><td>誰が誰にいくら払えば精算できるかを計算する。</td></tr><tr><td>8</td><td>「記録」ボタン</td><td>支払い／集金を1件登録する。確定済みルームや編集不可の参加者では押せない。</td></tr></tbody></table>
+<p>下へスクロールすると「ルーム管理」が出る。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>9</td><td>メンバーの設定</td><td>割り勘の対象になる人を登録する。オーナー以外は閲覧のみ。</td></tr><tr><td>10</td><td>ルームの設定</td><td>ルーム名・アイコン・確定・メンバー編集許可。オーナー限定。</td></tr><tr><td>11</td><td>CSV出力</td><td>記録をCSVに書き出す。実行前に広告の視聴確認が出る。</td></tr><tr><td>12</td><td>PDF出力</td><td>同じ内容をPDFで書き出す。記録が0件のときは「出力できる記録がありません」で止まる。</td></tr><tr><td>13</td><td>ルームから抜ける</td><td>招待された人だけに出る。記録は消えない。</td></tr><tr><td>14</td><td>ルームを削除する</td><td>オーナーのみ。記録ごと消える。<strong>元に戻せない</strong>。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>オーナー以外には、オーナー限定の行に「🔒 ルームオーナーのみ操作できます」が付いて操作できない。</li>
+<li>メンバーが1人も登録されていないルームを開くと、自動で「メンバーの設定」へ移動する（1回だけ）。</li>
+</ul>
+<h2 id="6-メンバーを登録する">6. メンバーを登録する</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s04-room-mate.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="メンバーの設定／メンバー追加（原寸で開く）"><img src="/images/guide/wa-ri/s04-room-mate.svg" alt="メンバーの設定／メンバー追加"></a><figcaption>メンバーの設定／メンバー追加</figcaption></figure>
+<p>「メンバー」は割り勘の対象になる人。アプリのアカウントとは別で、名前だけで登録できる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>右上の追加</td><td>オーナー以外には表示されない。</td></tr><tr><td>2</td><td>「メンバーを追加」</td><td>追加シートを開く。</td></tr><tr><td>3</td><td>メンバーの行</td><td>タップで名前の変更・削除。オーナー以外はタップできない。</td></tr><tr><td>4</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>5</td><td>名前</td><td>自由入力。空のままでも、下の履歴を選んでいれば登録できる。</td></tr><tr><td>6</td><td>よく参加するメンバー名</td><td>自分が過去に作ったルームで使った名前の一覧。タップで選択／解除。</td></tr><tr><td>7</td><td>連続登録</td><td>ONにすると登録後もシートが閉じず、続けて次のメンバーを入力できる。</td></tr><tr><td>8</td><td>「追加」ボタン</td><td>入力欄と選択中の名前をまとめて登録する。名前が1つも無いと「メンバー名が設定されていません」で止まる。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>メンバーの追加・変更・削除はすべて<strong>ルームオーナー限定</strong>。参加者には案内文に置き換わる。</li>
+<li><strong>記録があるメンバーは削除できない</strong>（「既に記録がある場合は削除できません。」）。先にその人の記録を消す。</li>
+</ul>
+<h2 id="7-支払いを記録する">7. 支払いを記録する</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s05-editor-tran.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録する（支払い／集金の登録）（原寸で開く）"><img src="/images/guide/wa-ri/s05-editor-tran.svg" alt="記録する（支払い／集金の登録）"></a><figcaption>記録する（支払い／集金の登録）</figcaption></figure>
+<p>「誰が払った」「誰で割る」「いくら」の3つを選ぶだけ。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>支払／集金</td><td>切り替え。集金については <a href="#15-%E9%9B%86%E9%87%91%E3%82%92%E8%A8%98%E9%8C%B2%E3%81%97%E3%81%A6%E7%B2%BE%E7%AE%97%E3%82%92%E8%BF%BD%E3%81%86">15. 集金を記録して精算を追う</a>へ。<strong>既存の記録を編集するときは切り替えられない</strong>。</td></tr><tr><td>3</td><td>誰が払った？</td><td>集金モードでは「誰が集金した？」に変わる。</td></tr><tr><td>4</td><td>立て替えた人</td><td>1人だけ選べる。メンバーが0人のときは「メンバーの設定から、メンバー登録をしてください。」と出る。</td></tr><tr><td>5</td><td>誰で割る？</td><td>集金モードでは「誰から集金した？」に変わり、選べるのは1人だけになる。</td></tr><tr><td>6</td><td>割り勘の対象</td><td>初期状態は全員が選択済み。タップで外す／戻す。</td></tr><tr><td>7</td><td>一時記録から復元</td><td>控えておいたメモから日付・金額・カテゴリ・メモを流し込む（→ <a href="#13-%E3%81%82%E3%81%A8%E3%81%A7%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B%E4%B8%80%E6%99%82%E8%A8%98%E9%8C%B2">13. 一時記録</a>）。</td></tr><tr><td>8</td><td>カメラで読み取る</td><td>レシートの合計金額を自動で読み取る（→ <a href="#14-%E3%83%AC%E3%82%B7%E3%83%BC%E3%83%88%E3%82%92%E3%82%AB%E3%83%A1%E3%83%A9%E3%81%A7%E8%AA%AD%E3%81%BF%E5%8F%96%E3%82%8B">14. レシートをカメラで読み取る</a>）。</td></tr><tr><td>9</td><td>金額</td><td>1以上の整数。外貨ルームでは通貨バッジが出る。</td></tr><tr><td>10</td><td>カテゴリ</td><td>飲食・交通・宿泊・アクティビティ・その他など。集金モードでは集金用だけが並ぶ。</td></tr><tr><td>11</td><td>連続登録</td><td>ONにすると登録後もシートが閉じず、メンバー選択を保ったまま次の記録を入力できる。</td></tr><tr><td>12</td><td>「登録」ボタン</td><td>確定済みルームでは「このルームの記録は確定済みです。」で拒否される。</td></tr></tbody></table>
+<p><strong>記録できる人</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>記録の追加・編集・削除</th></tr></thead><tbody><tr><td>ルームオーナー</td><td>○</td></tr><tr><td>参加者（編集を許可された）</td><td>○</td></tr><tr><td>参加者（許可なし）</td><td>✕</td></tr><tr><td>確定済みのルーム</td><td>オーナーを含め全員✕</td></tr></tbody></table>
+<h2 id="8-記録を見なおす直す">8. 記録を見なおす・直す</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s06-room-trans.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="記録の一覧（原寸で開く）"><img src="/images/guide/wa-ri/s06-room-trans.svg" alt="記録の一覧"></a><figcaption>記録の一覧</figcaption></figure>
+<p>ルームトップの合計カードから開く。4つのタブは同じ記録を切り口を変えて見せる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>記録を追加</td><td>編集できない参加者では押せない。</td></tr><tr><td>3</td><td>グラフ</td><td>そのタブの集計グラフ。タブごとに日別／メンバー別／カテゴリ別に変わる。</td></tr><tr><td>4</td><td>記録の行</td><td>1行が1件の支払い。<strong>タップで編集シートが開く</strong>。右端は割り勘対象の人数。</td></tr><tr><td>5</td><td>タブ</td><td>4つの切り口。下の表を参照。</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>タブ</th><th>見えるもの</th></tr></thead><tbody><tr><td>日別</td><td>日付ごと → 立て替えた人ごとにまとめる</td></tr><tr><td>メンバー別</td><td>立て替えた人ごとの合計と明細</td></tr><tr><td>カテゴリ別</td><td>飲食・交通・宿泊などカテゴリごとの合計と明細</td></tr><tr><td>集金</td><td>集金の記録だけ。1件も無いとタブ自体が出ない</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>集金は支出ではないので、他3タブの合計には含まれない。</li>
+<li>記録が0件のときは「記録がありません」とだけ出る。</li>
+<li>記録を消すときは、行をタップして開いた編集シートの「削除」から（確認が1段入る）。</li>
+</ul>
+<h2 id="9-割り勘結果を見る">9. 割り勘結果を見る</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s07-warikan.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="割り勘結果（原寸で開く）"><img src="/images/guide/wa-ri/s07-warikan.svg" alt="割り勘結果"></a><figcaption>割り勘結果</figcaption></figure>
+<p>「誰が誰にいくら払えば精算が終わるか」を、受け取る人ごとにカードでまとめた結果。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>画像で共有</td><td>いまの表示のまま1枚の画像にして、プレビューを見てから他アプリへ渡せる。</td></tr><tr><td>3</td><td>3つのトグル</td><td>押すたびにON（橙）とOFF（グレー）が入れ替わる。下の表を参照。</td></tr><tr><td>4</td><td>カードの見出し</td><td>この人が受け取る合計。内訳は「立て替えた額 − 負担する額」。割り切れないときは「あまり」が付く。</td></tr><tr><td>5</td><td>精算不要の行</td><td>貸し借りが相殺された行。取り消し線が入りグレーになる。</td></tr><tr><td>6</td><td>計算過程</td><td>「詳細表示」がONのときだけ、点線の下に出る。</td></tr><tr><td>7</td><td>実際に払う行</td><td>ピンクで「From」バッジが付く。1行が1回の送金にあたる。</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>トグル</th><th>効果</th></tr></thead><tbody><tr><td>詳細表示</td><td>金額に至った計算過程（立替・相殺の内訳）を明細の下に出す</td></tr><tr><td>まとめる</td><td>支払いを可能な限り束ねて、送金の回数を減らす</td></tr><tr><td>0円消し</td><td>精算の必要がなくなった行を一覧から消す</td></tr></tbody></table>
+<hr>
+<h1 id="第3部-みんなで使う">第3部 みんなで使う</h1>
+<h2 id="10-メンバーを招待する">10. メンバーを招待する</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/f02-flow-invite.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="メンバーを招待して一緒に使う（3ステップ）（原寸で開く）"><img src="/images/guide/wa-ri/f02-flow-invite.svg" alt="メンバーを招待して一緒に使う（3ステップ）"></a><figcaption>メンバーを招待して一緒に使う（3ステップ）</figcaption></figure>
+<p>招待できるのは<strong>ルームオーナー</strong>だけ。リンクを渡すと、相手はそのルームを開けるようになる。</p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">sequenceDiagram
+  participant O as ルームオーナー
+  participant G as 招待された人
+  Note over O: ルームトップで「共有」
+  Note over O: 招待リンクが自動発行される
+  O->>G: 招待リンクを渡す（LINE・メールなど）
+  Note over G: リンクを開くとアプリが起動
+  Note over G: 自動で参加してルームが開く
+  O-->>O: 「メンバーの編集を許可」をON
+  Note over G: 記録の追加・編集ができるようになる
+</pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>共有ボタン</td><td>右上の共有、または中央の「共有」を押す。</td></tr><tr><td>2</td><td>招待リンクを共有</td><td>LINE・メールなど好きな方法でリンクを渡す。</td></tr><tr><td>3</td><td>メンバーの編集を許可</td><td><strong>ONにしないと、招待した相手は記録を見るだけ</strong>で追加・編集ができない。</td></tr><tr><td>4</td><td>参加完了</td><td>以降は相手のトップメニューの一覧にも並ぶ。権限は「参加者」。</td></tr></tbody></table>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s08-room-share.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ルームの共有（原寸で開く）"><img src="/images/guide/wa-ri/s08-room-share.svg" alt="ルームの共有"></a><figcaption>ルームの共有</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>招待リンクを共有</td><td>リンクが未発行のときは、オーナーが画面を開いた時点で自動発行される。</td></tr><tr><td>3</td><td>メンバーの編集を許可</td><td>切り替えると即座に保存される。オーナー以外は操作できない。</td></tr><tr><td>4</td><td>CSV出力</td><td>記録をCSVに書き出す。実行前に広告の視聴確認が出る。</td></tr><tr><td>5</td><td>PDF出力</td><td>同じ内容をPDFで書き出す。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>招待リンクを作れるのはオーナーだけ。参加者には「招待リンクはまだ作成されていません。ルームオーナーに作成を依頼してください。」と出る。</li>
+<li>招待リンクを渡した相手は誰でも参加できる。関係のない人に転送されないよう注意する。</li>
+</ul>
+<h2 id="11-招待された側の見え方とできることできないこと">11. 招待された側の見え方と、できること・できないこと</h2>
+<p>招待された人（参加者）は、記録を見ることはできるが、管理操作はできない。
+記録を書き込めるかどうかは、オーナーが「メンバーの編集を許可」をONにしているかで決まる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>操作</th><th>ゲスト（自分のルーム）</th><th>参加者（編集不可）</th><th>参加者（編集可）</th><th>ルームオーナー</th></tr></thead><tbody><tr><td>記録を見る</td><td>○</td><td>○</td><td>○</td><td>○</td></tr><tr><td>記録を追加・編集・削除</td><td>○</td><td>✕</td><td>○</td><td>○</td></tr><tr><td>メンバーを追加・変更・削除</td><td>○</td><td>✕</td><td>✕</td><td>○</td></tr><tr><td>ルーム設定（名前・確定・編集許可）</td><td>○</td><td>✕</td><td>✕</td><td>○</td></tr><tr><td>招待リンクを発行</td><td>○</td><td>✕</td><td>✕</td><td>○</td></tr><tr><td>招待リンクを共有</td><td>○</td><td>○</td><td>○</td><td>○</td></tr><tr><td>CSV／PDF出力</td><td>○</td><td>○</td><td>○</td><td>○</td></tr><tr><td>ルームから抜ける</td><td>—</td><td>○</td><td>○</td><td>✕（削除のみ）</td></tr><tr><td>ルームを削除</td><td>○</td><td>✕</td><td>✕</td><td>○</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>ルームが確定済みのときは、<strong>オーナーを含む全員</strong>が記録を追加・編集・削除できない。</li>
+<li>参加者がやめたいときは、ルームトップの「ルームから抜ける」。記録は残る。</li>
+<li>アクセス権のないルームを開こうとすると「表示しようとしているルームにアクセスできません」と出る。</li>
+</ul>
+<h2 id="12-記録を確定して締める">12. 記録を確定して締める</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s09-room-setting.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ルームの設定（原寸で開く）"><img src="/images/guide/wa-ri/s09-room-setting.svg" alt="ルームの設定"></a><figcaption>ルームの設定</figcaption></figure>
+<p>精算が済んだら「確定」にしておくと、あとから記録が変わらない。</p>
+<figure class="guide-figure guide-figure--diagram"><pre class="mermaid">stateDiagram-v2
+  [*] --> 未確定
+  未確定 --> 確定: オーナーが「記録を確定する」をON
+  確定 --> 未確定: オーナーがOFFに戻す
+  note right of 確定
+    全員が記録を追加・編集・削除できない
+    一覧では「確定」バッジが付く
+  end note
+</pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ヘルプ</td><td>この画面の使い方ガイドを開く。</td></tr><tr><td>2</td><td>ルーム名</td><td>空にすると「ルーム名を正しく入力してください」で弾かれる。</td></tr><tr><td>3</td><td>アイコン</td><td>ルームのアイコンを変更する。</td></tr><tr><td>4</td><td>記録を確定する</td><td>ONにすると記録の追加・編集・削除ができなくなる。一覧では「確定」バッジが付く。</td></tr><tr><td>5</td><td>メンバーの編集を許可</td><td>ONにすると、招待した参加者も記録を追加・編集できる。</td></tr><tr><td>6</td><td>「保存」ボタン</td><td>オーナー以外は押せない（サーバ側でも拒否される）。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>通貨とクイックスタートは新規作成時だけの項目で、この画面には出ない。</li>
+<li>確定したルームを一覧から隠したいときは、<a href="#18-%E8%A8%AD%E5%AE%9A%E3%81%A7%E3%81%A7%E3%81%8D%E3%82%8B%E3%81%93%E3%81%A8">18. 設定でできること</a>の表示設定で「確定済みを隠す」をONにする。</li>
+</ul>
+<hr>
+<h1 id="第4部-もっと便利に">第4部 もっと便利に</h1>
+<h2 id="13-あとで登録する一時記録">13. あとで登録する「一時記録」</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s12-local-memo.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="一時記録／オフライン（原寸で開く）"><img src="/images/guide/wa-ri/s12-local-memo.svg" alt="一時記録／オフライン"></a><figcaption>一時記録／オフライン</figcaption></figure>
+<p>その場ではルームもメンバーも決められないとき、金額だけ先に控えておくメモ。
+トップメニューの「一時記録」から追加できる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>金額</td><td>1以上の整数。金額だけ入っていれば保存できる。</td></tr><tr><td>2</td><td>「保存」ボタン</td><td>保存するとトップメニューの「一時記録」に並ぶ。</td></tr></tbody></table>
+<p>使うときは、記録画面の「一時記録から復元」を押して選ぶ。日付・金額・カテゴリ・メモが流し込まれ、
+<strong>登録するとその一時記録は消える</strong>。</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>一時記録は<strong>端末の中だけ</strong>に保存される。他の端末とは同期されない。</li>
+<li>「一時記録から復元」が出るのは、新規登録・支払モード・一時記録が1件以上あるときだけ。</li>
+<li>既存の一時記録をタップすると編集になり、下部が「削除」＋「変更を保存する」に変わる。</li>
+</ul>
+<h2 id="14-レシートをカメラで読み取る">14. レシートをカメラで読み取る</h2>
+<p>記録画面の金額欄の横にあるカメラボタンから、レシートの合計金額を読み取れる。</p>
+<ol>
+<li>カメラボタンを押してレシートにカメラを向ける</li>
+<li>合計金額が自動で認識される</li>
+<li>確定すると金額欄に入る</li>
+</ol>
+<p>日本語・英語のレシートに対応している。読み取れなかったときは手で入力する。</p>
+<h2 id="15-集金を記録して精算を追う">15. 集金を記録して精算を追う</h2>
+<p>「集金」は、メンバー間で実際にお金を渡したことの記録。
+たとえば精算後に「BさんがAさんに3,000円渡した」を残しておくと、払い終わったことが分かる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>支払（立替）</th><th>集金</th></tr></thead><tbody><tr><td>意味</td><td>1人が立て替えて、N人で割る</td><td>1人が1人から受け取る</td></tr><tr><td>選ぶ人数</td><td>立替1人 ＋ 対象N人</td><td>受取1人 ＋ 渡した1人</td></tr><tr><td>割り勘の計算</td><td>入る</td><td><strong>入らない</strong></td></tr><tr><td>一覧</td><td>日別・メンバー別・カテゴリ別に出る</td><td>「集金」タブにだけ出る</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>集金した人と渡した人に<strong>同じ人は選べない</strong>（「別のメンバーを選んでください」）。</li>
+<li>支払と集金は意味が変わるため、<strong>既存の記録を編集するときは切り替えられない</strong>。間違えたら消して作り直す。</li>
+<li>集金が1件も無いあいだは「集金」タブ自体が出ない。</li>
+</ul>
+<h2 id="16-海外旅行で使う外貨ルーム">16. 海外旅行で使う（外貨ルーム）</h2>
+<p>ルームを作るときに通貨を選ぶと、そのルームの合計や記録がその通貨で表示される。</p>
+<ul>
+<li>通貨は<strong>作成後に変更できない</strong>。作るときに決める。</li>
+<li>既定値は 設定 → 新規ルームの通貨。「自動」は端末の地域から決まる。</li>
+<li>小数のある通貨では、金額欄が小数入力になる。</li>
+<li>外貨ルームは一覧・ルームトップのアイコンに通貨バッジが付く。</li>
+</ul>
+<p><strong>注意</strong></p>
+<ul>
+<li>外貨に対応していない古いバージョンで外貨ルームを開こうとすると、全画面で「アップデートが必要です」が出て操作できない。誤った金額を見せないためのブロックなので、App Store から更新する。</li>
+</ul>
+<h2 id="17-結果を共有するcsvpdfで残す">17. 結果を共有する・CSV／PDFで残す</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>やりたいこと</th><th>方法</th></tr></thead><tbody><tr><td>割り勘結果を画像で送る</td><td>割り勘結果の画面の「画像で共有」。いまの表示状態のまま1枚の画像になる</td></tr><tr><td>記録を一覧で残す</td><td>ルームトップまたは共有画面の「CSV出力」／「PDF出力」</td></tr><tr><td>他の人をルームに入れる</td><td>共有画面の「招待リンクを共有」（→ <a href="#10-%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%92%E6%8B%9B%E5%BE%85%E3%81%99%E3%82%8B">10. メンバーを招待する</a>）</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>CSV／PDF出力は、実行前に広告の視聴確認が出る。</li>
+<li>記録が0件のときは「出力できる記録がありません」で止まる。</li>
+<li>出力は参加者でも実行できる。</li>
+</ul>
+<hr>
+<h1 id="第5部-設定と困ったとき">第5部 設定と困ったとき</h1>
+<h2 id="18-設定でできること">18. 設定でできること</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s11-settings.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="設定／表示設定（原寸で開く）"><img src="/images/guide/wa-ri/s11-settings.svg" alt="設定／表示設定"></a><figcaption>設定／表示設定</figcaption></figure>
+<p>トップメニュー右上の歯車から開く。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>レビューを書く</td><td>App Store のレビュー投稿ページを開く。</td></tr><tr><td>2</td><td>新規ルームの通貨</td><td>新しく作るルームの通貨の初期値。「自動」は端末の地域から決める。既存ルームの通貨は変わらない。</td></tr><tr><td>3</td><td>チュートリアル</td><td>初回起動時のチュートリアルを最初から見直す。</td></tr><tr><td>4</td><td>使い方ガイド</td><td>このガイドをブラウザで開く。</td></tr><tr><td>5</td><td>お問い合わせ</td><td>問い合わせフォームをブラウザで開く。</td></tr><tr><td>6</td><td>規約・プライバシー</td><td>オフィシャルサイトの該当ページをブラウザで開く。</td></tr><tr><td>7</td><td>ライセンス</td><td>同梱ライブラリのライセンス全文を表示する。</td></tr></tbody></table>
+<p><strong>表示設定</strong>（トップメニューの「すべて表示／未確定のみ」ボタンから）</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>8</td><td>確定済みを隠す</td><td>ONにすると、確定済みのルームが一覧から消える。</td></tr><tr><td>9</td><td>並び順</td><td>作成順／ルーム名順のどちらか。</td></tr></tbody></table>
+<p>表示設定は端末に保存される。フィルタ中はボタンが「未確定のみ」に変わる。</p>
+<h2 id="19-アカウントの管理引き継ぎ退会">19. アカウントの管理・引き継ぎ・退会</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s10-user-manage.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="ログイン／マイページ（原寸で開く）"><img src="/images/guide/wa-ri/s10-user-manage.svg" alt="ログイン／マイページ"></a><figcaption>ログイン／マイページ</figcaption></figure>
+<p>トップメニュー右上のユーザーアイコンから開く。ゲストのときはログイン画面、ログイン中はマイページになる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>ログイン</td><td>ID／パスワードでログインする。誤りがあれば「ID/パスワードを確認してください。」と出る。</td></tr><tr><td>2</td><td>新規登録</td><td>アプリ表示名・ID・パスワードを決める。ID・パスワードは各5文字以上。</td></tr><tr><td>3</td><td>LINEでログイン</td><td>ゲストのままルームを持っているときは、先に引き継ぎの案内が出る。</td></tr><tr><td>4</td><td>Appleでサインイン</td><td>LINEと同じく、ゲストのルームがあるときは案内が先に出る。</td></tr><tr><td>5</td><td>プロフィール編集</td><td>アプリ表示名を変更する。ルーム作成者名などに使われる。</td></tr><tr><td>6</td><td>アカウント連携</td><td>LINE / Apple を紐づけると、次からその1タップでログインできる。他のアカウントに連携済みのときは、解除して付け替えるか確認される。</td></tr><tr><td>7</td><td>既存アカウントに引き継ぐ</td><td>ID・パスワードを持つ既存アカウントへ乗り換える。<strong>いま作ったデータは引き継がれない</strong>。</td></tr><tr><td>8</td><td>ログアウト</td><td>確認のうえログアウトし、ゲストに戻る。</td></tr><tr><td>9</td><td>削除して退会</td><td>2段階の確認のあと、作成した全データを削除する。<strong>元に戻せない</strong>。</td></tr><tr><td>10</td><td>問い合わせID</td><td>問い合わせのときに伝えるID。タップでコピーできる。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>「既存アカウントに引き継ぐ」が出るのは、パスワード未設定（LINE / Apple だけで作った）のアカウントのとき。</li>
+<li>機種変更の前にアカウントを作る／連携しておくと、新しい端末でも同じルームを開ける。</li>
+</ul>
+<h2 id="20-圏外オフラインのとき">20. 圏外・オフラインのとき</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s12-local-memo.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="一時記録／オフライン（原寸で開く）"><img src="/images/guide/wa-ri/s12-local-memo.svg" alt="一時記録／オフライン"></a><figcaption>一時記録／オフライン</figcaption></figure>
+<p>起動時にサーバへ接続できなかったときだけ、専用の画面になる。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>3</td><td>オフライン表示</td><td>ユーザーアイコンの代わりに出る。タップできない。</td></tr><tr><td>4</td><td>一時記録</td><td>オフラインでも一時記録の追加・編集・削除はできる。</td></tr><tr><td>5</td><td>設定</td><td>設定画面はオフラインでも開ける。</td></tr></tbody></table>
+<p>ルームの閲覧・記録の登録はできない。電波の届く場所で開き直す。</p>
+<h2 id="21-よくあるエラーと対処">21. よくあるエラーと対処</h2>
+<p><strong>記録が登録できない</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>メッセージ</th><th>対処</th></tr></thead><tbody><tr><td>金額は1円以上で入力してください</td><td>金額が未入力か0以下。1以上の数を入れる。</td></tr><tr><td>支払った人は1人以上設定してください</td><td>立て替えた人が未選択。1人選ぶ。</td></tr><tr><td>割り勘対象は1人以上設定してください</td><td>対象が0人。誰かを選ぶ。</td></tr><tr><td>集金した人を1人選んでください／渡した人を1人選んでください</td><td>集金モードで片方が未選択。</td></tr><tr><td>集金した人と渡した人には別のメンバーを選んでください</td><td>集金モードで同じ人を選んでいる。</td></tr><tr><td>メンバー編集の許可が有効になっていません</td><td>参加者で編集が許可されていない。オーナーに「メンバーの編集を許可」をONにしてもらう。</td></tr><tr><td>このルームの記録は確定済みです</td><td>ルームが確定済み。オーナーに確定を外してもらう。</td></tr></tbody></table>
+<p><strong>そのほか</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>症状</th><th>対処</th></tr></thead><tbody><tr><td>ルーム名を正しく入力してください</td><td>ルーム名が空。1文字以上入れる。</td></tr><tr><td>メンバー名が設定されていません</td><td>入力欄も履歴の選択も空。どちらかを埋める。</td></tr><tr><td>既に記録がある場合は削除できません</td><td>そのメンバーの記録を先に消してから削除する。</td></tr><tr><td>出力できる記録がありません</td><td>記録が0件。1件以上登録してから出力する。</td></tr><tr><td>表示しようとしているルームにアクセスできません</td><td>そのルームの権限がない。オーナーに招待リンクを再発行してもらう。</td></tr><tr><td>アップデートが必要です（全画面）</td><td>外貨ルームに未対応のバージョン。App Store から更新する。</td></tr><tr><td>ルームの通貨を変えたい</td><td>作成後は変更できない。新しいルームを作り直す。</td></tr><tr><td>機種変更したい・他の端末でも使いたい</td><td>ゲストのままだとその端末だけのデータ。マイページでアカウントを作る／連携する。</td></tr><tr><td>それでも解決しない</td><td>設定 → お問い合わせ（<code>https://ynetlabo.net/contact</code>）から連絡する。問い合わせIDはマイページでコピーできる。</td></tr></tbody></table>
+<hr>
+<h1 id="巻末">巻末</h1>
+<h2 id="画面のどこにでも出る表示">画面のどこにでも出る表示</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s14-common-overlays.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="共通の表示（編集モード・処理中・全画面ブロック）（原寸で開く）"><img src="/images/guide/wa-ri/s14-common-overlays.svg" alt="共通の表示（編集モード・処理中・全画面ブロック）"></a><figcaption>共通の表示（編集モード・処理中・全画面ブロック）</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>「削除」ボタン</td><td>既存の記録・メンバー・一時記録を開くと、下部が「削除」＋「変更を保存する」の2ボタンになる。</td></tr><tr><td>2</td><td>削除の確認</td><td>削除は必ず確認を1段はさむ。</td></tr><tr><td>3</td><td>「変更を保存する」</td><td>確定済みルームや編集許可のない参加者では拒否される。</td></tr><tr><td>4</td><td>処理中の表示</td><td>通信中はペンが動くアニメーション、完了時はチェックの演出。約1秒で消える。</td></tr><tr><td>5</td><td>完了メッセージ</td><td>作成しました／更新しました／登録しました／追加しました／削除しました／退出しました／保存しました／リンク確認中／広告を準備中／招待ルームに参加しました。</td></tr><tr><td>6</td><td>「アップデート」ボタン</td><td>外貨ルームを未対応バージョンで開いたときに全画面でかぶさる。閉じられない。</td></tr></tbody></table>
+<h2 id="許可とお願いのダイアログ">許可とお願いのダイアログ</h2>
+<figure class="guide-figure"><a href="/images/guide/wa-ri/s15-consent-dialogs.svg" target="_blank" rel="noopener" class="guide-figure__frame" aria-label="許可とお願いのダイアログ（原寸で開く）"><img src="/images/guide/wa-ri/s15-consent-dialogs.svg" alt="許可とお願いのダイアログ"></a><figcaption>許可とお願いのダイアログ</figcaption></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="guide-table--numbered"><thead><tr><th>No.</th><th>場所</th><th>説明</th></tr></thead><tbody><tr><td>1</td><td>「続ける」ボタン</td><td>トラッキングの事前説明。チュートリアルのあと一度だけ出る。押すと必ずOS標準の許可ダイアログに進む（許可する／しないの判断はそちら）。</td></tr><tr><td>2</td><td>吹き出し</td><td>トップメニューを開いて少し経つと、ゲストのときだけ出る。ログイン済みなら「おかえりなさい、○○さん」に変わり2.5秒で消える。</td></tr><tr><td>3</td><td>サインアップ</td><td>ログイン／新規登録のシートを開く。</td></tr><tr><td>4</td><td>エールを贈る</td><td>広告を1本見ると作者にエールが届く。「広告を準備中」→ 広告 →「🐧🐧🐧」→ お礼の演出の順に進む。</td></tr></tbody></table>
+<p><strong>注意</strong></p>
+<ul>
+<li>広告が用意できないときは「広告を表示できません」、途中でやめたときは「中断されました」と出る。</li>
+<li>レビュー依頼は、招待リンクの共有を完了したとき、または割り勘結果を3秒以上見てから離れたときに、条件を満たしていればOSが出す。</li>
+</ul> <script type="module" src="/_astro/GuideDiagrams.astro_astro_type_script_index_0_lang.Bv9Dk1PQ.js"></script> </div> <aside class="guide-aside" data-astro-cid-yhdcghlb> <nav aria-label="目次" data-astro-cid-7fpw2346="true" class="guide-toc"><p class="guide-toc__title" data-astro-cid-7fpw2346>目次</p><ol class="guide-toc__list" data-astro-cid-7fpw2346> <li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#用語" data-astro-cid-7fpw2346>用語</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#全体の流れ" data-astro-cid-7fpw2346>全体の流れ</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第1部-はじめかた" data-astro-cid-7fpw2346>第1部 はじめかた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#1-wari-でできること" data-astro-cid-7fpw2346>1. wa/ri でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#2-はじめての割り勘--3ステップ" data-astro-cid-7fpw2346>2. はじめての割り勘 — 3ステップ</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#3-アカウントは必要-ゲストのままだとどうなる" data-astro-cid-7fpw2346>3. アカウントは必要？ ゲストのままだとどうなる</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第2部-基本の使い方" data-astro-cid-7fpw2346>第2部 基本の使い方</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#4-ルームを作る" data-astro-cid-7fpw2346>4. ルームを作る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#5-ルームトップの見かた" data-astro-cid-7fpw2346>5. ルームトップの見かた</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#6-メンバーを登録する" data-astro-cid-7fpw2346>6. メンバーを登録する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#7-支払いを記録する" data-astro-cid-7fpw2346>7. 支払いを記録する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#8-記録を見なおす直す" data-astro-cid-7fpw2346>8. 記録を見なおす・直す</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#9-割り勘結果を見る" data-astro-cid-7fpw2346>9. 割り勘結果を見る</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第3部-みんなで使う" data-astro-cid-7fpw2346>第3部 みんなで使う</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#10-メンバーを招待する" data-astro-cid-7fpw2346>10. メンバーを招待する</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#11-招待された側の見え方とできることできないこと" data-astro-cid-7fpw2346>11. 招待された側の見え方と、できること・できないこと</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#12-記録を確定して締める" data-astro-cid-7fpw2346>12. 記録を確定して締める</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第4部-もっと便利に" data-astro-cid-7fpw2346>第4部 もっと便利に</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#13-あとで登録する一時記録" data-astro-cid-7fpw2346>13. あとで登録する「一時記録」</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#14-レシートをカメラで読み取る" data-astro-cid-7fpw2346>14. レシートをカメラで読み取る</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#15-集金を記録して精算を追う" data-astro-cid-7fpw2346>15. 集金を記録して精算を追う</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#16-海外旅行で使う外貨ルーム" data-astro-cid-7fpw2346>16. 海外旅行で使う（外貨ルーム）</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#17-結果を共有するcsvpdfで残す" data-astro-cid-7fpw2346>17. 結果を共有する・CSV／PDFで残す</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#第5部-設定と困ったとき" data-astro-cid-7fpw2346>第5部 設定と困ったとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#18-設定でできること" data-astro-cid-7fpw2346>18. 設定でできること</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#19-アカウントの管理引き継ぎ退会" data-astro-cid-7fpw2346>19. アカウントの管理・引き継ぎ・退会</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#20-圏外オフラインのとき" data-astro-cid-7fpw2346>20. 圏外・オフラインのとき</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#21-よくあるエラーと対処" data-astro-cid-7fpw2346>21. よくあるエラーと対処</a> </li><li class="guide-toc__item guide-toc__item--d1" data-astro-cid-7fpw2346> <a href="#巻末" data-astro-cid-7fpw2346>巻末</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#画面のどこにでも出る表示" data-astro-cid-7fpw2346>画面のどこにでも出る表示</a> </li><li class="guide-toc__item guide-toc__item--d2" data-astro-cid-7fpw2346> <a href="#許可とお願いのダイアログ" data-astro-cid-7fpw2346>許可とお願いのダイアログ</a> </li> </ol> </nav>   </aside> </div> <div class="wrap guide-foot" data-astro-cid-yhdcghlb> <p class="guide-foot__note" data-astro-cid-yhdcghlb>
+解決しないときは<a href="/contact" data-astro-cid-yhdcghlb>お問い合わせ</a>からご連絡ください。
+</p> <a href="/guide" class="btn btn-ghost" data-astro-cid-yhdcghlb>← 使い方ガイド一覧へ</a> </div> </article>  </main> <footer class="site-footer" data-astro-cid-sz7xmlte> <div class="wrap footer-grid" data-astro-cid-sz7xmlte> <div class="footer-brand" data-astro-cid-sz7xmlte> <img src="/ynetlabo-wordmark.png" alt="Y.NetLabo" class="footer-logo" width="891" height="231" data-astro-cid-sz7xmlte> <p class="footer-tagline" data-astro-cid-sz7xmlte>シンプルなアプリに、少しのペンギンを</p> <div class="footer-social" data-astro-cid-sz7xmlte> <a href="https://github.com/yuuint" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://x.com/ynetlabo" target="_blank" rel="noopener noreferrer" aria-label="X" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" data-astro-cid-sz7xmlte><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9zm-1.3 19.6h2L6.5 3.3H4.4l13.2 17.5z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="mailto:ynetlabo@gmail.com" aria-label="メール" data-astro-cid-sz7xmlte> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-sz7xmlte><rect x="3" y="5" width="18" height="14" rx="2" data-astro-cid-sz7xmlte></rect><path d="m3 7 9 6 9-6" data-astro-cid-sz7xmlte></path></svg> </a> </div> </div> <nav class="footer-nav" aria-label="サイトリンク" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>サイト</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/" data-astro-cid-sz7xmlte>ホーム</a></li><li data-astro-cid-sz7xmlte><a href="/guide" data-astro-cid-sz7xmlte>使い方ガイド</a></li><li data-astro-cid-sz7xmlte><a href="/article" data-astro-cid-sz7xmlte>記事</a></li><li data-astro-cid-sz7xmlte><a href="/archives/category/notice" data-astro-cid-sz7xmlte>お知らせ</a></li> </ul> </nav> <nav class="footer-nav" aria-label="その他" data-astro-cid-sz7xmlte> <h3 data-astro-cid-sz7xmlte>その他</h3> <ul data-astro-cid-sz7xmlte> <li data-astro-cid-sz7xmlte><a href="/contact" data-astro-cid-sz7xmlte>お問い合わせ</a></li> <li data-astro-cid-sz7xmlte><a href="/account" data-astro-cid-sz7xmlte>Y.NetLaboアカウント</a></li> <li data-astro-cid-sz7xmlte><a href="/terms" data-astro-cid-sz7xmlte>利用規約</a></li> <li data-astro-cid-sz7xmlte><a href="/privacy" data-astro-cid-sz7xmlte>プライバシーポリシー</a></li> </ul> </nav> </div> <div class="footer-bottom" data-astro-cid-sz7xmlte> <div class="wrap" data-astro-cid-sz7xmlte> <p data-astro-cid-sz7xmlte>© 2026 Y.NetLabo</p> </div> </div> </footer>   </body> </html> 

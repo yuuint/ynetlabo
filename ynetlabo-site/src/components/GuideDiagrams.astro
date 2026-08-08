@@ -1,0 +1,80 @@
+---
+/**
+ * ガイド本文の ```mermaid ブロック（rehype 側で `<pre class="mermaid">` になっている）を描く。
+ *
+ * mermaid は描画に DOM を要するのでビルド時に SVG へ落とせない。代わりに
+ * - mermaid 本体は動的 import にして、図があるページでだけ読み込む
+ * - サイトのテーマ切り替え（data-theme）に合わせて描き直す
+ * JS が動かない環境では、元のテキストがそのまま読める状態で残る。
+ */
+---
+
+<script>
+  const nodes = [...document.querySelectorAll<HTMLElement>("pre.mermaid")];
+
+  if (nodes.length) {
+    // 描き直しのたびに元の定義が要るので、最初に控えておく
+    const sources = nodes.map((el) => el.textContent ?? "");
+
+    const { default: mermaid } = await import("mermaid");
+
+    const isDark = () => document.documentElement.dataset.theme === "dark";
+    /** グローバルの配色トークンを読む（テーマ切り替えで値が変わる） */
+    const token = (name: string) =>
+      getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+    const render = async () => {
+      const ink = token("--color-ink");
+      const line = token("--color-line");
+      const surface = token("--color-mist");
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark() ? "dark" : "default",
+        // 図中の書体を本文にそろえる
+        fontFamily: getComputedStyle(document.body).fontFamily,
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
+        // サイトの配色（ペンギンオレンジ＋ネイビー）に寄せる
+        themeVariables: {
+          fontSize: "14px",
+          primaryColor: surface,
+          primaryBorderColor: token("--color-accent"),
+          primaryTextColor: ink,
+          lineColor: token("--color-muted"),
+          textColor: token("--color-body"),
+          // sequenceDiagram のレーン見出し
+          actorBkg: surface,
+          actorBorder: token("--color-accent"),
+          actorTextColor: ink,
+          signalColor: token("--color-muted"),
+          signalTextColor: token("--color-body"),
+          noteBkgColor: surface,
+          noteBorderColor: line,
+          noteTextColor: ink,
+        },
+      });
+
+      await Promise.all(
+        nodes.map(async (el, i) => {
+          try {
+            const { svg } = await mermaid.render(`guide-diagram-${i}`, sources[i]);
+            el.innerHTML = svg;
+            el.dataset.rendered = "true";
+          } catch (e) {
+            // 描けなかったときは元のテキストのままにしておく（読めなくなるよりよい）
+            el.textContent = sources[i];
+            delete el.dataset.rendered;
+            console.error("mermaid の描画に失敗しました", e);
+          }
+        })
+      );
+    };
+
+    await render();
+
+    // ヘッダのテーマ切り替えに追従する
+    new MutationObserver((records) => {
+      if (records.some((r) => r.attributeName === "data-theme")) render();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+</script>

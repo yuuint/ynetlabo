@@ -358,3 +358,177 @@
   font-weight: 700;
   white-space: nowrap;
 }
+
+/* =========================================================================
+   App guide — .prose を土台に、ラフ画（図）と番号つき注釈表向けに上書き
+   ========================================================================= */
+.guide-prose {
+  /* 図が入るぶん本文カラムは記事より広いが、地の文が伸びすぎない幅で止める */
+  max-width: 54rem;
+}
+
+/* 部（# 管理者編 / # スタッフ編）— 章より一段強い区切りにする */
+.guide-prose h1 {
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.8rem);
+  margin-top: 3em;
+  padding: 0.5rem 1.1rem;
+  border-radius: 12px;
+  background: var(--color-panel);
+  color: var(--color-on-panel);
+}
+/* アンカーで飛んだとき sticky ヘッダ(4.25rem)に見出しが隠れないように */
+.guide-prose :is(h1, h2, h3, h4) {
+  scroll-margin-top: 5.5rem;
+}
+
+/* ----- 図（ラフ画） ----- */
+.guide-figure {
+  margin-block: 1.75em;
+  /*
+   * 図の幅は 450px（1画面）〜1374px（複数画面の横並び）と幅がある。
+   * 枠を図の実寸に合わせて中央に置き、本文より広いものだけ縮める。
+   */
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+/* SVG は白背景で描かれているので、ダークテーマでも「紙」として見せる */
+.guide-figure__frame {
+  display: block;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+}
+.guide-figure__frame:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+.guide-prose .guide-figure img {
+  /*
+   * 縮小はするが拡大はしない。1画面だけの図（450px 幅）を本文幅まで引き伸ばすと
+   * 不自然に大きくなるため。本文幅を超える図は縮み、細部は原寸表示（タップ）に委ねる。
+   */
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  display: block;
+}
+.guide-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+.guide-figure figcaption::after {
+  content: " — タップで原寸表示";
+  opacity: 0.7;
+}
+
+/* ----- フロー図・状態遷移図（mermaid） ----- */
+/*
+ * ラフ画と違い mermaid はテーマに追従して描き直すので、白い「紙」にはせず
+ * ページの地の上にそのまま置く。
+ */
+/* mermaid は描画時に幅へ合わせるので、枠は本文幅いっぱいのままにする */
+.guide-figure--diagram {
+  width: auto;
+}
+.guide-prose pre.mermaid {
+  margin: 0;
+  padding: 1.25rem 1rem;
+  border-radius: 14px;
+  background: var(--color-mist);
+  border: 1px solid var(--color-line);
+  color: var(--color-body);
+  /* 描き終わるまでは定義テキストが読める状態にしておく */
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+/* 描画後は SVG を中央に収める */
+.guide-prose pre.mermaid[data-rendered] {
+  padding: 1rem;
+  text-align: center;
+}
+.guide-prose pre.mermaid[data-rendered] svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----- 表 ----- */
+.guide-prose tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-mist) 55%, transparent);
+}
+
+/* 注釈表（No. / 場所 / 説明）— 1列目は図中の番号バッジと対応する */
+.guide-table--numbered thead th:first-child,
+.guide-table--numbered tbody td:first-child {
+  width: 3.25rem;
+  text-align: center;
+  white-space: nowrap;
+}
+.guide-table--numbered tbody td:first-child {
+  color: var(--color-accent-ink);
+  font-weight: 700;
+}
+/* 「場所」列は図中のラベルなので、地の文と区別する */
+.guide-table--numbered tbody td:nth-child(2) {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  /* 狭い画面では表を横スクロールさせず、1行 = 1カードに積み直す */
+  .guide-prose table,
+  .guide-prose tbody,
+  .guide-prose tr,
+  .guide-prose td {
+    display: block;
+    width: auto;
+  }
+  .guide-prose thead {
+    display: none;
+  }
+  .guide-prose tbody tr {
+    margin-bottom: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    background: var(--color-bg);
+  }
+  .guide-prose tbody td {
+    border: none;
+    padding: 0.15rem 0;
+  }
+  .guide-prose tbody tr:nth-child(even) {
+    background: var(--color-bg);
+  }
+  /* 1列目（用語・状態・症状など）は行の見出しとして立てる */
+  .guide-prose tbody td:first-child {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  /* 注釈表は No. をバッジにして「場所」と同じ行に並べる */
+  .guide-table--numbered tbody td:first-child {
+    display: inline-block;
+    width: auto;
+    min-width: 1.6rem;
+    margin-right: 0.5rem;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+  .guide-table--numbered tbody td:nth-child(2) {
+    display: inline;
+  }
+  .guide-table--numbered tbody td:nth-child(n + 3) {
+    margin-top: 0.35rem;
+  }
+}

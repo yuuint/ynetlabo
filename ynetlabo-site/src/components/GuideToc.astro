@@ -1,0 +1,160 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  /** 折りたたみ表示（モバイル）にするか */
+  collapsible?: boolean;
+}
+
+const { headings, collapsible = false } = Astro.props;
+
+/**
+ * 本文の h2 / h3 だけを目次に載せる。
+ * ガイド原稿は「# 管理者編」のような部レベルの h1 も使うので、それも拾う。
+ */
+const items = headings.filter((h) => h.depth >= 1 && h.depth <= 3);
+const Wrapper = collapsible ? "details" : "nav";
+---
+
+<Wrapper
+  class:list={["guide-toc", { "guide-toc--collapsible": collapsible }]}
+  {...collapsible ? {} : { "aria-label": "目次" }}
+>
+  {
+    collapsible ? (
+      <summary class="guide-toc__title">目次</summary>
+    ) : (
+      <p class="guide-toc__title">目次</p>
+    )
+  }
+  <ol class="guide-toc__list">
+    {
+      items.map((h) => (
+        <li class={`guide-toc__item guide-toc__item--d${h.depth}`}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))
+    }
+  </ol>
+</Wrapper>
+
+<style>
+  .guide-toc {
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+  .guide-toc__title {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .guide-toc__list {
+    margin-top: 0.9rem;
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    /* スクロールバーが文字に被らないよう逃がす */
+    padding-right: 0.5rem;
+  }
+  .guide-toc__item + .guide-toc__item {
+    margin-top: 0.15rem;
+  }
+  .guide-toc__item a {
+    display: block;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    color: var(--color-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .guide-toc__item a:hover {
+    color: var(--color-accent-ink);
+    border-left-color: var(--color-accent);
+  }
+  /* 「管理者編」「スタッフ編」といった部の見出し */
+  .guide-toc__item--d1 a {
+    margin-top: 0.7rem;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .guide-toc__item--d3 a {
+    padding-left: 1.5rem;
+    font-size: 0.94em;
+  }
+
+  /* いま読んでいる章（IntersectionObserver が付ける） */
+  .guide-toc__item a[aria-current="true"] {
+    color: var(--color-accent-ink);
+    font-weight: 700;
+    border-left-color: var(--color-accent);
+    background: var(--color-mist);
+  }
+
+  /* ----- 折りたたみ（モバイル） ----- */
+  .guide-toc--collapsible {
+    background: var(--color-bg);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 1.1rem;
+  }
+  .guide-toc--collapsible > .guide-toc__title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .guide-toc--collapsible .guide-toc__list {
+    max-height: 22rem;
+  }
+</style>
+
+<script>
+  // いま画面に見えている見出しを目次側で示す。
+  // 折りたたみ版（モバイル）は同じリンクの複製なので、追従は常設の nav 側だけに付ける。
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>("nav.guide-toc .guide-toc__item a").forEach((a) => {
+    const id = decodeURIComponent(a.getAttribute("href")?.slice(1) ?? "");
+    if (id) links.set(id, a);
+  });
+
+  const headings = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (headings.length) {
+    let current: string | null = null;
+    const visible = new Set<string>();
+
+    const setCurrent = (id: string | null) => {
+      if (id === current) return;
+      if (current) links.get(current)?.removeAttribute("aria-current");
+      current = id;
+      if (id) {
+        const link = links.get(id);
+        link?.setAttribute("aria-current", "true");
+        // 目次が長いので、追従先が枠外なら見える位置へ寄せる
+        link?.scrollIntoView({ block: "nearest" });
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        // 見えているうちで最も上の見出しを「いまの章」とする
+        const top = headings.find((h) => visible.has(h.id));
+        if (top) setCurrent(top.id);
+      },
+      // ヘッダ(4.25rem = 68px)のすぐ下から画面の上半分に入った見出しを拾う。
+      // rootMargin は px か % しか受け付けない（rem を渡すと構築時に例外になる）
+      { rootMargin: "-80px 0px -55% 0px" }
+    );
+    headings.forEach((h) => observer.observe(h));
+  }
+</script>

@@ -16,6 +16,7 @@ export const SITE = {
 
 export const NAV = [
   { label: "ホーム", href: "/" },
+  { label: "使い方ガイド", href: "/guide" },
   { label: "記事", href: "/article" },
   { label: "お知らせ", href: "/archives/category/notice" },
 ] as const;
