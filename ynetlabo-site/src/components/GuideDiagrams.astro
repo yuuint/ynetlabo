@@ -56,8 +56,9 @@
 
       await Promise.all(
         nodes.map(async (el, i) => {
+          const id = `guide-diagram-${i}`;
           try {
-            const { svg } = await mermaid.render(`guide-diagram-${i}`, sources[i]);
+            const { svg } = await mermaid.render(id, sources[i]);
             el.innerHTML = svg;
             el.dataset.rendered = "true";
           } catch (e) {
@@ -65,6 +66,10 @@
             el.textContent = sources[i];
             delete el.dataset.rendered;
             console.error("mermaid の描画に失敗しました", e);
+          } finally {
+            // mermaid が body 直下に作る作業用の要素。描画に失敗すると
+            // 「Syntax error in text」の図が残ったままになるので必ず片付ける
+            document.getElementById(`d${id}`)?.remove();
           }
         })
       );
