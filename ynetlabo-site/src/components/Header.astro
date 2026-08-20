@@ -110,6 +110,7 @@ const isActive = (href: string) =>
     gap: 1.75rem;
   }
   .nav-link {
+    white-space: nowrap;
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--color-body);
@@ -157,7 +158,14 @@ const isActive = (href: string) =>
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
-  @media (max-width: 768px) {
+  /* 項目8つ（7リンク + CTA）は gap 1.75rem だと 913px 必要。中間幅では詰める */
+  @media (max-width: 1024px) {
+    .nav {
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 900px) {
     .nav {
       position: fixed;
       inset: 4.25rem 0 auto 0;

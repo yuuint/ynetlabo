@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticleCard from "../../../components/ArticleCard.astro";
 import { articleHref } from "../../../utils";
-import { categorySlug, SITE } from "../../../consts";
+import { categorySlug, CATEGORY_DESCRIPTIONS, SITE } from "../../../consts";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -29,6 +29,11 @@ export async function getStaticPaths() {
 const { name, posts } = Astro.props;
 const isNotice = categorySlug(name) === "notice";
 
+/** 記事数は本文にも出るので、description の末尾にも添えて具体性を持たせる */
+const description = `${
+  CATEGORY_DESCRIPTIONS[name] ?? `${name} に関する記事の一覧です。`
+}記事${posts.length}本。`;
+
 const origin = (Astro.site ?? new URL(SITE.url)).origin;
 const pageUrl = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
 const breadcrumbLd = {
@@ -43,7 +48,7 @@ const breadcrumbLd = {
 
 <BaseLayout
   title={isNotice ? "お知らせ" : `${name} の記事`}
-  description={`${name} に関する記事の一覧です。`}
+  description={description}
   jsonLd={breadcrumbLd}
 >
   <section class="page-head">

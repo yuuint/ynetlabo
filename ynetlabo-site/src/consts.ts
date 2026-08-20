@@ -156,6 +156,35 @@ export const CATEGORY_SLUGS: Record<string, string> = {
   "soroe日程調整アプリ": "soroe",
   "claude": "claude",
   "Github Copilot": "github-copilot",
+  "慶弔マナー": "manner",
+};
+
+/**
+ * カテゴリ一覧ページ（/archives/category/<slug>）の meta description。
+ *
+ * 「<名前> に関する記事の一覧です。」の自動生成だと 20 字前後にしかならず、
+ * Bing の SEO 分析で「Meta descriptions are too short」として全カテゴリが
+ * 指摘された。検索結果に出る文なので、そのカテゴリで何が読めるかを書く。
+ */
+export const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  "お知らせ":
+    "Y.NetLabo からのお知らせ。アプリの新規公開・アップデート内容・仕様変更のご案内をまとめています。wa/ri・soroe・tsutsum など各アプリの更新履歴はこちらから。",
+  "アプリ開発":
+    "個人開発でアプリをつくる過程で分かったことの記録。設計の判断とその理由、技術選定で迷ったところ、AI コーディングツールの実践的な使い方まで、実際に手を動かして得た知見を書いています。",
+  "claude":
+    "Claude・Claude Code を個人開発の現場でどう使っているかの記録。CLAUDE.md の書き方、spec と ADR による仕様管理、Agent Skills の作り方まで、実プロジェクトでの運用をまとめています。",
+  "Github Copilot":
+    "GitHub Copilot を使ったアプリ開発の記録。UI 実装を任せるときのプロンプトの渡し方や、スクリーンショットを併用して移植の精度を上げた話などをまとめています。",
+  "wa/ri割り勘アプリ":
+    "割り勘アプリ wa/ri の記事。端数や立て替えの精算をどう計算するかといった実用の話から、4クライアント構成や計算過程を見せる設計といったつくり方の裏側、アップデート情報までまとめています。",
+  "maPengu ペンギン検索アプリ":
+    "ペンギン検索アプリ mapengu の開発記録。Create ML と Core ML でペンギン種別判定カメラを実装した過程や、水族館を地図で探せるようにするまでの工夫をまとめています。",
+  "tsutsum慶弔記録アプリ":
+    "慶弔記録アプリ tsutsum の開発記録。完全オフライン設計の考え方、お返し管理と相場表のつくり方、AI と進める仕様管理（spec / ADR）の実践をまとめています。",
+  "慶弔マナー":
+    "ご祝儀・香典まわりの決めごとを、迷ったときに引ける形でまとめた記事。表書きの選び方、水引、お札の入れ方、内祝い・快気祝いの文例など、正解を断定せず「こういわれています」の形で書いています。",
+  "soroe日程調整アプリ":
+    "シフト調整アプリ soroe の記事。シフト希望の集め方や運用の工夫といった実務の話から、SwiftUI アプリを設計図にして Flutter へ移植した開発記録、アップデート情報までまとめています。",
 };
 
 export function categorySlug(name: string): string {

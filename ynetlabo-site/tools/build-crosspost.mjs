@@ -24,7 +24,12 @@ const outRoot = join(repoRoot, "crosspost");
 
 const SITE_URL = "https://ynetlabo.net";
 
-/** 出さない記事（お知らせ・プロダクト紹介） */
+/**
+ * 出さない記事（お知らせ・プロダクト紹介）。
+ * これに加えて、下の TAGS に項目が無い記事は対象外にしている。
+ * Qiita / Zenn は技術情報の場なので、慶弔マナーや割り勘の解説のような
+ * 読者層の違う記事は出さない（場違いな投稿は評価を落とす）。
+ */
 const EXCLUDE_CATEGORIES = ["お知らせ"];
 const EXCLUDE_IDS = [186];
 
@@ -116,9 +121,11 @@ for (const file of files) {
 
   if (EXCLUDE_IDS.includes(wpId)) continue;
   if (categories.some((c) => EXCLUDE_CATEGORIES.includes(c))) continue;
+  // タグを決めていない記事は「出す対象として選んでいない」とみなす
+  if (!TAGS[wpId]) continue;
 
   const canonical = `${SITE_URL}/archives/${wpId}`;
-  const tags = TAGS[wpId] ?? ["個人開発"];
+  const tags = TAGS[wpId];
   const text = absolutize(body.trim());
 
   const header = `> この記事は、自分のサイト [Y.NetLabo](${SITE_URL}) に書いたものの再掲です。\n> 原文: ${canonical}\n`;
