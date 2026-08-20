@@ -19,6 +19,13 @@
             function gtag() {
               dataLayer.push(arguments);
             }
+            /*
+             * define:vars を使うと Astro がこのスクリプトを IIFE で包むため、
+             * gtag がグローバルに出ない。別スクリプト（ツールページなど）から
+             * 呼べるように明示的に載せる。
+             */
+            window.gtag = gtag;
+
             gtag("js", new Date());
             gtag("config", gaId);
 
