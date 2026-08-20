@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE, PROJECTS } from "../../consts";
+import { APP_DETAILS } from "../../data/apps";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+
+const description =
+  "Y.NetLabo がつくっているアプリの一覧。割り勘（wa/ri）、慶弔記録（tsutsum）、シフト調整（soroe）、ペンギン検索（mapengu）、感情記録（hue）。すべて無料でお使いいただけます。";
+
+/** PROJECTS の並びで、詳細ページを持つものを引き当てる */
+const apps = PROJECTS.map((project) => ({
+  project,
+  detail: APP_DETAILS.find((d) => d.project === project.name),
+})).filter((a) => a.detail);
+
+const itemListLd = {
+  "@type": "ItemList",
+  name: "Y.NetLabo のアプリ",
+  description,
+  numberOfItems: apps.length,
+  itemListElement: apps.map((a, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `${a.project.name} — ${a.project.tagline}`,
+    url: `${origin}/apps/${a.detail!.slug}`,
+  })),
+};
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "アプリ", item: `${origin}/apps` },
+  ],
+};
+---
+
+<BaseLayout title="アプリ" description={description} jsonLd={[itemListLd, breadcrumbLd]}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Apps</span>
+      <h1 class="page-title">アプリ</h1>
+      <p class="page-sub">
+        必要な機能だけを、丁寧に。Y.NetLabo がつくっている
+        <strong>{apps.length}</strong> つのアプリです。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="app-grid">
+        {
+          apps.map(({ project, detail }) => (
+            <a
+              class="card card-link app-card"
+              href={`/apps/${detail!.slug}`}
+              style={`--brand:${project.accent}`}
+            >
+              {project.icon && (
+                <img
+                  class="app-card__icon"
+                  src={project.icon}
+                  alt=""
+                  width="72"
+                  height="72"
+                  loading="lazy"
+                />
+              )}
+              <div class="app-card__body">
+                <h2 class="app-card__name">{project.name}</h2>
+                <p class="app-card__tagline">{project.tagline}</p>
+                <p class="app-card__desc">{project.description}</p>
+                <ul class="app-card__platforms">
+                  {detail!.platforms.map((p) => (
+                    <li class="chip">{p}</li>
+                  ))}
+                </ul>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 2.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-muted);
+  }
+  .page-sub strong {
+    color: var(--color-accent-ink);
+  }
+  .section {
+    padding-block: 3.5rem;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+    gap: 1.5rem;
+  }
+  .app-card {
+    display: flex;
+    /* 既定の stretch だとアイコンが本文の高さまで縦に伸びる */
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.75rem;
+    text-decoration: none;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .app-card__icon {
+    border-radius: 18px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .app-card__name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+  }
+  .app-card__tagline {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-accent-ink);
+    margin-top: 0.15rem;
+  }
+  .app-card__desc {
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+  .app-card__platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 34rem) {
+    .app-card {
+      flex-direction: column;
+    }
+  }
+</style>

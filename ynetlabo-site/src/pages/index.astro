@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import { PROJECTS, PROFILE, SITE, SOCIAL } from "../consts";
 import { articleHref } from "../utils";
+import { APP_DETAILS } from "../data/apps";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -22,6 +23,12 @@ const heroMeta = [
   "iOS / Android / Web / LINE",
   "すべて個人開発",
 ];
+/** アプリ紹介ページ（/apps/<slug>）への内部リンク */
+const appPageHref = (name: string) => {
+  const d = APP_DETAILS.find((a) => a.project === name);
+  return d ? `/apps/${d.slug}` : undefined;
+};
+
 const appLd = PROJECTS.map((p) => ({
   "@type": "SoftwareApplication",
   name: p.name,
@@ -31,7 +38,8 @@ const appLd = PROJECTS.map((p) => ({
     [p.appStore && "iOS", p.googlePlay && "Android", p.site && "Web"]
       .filter(Boolean)
       .join(", ") || "Web",
-  url: p.site ?? p.appStore ?? p.googlePlay,
+  url: appPageHref(p.name) ? `${origin}${appPageHref(p.name)}` : p.site,
+  sameAs: [p.site, p.appStore, p.googlePlay].filter(Boolean),
   offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
   publisher: { "@id": `${origin}/#org` },
 }));
@@ -160,8 +168,13 @@ const appLd = PROJECTS.map((p) => ({
               </div>
               <p class="project-desc">{p.description}</p>
               <div class="project-links">
+                {appPageHref(p.name) && (
+                  <a class="plink plink-primary" href={appPageHref(p.name)}>
+                    詳しく見る
+                  </a>
+                )}
                 {p.site && (
-                  <a class="plink plink-primary" href={p.site} target="_blank" rel="noopener noreferrer">
+                  <a class="plink" href={p.site} target="_blank" rel="noopener noreferrer">
                     公式サイト
                   </a>
                 )}

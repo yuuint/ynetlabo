@@ -16,6 +16,8 @@ export const SITE = {
 
 export const NAV = [
   { label: "ホーム", href: "/" },
+  { label: "アプリ", href: "/apps" },
+  { label: "ツール", href: "/tools" },
   { label: "使い方ガイド", href: "/guide" },
   { label: "スキル", href: "/skills" },
   { label: "記事", href: "/article" },

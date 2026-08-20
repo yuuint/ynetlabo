@@ -1,0 +1,596 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE, PROJECTS } from "../../consts";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const tsutsum = PROJECTS.find((p) => p.name === "tsutsum");
+
+const title = "お返し（半返し）計算機";
+const description =
+  "いただいたご祝儀・香典・お見舞いのお返しを、金額と時期の両面から計算します。金額はいただいた額の3分の1〜半分、時期は四十九日・お宮参りなど名目ごとの節目で目安を表示。登録不要・無料。";
+
+/**
+ * 時期の目安。文言・日数は tsutsum の
+ * lib/features/records/domain/return_timing.dart と揃えている
+ * （断定・命令形を使わない「〜といわれます」の温度もそのまま）。
+ */
+const TIMINGS = [
+  {
+    key: "funeral",
+    label: "葬儀（香典返し）",
+    offset: 49,
+    text: "四十九日（{date} ごろ）が過ぎてからで大丈夫です",
+  },
+  {
+    key: "wedding",
+    label: "結婚（内祝い）",
+    offset: 30,
+    text: "挙式から1ヶ月以内（{date} ごろまで）が目安といわれます",
+  },
+  {
+    key: "childbirth",
+    label: "出産（出産内祝い）",
+    offset: 30,
+    text: "お宮参り（生後1ヶ月・{date} ごろ）のころが目安といわれます",
+  },
+  {
+    key: "sickness",
+    label: "お見舞い（快気祝い）",
+    offset: 20,
+    text: "退院から10日〜1ヶ月ごろ（{date} ごろ）が目安といわれます",
+  },
+  { key: "other", label: "そのほか", offset: null, text: "" },
+];
+
+const faq = [
+  {
+    q: "お返しはいただいた金額のどれくらいが目安ですか？",
+    a: "3分の1から半分（半返し）が目安といわれます。この計算機もその幅で出します。高額をいただいた場合は3分の1程度に抑えることが多いようです。",
+  },
+  {
+    q: "香典返しはいつ渡すものですか？",
+    a: "四十九日の法要が済んでから、忌明けの挨拶とあわせてお返しするのが一般的といわれます。当日返し（会葬御礼と一緒に渡す）の地域もあります。",
+  },
+  {
+    q: "結婚祝いの内祝いはいつまでに返しますか？",
+    a: "挙式から1ヶ月以内が目安といわれます。挙式に出席いただいた方には引き出物がお返しにあたるため、別途の内祝いは不要とされることが多いです。",
+  },
+  {
+    q: "出産祝いのお返しの時期は？",
+    a: "生後1ヶ月のお宮参りのころが目安といわれます。体調の回復を優先して、少し遅れても差し支えないとされています。",
+  },
+  {
+    q: "お返しが不要な場合はありますか？",
+    a: "「お返しは気にしないで」と言われた場合や、目上の方から励ましの意味で贈られた場合など、お返しを控えるほうが自然なこともあります。お礼状だけをお送りする形もあります。",
+  },
+];
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "ツール", item: `${origin}/tools` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: `${origin}/tools/okaeshi`,
+    },
+  ],
+};
+
+const faqLd = {
+  "@type": "FAQPage",
+  mainEntity: faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const appLd = {
+  "@type": "WebApplication",
+  name: title,
+  description,
+  url: `${origin}/tools/okaeshi`,
+  applicationCategory: "UtilitiesApplication",
+  browserRequirements: "JavaScript を有効にしてください",
+  inLanguage: "ja",
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
+  publisher: { "@id": `${origin}/#org` },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={[appLd, faqLd, breadcrumbLd]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Tool</span>
+      <h1 class="page-title">お返し（半返し）計算機</h1>
+      <p class="page-sub">
+        いただいた金額を入れると、お返しの<strong>金額の目安</strong>を出します。
+        名目といただいた日を選べば、<strong>お返しの時期</strong>の目安も出ます。
+        登録不要・無料、入力した内容はどこにも送信されません。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="card calc">
+        <div class="field">
+          <label class="label" for="amount">いただいた金額</label>
+          <div class="input-wrap">
+            <input
+              id="amount"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1000"
+              placeholder="10000"
+              autocomplete="off"
+            />
+            <span class="unit">円</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="label" for="event">名目</label>
+            <select id="event">
+              {TIMINGS.map((t) => <option value={t.key}>{t.label}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="date">いただいた日</label>
+            <input id="date" type="date" />
+          </div>
+        </div>
+
+        <output class="result" id="result" hidden>
+          <div class="result-block">
+            <span class="result-label">お返しの金額の目安</span>
+            <p class="result-amount" id="result-amount"></p>
+            <p class="result-sub" id="result-sub"></p>
+          </div>
+          <div class="result-block" id="timing-block" hidden>
+            <span class="result-label">お返しの時期の目安</span>
+            <p class="result-timing" id="result-timing"></p>
+          </div>
+        </output>
+
+        <p class="empty" id="empty">金額を入れると目安が出ます。</p>
+      </div>
+
+      <p class="disclaimer">
+        金額・時期はいずれも一般的な目安です。地域やお付き合いの深さ、ご家庭の考え方で変わります。
+        迷ったときは、同じ立場の方やご家族に相談すると安心です。
+      </p>
+
+      <div class="next-actions">
+        <a class="btn btn-ghost" href="/tools/souba"
+          >ご祝儀・香典の相場早見表を見る →</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 時期の一覧 ============ -->
+  <section class="section section--mist">
+    <div class="wrap-narrow">
+      <span class="eyebrow">Timing</span>
+      <h2 class="section-title">名目ごとの、お返しの時期</h2>
+      <div class="card table-card">
+        <table class="timing-table">
+          <thead>
+            <tr>
+              <th scope="col">名目</th>
+              <th scope="col">時期の目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">葬儀（香典返し）</th>
+              <td>四十九日が過ぎてから。忌明けの挨拶とあわせて</td>
+            </tr>
+            <tr>
+              <th scope="row">結婚（内祝い）</th>
+              <td>挙式から1ヶ月以内</td>
+            </tr>
+            <tr>
+              <th scope="row">出産（出産内祝い）</th>
+              <td>お宮参り（生後1ヶ月）のころ</td>
+            </tr>
+            <tr>
+              <th scope="row">お見舞い（快気祝い）</th>
+              <td>退院から10日〜1ヶ月ごろ</td>
+            </tr>
+            <tr>
+              <th scope="row">お中元・お歳暮</th>
+              <td>次のお中元（7月ごろ）・お歳暮（12月ごろ）に</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section">
+    <div class="wrap-narrow">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">よくある質問</h2>
+      <div class="faq">
+        {
+          faq.map((f) => (
+            <details class="card faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ アプリ導線 ============ -->
+  <section class="section section--mist">
+    <div class="wrap-narrow">
+      <div class="card promo" style={`--brand:${tsutsum?.accent}`}>
+        {
+          tsutsum?.icon && (
+            <img
+              class="promo-icon"
+              src={tsutsum.icon}
+              alt=""
+              width="72"
+              height="72"
+              loading="lazy"
+            />
+          )
+        }
+        <div class="promo-body">
+          <h2 class="promo-title">「もらいっぱなし」を防ぐなら、tsutsum</h2>
+          <p>
+            慶弔記録アプリ <strong>tsutsum（ツツム）</strong>
+            は、いただいた記録を残すと、この目安額と時期を自動で計算して「そろそろお返しの時期かも」と控えめに知らせます。
+            記録は端末の中だけに保存される<strong>完全オフライン</strong
+            >。5年後に「あの人にいくらいただいたか」も引けます。
+          </p>
+          <div class="promo-actions">
+            <a class="btn btn-accent" href="/apps/tsutsum">tsutsum を見る</a>
+            <a class="btn btn-ghost" href="/guide/tsutsum">使い方ガイド</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const $ = <T extends HTMLElement>(id: string) =>
+    document.getElementById(id) as T;
+
+  const amount = $<HTMLInputElement>("amount");
+  const eventSel = $<HTMLSelectElement>("event");
+  const dateInput = $<HTMLInputElement>("date");
+  const result = $<HTMLElement>("result");
+  const empty = $<HTMLElement>("empty");
+  const timingBlock = $<HTMLElement>("timing-block");
+
+  /** 受領日の既定値は今日 */
+  const today = new Date();
+  const iso = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+      d.getDate()
+    ).padStart(2, "0")}`;
+  dateInput.value = iso(today);
+
+  /** tsutsum の returnHint と同じ: 3分の1〜半分、100円単位に丸め、300円未満は出さない */
+  function returnHint(n: number): { low: number; high: number } | null {
+    if (!Number.isFinite(n) || n < 300) return null;
+    const round100 = (v: number) => Math.round(v / 100) * 100;
+    const low = round100(n / 3);
+    const high = round100(n / 2);
+    return low > 0 && high > 0 ? { low, high } : null;
+  }
+
+  const TIMINGS: Record<string, { offset: number; text: string }> = {
+    funeral: { offset: 49, text: "四十九日（{date} ごろ）が過ぎてからで大丈夫です" },
+    wedding: {
+      offset: 30,
+      text: "挙式から1ヶ月以内（{date} ごろまで）が目安といわれます",
+    },
+    childbirth: {
+      offset: 30,
+      text: "お宮参り（生後1ヶ月・{date} ごろ）のころが目安といわれます",
+    },
+    sickness: {
+      offset: 20,
+      text: "退院から10日〜1ヶ月ごろ（{date} ごろ）が目安といわれます",
+    },
+  };
+
+  const yen = (n: number) => `${n.toLocaleString("ja-JP")}円`;
+
+  /** 計算が成立したことを1回だけ GA4 に送る（本番のみ gtag が居る） */
+  let tracked = false;
+  function track() {
+    if (tracked) return;
+    tracked = true;
+    (window as any).gtag?.("event", "tool_used", {
+      tool: "okaeshi",
+      event_type: eventSel.value,
+    });
+  }
+
+  function update() {
+    const hint = returnHint(Number(amount.value));
+    if (!hint) {
+      result.hidden = true;
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+    result.hidden = false;
+    track();
+
+    $("result-amount").textContent = `${yen(hint.low)} 〜 ${yen(hint.high)}`;
+    $("result-sub").textContent =
+      "いただいた金額の3分の1〜半分。品物を選ぶときの上限・下限の手がかりにしてください。";
+
+    const t = TIMINGS[eventSel.value];
+    if (t && dateInput.value) {
+      const base = new Date(dateInput.value);
+      if (!Number.isNaN(base.getTime())) {
+        base.setDate(base.getDate() + t.offset);
+        timingBlock.hidden = false;
+        $("result-timing").textContent = t.text.replace(
+          "{date}",
+          `${base.getMonth() + 1}/${base.getDate()}`
+        );
+        return;
+      }
+    }
+    timingBlock.hidden = true;
+  }
+
+  [amount, eventSel, dateInput].forEach((el) => {
+    el.addEventListener("input", update);
+    el.addEventListener("change", update);
+  });
+</script>
+
+<style>
+  .page-head {
+    padding-block: 3rem 2.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-muted);
+  }
+
+  .section {
+    padding-block: 3.5rem;
+  }
+  .section--mist {
+    background: var(--color-mist);
+  }
+  .section-title {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+    margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ----- 計算フォーム ----- */
+  .calc {
+    padding: 2rem;
+  }
+  .field + .field-row,
+  .field-row + .field {
+    margin-top: 1.5rem;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 34rem) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .label {
+    display: block;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+  .input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  input,
+  select {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-family: inherit;
+    color: var(--color-ink);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-pressed-sm);
+    border: none;
+    outline: none;
+  }
+  input:focus,
+  select:focus {
+    box-shadow: var(--shadow-pressed-sm), 0 0 0 2px var(--color-accent);
+  }
+  .unit {
+    font-weight: 700;
+    color: var(--color-muted);
+  }
+
+  .empty {
+    margin-top: 1.75rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+  .result {
+    display: block;
+    margin-top: 1.75rem;
+  }
+  .result-block + .result-block {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .result-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-ink);
+  }
+  .result-amount {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+    font-weight: 700;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.4rem;
+    line-height: 1.3;
+  }
+  .result-sub {
+    margin-top: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .result-timing {
+    margin-top: 0.5rem;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+
+  .disclaimer {
+    margin-top: 2rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-pressed-sm);
+  }
+  .next-actions {
+    margin-top: 2rem;
+  }
+
+  /* ----- 時期の表 ----- */
+  .table-card {
+    padding: 0.5rem 1.25rem;
+    overflow-x: auto;
+  }
+  .timing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .timing-table th,
+  .timing-table td {
+    padding: 0.85rem 0.5rem;
+    text-align: left;
+  }
+  .timing-table thead th {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .timing-table tbody tr + tr th,
+  .timing-table tbody tr + tr td {
+    border-top: 1px solid var(--color-line);
+  }
+  .timing-table tbody th {
+    font-weight: 700;
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+
+  /* ----- FAQ ----- */
+  .faq {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .faq-item {
+    padding: 1.1rem 1.3rem;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-ink);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: "＋";
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+  .faq-item p {
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+  }
+
+  /* ----- アプリ導線 ----- */
+  .promo {
+    display: flex;
+    /* 既定の stretch だとアイコンが本文の高さまで縦に伸びる */
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.9rem;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .promo-icon {
+    border-radius: 16px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .promo-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .promo-body p {
+    font-size: 0.95rem;
+  }
+  .promo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  @media (max-width: 40rem) {
+    .promo {
+      flex-direction: column;
+    }
+  }
+</style>

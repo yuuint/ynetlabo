@@ -1,0 +1,473 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE, PROJECTS } from "../../consts";
+import {
+  SOUBA,
+  SOUBA_EVENTS,
+  SOUBA_RELATIONS,
+  CONDOLENCE_EVENTS,
+} from "../../data/souba";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const tsutsum = PROJECTS.find((p) => p.name === "tsutsum");
+
+const title = "ご祝儀・香典の相場早見表";
+const description =
+  "結婚・出産・入学・新築・葬儀（香典）・法要・お見舞いの金額の目安を、家族/親戚/友人/同僚/上司/ご近所の関係性別にまとめた早見表。金額は幅で示す目安です。登録不要・無料。";
+
+/** 30000 → 3万円 / 5000 → 5,000円 */
+const yen = (n: number) =>
+  n % 10000 === 0 ? `${n / 10000}万円` : `${n.toLocaleString("ja-JP")}円`;
+
+/** [30000, 50000] → 3〜5万円 / [3000, 10000] → 3,000〜10,000円 */
+function rangeText([low, high]: readonly [number, number]): string {
+  if (low === high) return yen(low);
+  if (low % 10000 === 0 && high % 10000 === 0)
+    return `${low / 10000}〜${high / 10000}万円`;
+  return `${low.toLocaleString("ja-JP")}〜${high.toLocaleString("ja-JP")}円`;
+}
+
+/** 免責 — アプリ側（spec 0005）と同じ一文を使う */
+const DISCLAIMER =
+  "金額は一般的な目安です。地域やお付き合いの深さで変わります。";
+const CONDOLENCE_NOTE =
+  "香典は 4・9 のつく金額を避けるといわれます（「死」「苦」を連想させるため）。";
+
+const faq = [
+  {
+    q: "香典はいくら包めばよいですか？",
+    a: "故人との関係性で変わります。友人・同僚なら 5,000〜10,000円、親戚なら 1〜3万円、ご家族なら 3〜10万円あたりが目安といわれます。同じ立場の方と足並みをそろえるのが安心です。",
+  },
+  {
+    q: "香典で避けたほうがよい金額はありますか？",
+    a: "4・9 のつく金額（4,000円、9,000円、4万円など）は「死」「苦」を連想させるため避けるといわれます。また、香典は割り切れる偶数を避けて奇数にするという考え方もあります。",
+  },
+  {
+    q: "結婚式のご祝儀は3万円が基本ですか？",
+    a: "友人・同僚として一人で出席する場合は 3万円が最も一般的といわれます。ただし披露宴のない会や会費制の場合、学生や親しさの度合いによっても変わります。この表では 3〜5万円の幅で示しています。",
+  },
+  {
+    q: "相場より少ない金額だと失礼になりますか？",
+    a: "相場は「こうしなければならない」という決まりではなく、迷ったときの手がかりです。無理のない範囲で包むほうが、その後のお付き合いにとって自然なこともあります。",
+  },
+  {
+    q: "いただいたお返し（半返し）はいくらが目安ですか？",
+    a: "いただいた金額の 3分の1〜半分が目安といわれます。金額と時期はお返し計算機で確認できます。",
+  },
+];
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "ツール", item: `${origin}/tools` },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: `${origin}/tools/souba`,
+    },
+  ],
+};
+
+const faqLd = {
+  "@type": "FAQPage",
+  mainEntity: faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const webPageLd = {
+  "@type": "WebPage",
+  name: title,
+  description,
+  url: `${origin}/tools/souba`,
+  inLanguage: "ja",
+  isPartOf: { "@id": `${origin}/#website` },
+  about: SOUBA_EVENTS.map((e) => ({ "@type": "Thing", name: e.label })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={[webPageLd, faqLd, breadcrumbLd]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Tool</span>
+      <h1 class="page-title">ご祝儀・香典の相場早見表</h1>
+      <p class="page-sub">
+        「いくら包めばいいんだろう」に、幅で答えます。名目を選ぶと、相手との関係性ごとの金額の目安が出ます。
+        <strong>登録不要・無料</strong>で、そのまま使えます。
+      </p>
+      <ul class="head-meta">
+        <li><strong>{SOUBA_EVENTS.length}</strong> の名目</li>
+        <li><strong>{SOUBA_RELATIONS.length}</strong> の関係性</li>
+        <li>慶弔記録アプリ tsutsum と同じデータ</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="tabs" role="tablist" aria-label="名目を選ぶ">
+        {
+          SOUBA_EVENTS.map((e, i) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={["tab", { active: i === 0 }]}
+              id={`tab-${e.key}`}
+              data-event={e.key}
+              aria-selected={i === 0 ? "true" : "false"}
+              aria-controls={`panel-${e.key}`}
+            >
+              {e.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        SOUBA_EVENTS.map((e, i) => (
+          <div
+            class="panel"
+            id={`panel-${e.key}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${e.key}`}
+            hidden={i !== 0}
+          >
+            <h2 class="panel-title">
+              {e.label}の相場
+              <span class="panel-cat">{e.category}</span>
+            </h2>
+
+            <div class="card table-card">
+              <table class="souba-table">
+                <caption class="sr-only">
+                  {e.label}のときに包む金額の目安（関係性別）
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">相手との関係</th>
+                    <th scope="col">金額の目安</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SOUBA_RELATIONS.map((r) => (
+                    <tr>
+                      <th scope="row">{r.label}</th>
+                      <td class="amount">{rangeText(SOUBA[e.key][r.key])}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {CONDOLENCE_EVENTS.includes(e.key) && (
+              <p class="note-line">{CONDOLENCE_NOTE}</p>
+            )}
+          </div>
+        ))
+      }
+
+      <p class="disclaimer">{DISCLAIMER}</p>
+
+      <div class="next-actions">
+        <a class="btn btn-ghost" href="/tools/okaeshi"
+          >お返しの金額・時期を計算する →</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section--mist">
+    <div class="wrap-narrow">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">よくある質問</h2>
+      <div class="faq">
+        {
+          faq.map((f) => (
+            <details class="card faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ アプリ導線 ============ -->
+  <section class="section">
+    <div class="wrap-narrow">
+      <div class="card promo" style={`--brand:${tsutsum?.accent}`}>
+        {
+          tsutsum?.icon && (
+            <img
+              class="promo-icon"
+              src={tsutsum.icon}
+              alt=""
+              width="72"
+              height="72"
+              loading="lazy"
+            />
+          )
+        }
+        <div class="promo-body">
+          <h2 class="promo-title">記録まで残すなら、tsutsum</h2>
+          <p>
+            この相場表は、慶弔記録アプリ <strong>tsutsum（ツツム）</strong>
+            に内蔵されているものと同じデータです。アプリなら「誰に・いくら・いつ」を記録しておけて、
+            お返しの目安額と時期も自動で出ます。記録は端末の中だけに保存される<strong
+              >完全オフライン</strong
+            >です。
+          </p>
+          <div class="promo-actions">
+            <a class="btn btn-accent" href="/apps/tsutsum">tsutsum を見る</a>
+            <a class="btn btn-ghost" href="/guide/tsutsum">使い方ガイド</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".tab");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.event;
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle("active", on);
+        t.setAttribute("aria-selected", String(on));
+      });
+      document.querySelectorAll<HTMLElement>(".panel").forEach((p) => {
+        p.hidden = p.id !== `panel-${key}`;
+      });
+      (window as any).gtag?.("event", "tool_used", {
+        tool: "souba",
+        event_type: key,
+      });
+    });
+  });
+</script>
+
+<style>
+  .page-head {
+    padding-block: 3rem 2.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-muted);
+  }
+  .head-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.84rem;
+    color: var(--color-muted);
+  }
+  .head-meta strong {
+    color: var(--color-accent-ink);
+    font-size: 1.05rem;
+  }
+
+  .section {
+    padding-block: 3.5rem;
+  }
+  .section--mist {
+    background: var(--color-mist);
+  }
+  .section-title {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+    margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ----- 名目タブ ----- */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .tab {
+    padding: 0.5rem 1.05rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: color 0.15s ease, box-shadow 0.2s ease;
+  }
+  .tab:hover {
+    color: var(--color-accent-ink);
+  }
+  .tab.active {
+    color: var(--color-accent-ink);
+    box-shadow: var(--shadow-pressed-sm);
+  }
+
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .panel-cat {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-bg);
+    color: var(--color-muted);
+    box-shadow: var(--shadow-pressed-sm);
+  }
+
+  .table-card {
+    padding: 0.5rem 1.25rem;
+    overflow-x: auto;
+  }
+  .souba-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.98rem;
+  }
+  .souba-table th,
+  .souba-table td {
+    padding: 0.85rem 0.5rem;
+    text-align: left;
+  }
+  .souba-table thead th {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    font-weight: 700;
+  }
+  .souba-table tbody tr + tr th,
+  .souba-table tbody tr + tr td {
+    border-top: 1px solid var(--color-line);
+  }
+  .souba-table tbody th {
+    font-weight: 500;
+    color: var(--color-body);
+    white-space: nowrap;
+  }
+  .amount {
+    text-align: right;
+    font-weight: 700;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .note-line {
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .disclaimer {
+    margin-top: 2rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-pressed-sm);
+  }
+  .next-actions {
+    margin-top: 2rem;
+  }
+
+  /* ----- FAQ ----- */
+  .faq {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .faq-item {
+    padding: 1.1rem 1.3rem;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-ink);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: "＋";
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+  .faq-item p {
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+  }
+
+  /* ----- アプリ導線 ----- */
+  .promo {
+    display: flex;
+    /* 既定の stretch だとアイコンが本文の高さまで縦に伸びる */
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.9rem;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .promo-icon {
+    border-radius: 16px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .promo-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .promo-body p {
+    font-size: 0.95rem;
+  }
+  .promo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  @media (max-width: 40rem) {
+    .promo {
+      flex-direction: column;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>

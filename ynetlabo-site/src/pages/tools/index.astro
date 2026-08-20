@@ -1,0 +1,204 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE, PROJECTS } from "../../consts";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const wari = PROJECTS.find((p) => p.name === "wa/ri");
+
+const description =
+  "インストールも登録もなしで、ブラウザだけで使える無料ツール。ご祝儀・香典の相場早見表、お返し（半返し）計算機など。";
+
+const tools = [
+  {
+    href: "/tools/souba",
+    title: "ご祝儀・香典の相場早見表",
+    lead: "結婚・出産・入学・新築・葬儀・法要・お見舞いの金額の目安を、家族/親戚/友人/同僚/上司/ご近所の関係性別に。",
+    accent: "#a9663f",
+    tags: ["慶弔", "相場"],
+  },
+  {
+    href: "/tools/okaeshi",
+    title: "お返し（半返し）計算機",
+    lead: "いただいた金額から、お返しの目安額（3分の1〜半分）を計算。四十九日・お宮参りなど、名目ごとの時期の目安も出ます。",
+    accent: "#a9663f",
+    tags: ["慶弔", "計算"],
+  },
+];
+
+const itemListLd = {
+  "@type": "ItemList",
+  name: "Y.NetLabo の無料ツール",
+  description,
+  numberOfItems: tools.length,
+  itemListElement: tools.map((t, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: t.title,
+    url: `${origin}${t.href}`,
+  })),
+};
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "ツール", item: `${origin}/tools` },
+  ],
+};
+---
+
+<BaseLayout
+  title="無料ツール"
+  description={description}
+  jsonLd={[itemListLd, breadcrumbLd]}
+>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Tools</span>
+      <h1 class="page-title">無料ツール</h1>
+      <p class="page-sub">
+        インストールも登録もいりません。ブラウザだけで、その場で使えます。
+        入力した内容はどこにも送信されず、端末の中だけで計算しています。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="tool-grid">
+        {
+          tools.map((t) => (
+            <a
+              class="card card-link tool-card"
+              href={t.href}
+              style={`--brand:${t.accent}`}
+            >
+              <div class="tool-tags">
+                {t.tags.map((tag) => (
+                  <span class="chip">{tag}</span>
+                ))}
+              </div>
+              <h2 class="tool-title">{t.title}</h2>
+              <p class="tool-lead">{t.lead}</p>
+              <span class="tool-cta">
+                使ってみる<span aria-hidden="true"> →</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      {
+        wari?.site && (
+          <div class="card outbound" style={`--brand:${wari.accent}`}>
+            <img
+              class="outbound-icon"
+              src={wari.icon}
+              alt=""
+              width="56"
+              height="56"
+              loading="lazy"
+            />
+            <div>
+              <h2 class="outbound-title">割り勘の計算なら wa/ri Web 版</h2>
+              <p>
+                旅行や飲み会の精算は、インストール不要の Web 版 wa/ri
+                がそのまま使えます。誰が誰にいくら払うか、計算過程まで表示します。
+              </p>
+              <a
+                class="btn btn-ghost"
+                href={wari.site}
+                target="_blank"
+                rel="noopener"
+              >
+                wa/ri Web 版を開く
+              </a>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 3rem 2.5rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    color: var(--color-muted);
+  }
+  .section {
+    padding-block: 3.5rem;
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    gap: 1.5rem;
+  }
+  .tool-card {
+    display: block;
+    padding: 1.9rem;
+    text-decoration: none;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .tool-tags {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .tool-title {
+    font-size: 1.2rem;
+  }
+  .tool-lead {
+    margin-top: 0.7rem;
+    font-size: 0.94rem;
+    color: var(--color-muted);
+  }
+  .tool-cta {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-accent-ink);
+  }
+
+  .outbound {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.75rem;
+    margin-top: 2.5rem;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .outbound-icon {
+    border-radius: 14px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .outbound-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+  }
+  .outbound p {
+    font-size: 0.92rem;
+    color: var(--color-muted);
+  }
+  .outbound .btn {
+    margin-top: 1rem;
+  }
+  @media (max-width: 40rem) {
+    .outbound {
+      flex-direction: column;
+    }
+  }
+</style>

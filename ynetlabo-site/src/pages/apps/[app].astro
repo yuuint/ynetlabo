@@ -1,0 +1,434 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { SITE, PROJECTS, categoryHref } from "../../consts";
+import { articleHref } from "../../utils";
+import { APP_DETAILS } from "../../data/apps";
+
+export function getStaticPaths() {
+  return APP_DETAILS.map((detail) => ({
+    params: { app: detail.slug },
+    props: { detail },
+  }));
+}
+
+const { detail } = Astro.props;
+const project = PROJECTS.find((p) => p.name === detail.project)!;
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const url = `${origin}/apps/${detail.slug}`;
+
+// 関連記事（カテゴリが一致するもの、新しい順に最大3件）
+const posts = detail.category
+  ? (await getCollection("blog"))
+      .filter((p) => p.data.categories.includes(detail.category!))
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, 3)
+  : [];
+
+const stores = [
+  project.appStore && { label: "App Store", href: project.appStore, os: "iOS" },
+  project.googlePlay && {
+    label: "Google Play",
+    href: project.googlePlay,
+    os: "Android",
+  },
+].filter(Boolean) as { label: string; href: string; os: string }[];
+
+const appLd = {
+  "@type": "SoftwareApplication",
+  name: project.name,
+  alternateName: project.tagline,
+  description: detail.seoDescription,
+  applicationCategory: "MobileApplication",
+  operatingSystem: detail.platforms.join(", "),
+  url,
+  installUrl: project.appStore ?? project.googlePlay ?? project.site,
+  softwareHelp: detail.guide ? `${origin}/guide/${detail.guide}` : undefined,
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" },
+  publisher: { "@id": `${origin}/#org` },
+};
+
+const faqLd = {
+  "@type": "FAQPage",
+  mainEntity: detail.faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    { "@type": "ListItem", position: 2, name: "アプリ", item: `${origin}/apps` },
+    { "@type": "ListItem", position: 3, name: project.name, item: url },
+  ],
+};
+---
+
+<BaseLayout
+  title={detail.seoTitle}
+  description={detail.seoDescription}
+  jsonLd={[appLd, faqLd, breadcrumbLd]}
+>
+  <!-- ============ HERO ============ -->
+  <section class="app-head" style={`--brand:${project.accent}`}>
+    <div class="wrap app-head-inner">
+      {
+        project.icon && (
+          <img
+            class="app-icon"
+            src={project.icon}
+            alt={`${project.name} のアイコン`}
+            width="112"
+            height="112"
+          />
+        )
+      }
+      <div>
+        <span class="eyebrow">{project.tagline}</span>
+        <h1 class="app-title">{project.name}</h1>
+        <p class="app-lead">{detail.lead}</p>
+
+        <ul class="platforms">
+          {detail.platforms.map((p) => <li class="chip">{p}</li>)}
+        </ul>
+
+        <div class="store-actions">
+          {
+            stores.map((s) => (
+              <a
+                class="btn btn-accent"
+                href={s.href}
+                target="_blank"
+                rel="noopener"
+                data-store={s.label}
+                data-app={project.name}
+              >
+                {s.label} で入手
+              </a>
+            ))
+          }
+          {
+            project.site && (
+              <a
+                class="btn btn-ghost"
+                href={project.site}
+                target="_blank"
+                rel="noopener"
+              >
+                Web 版を開く
+              </a>
+            )
+          }
+          {
+            project.comingSoon?.map((s) => (
+              <span class="btn btn-ghost is-disabled">{s} は準備中</span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ こんな人に ============ -->
+  <section class="section">
+    <div class="wrap-narrow">
+      <span class="eyebrow">For</span>
+      <h2 class="section-title">こんなときに</h2>
+      <ul class="for-list">
+        {detail.forWhom.map((f) => <li>{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 特徴 ============ -->
+  <section class="section section--mist">
+    <div class="wrap">
+      <span class="eyebrow">Features</span>
+      <h2 class="section-title">できること</h2>
+      <div class="feature-grid">
+        {
+          detail.features.map((f) => (
+            <div class="card feature" style={`--brand:${project.accent}`}>
+              <h3 class="feature-title">{f.title}</h3>
+              <p>{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ツール導線 ============ -->
+  {
+    detail.tools && (
+      <section class="section">
+        <div class="wrap-narrow">
+          <span class="eyebrow">Tools</span>
+          <h2 class="section-title">アプリを入れずに、試してみる</h2>
+          <p class="section-lead">
+            アプリに入っている目安の一部は、ブラウザからそのまま使えます。
+          </p>
+          <div class="tool-links">
+            {detail.tools.map((t) => (
+              <a class="card card-link tool-link" href={t.href}>
+                {t.label}
+                <span aria-hidden="true"> →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section--mist">
+    <div class="wrap-narrow">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">よくある質問</h2>
+      <div class="faq">
+        {
+          detail.faq.map((f) => (
+            <details class="card faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ガイド & 記事 ============ -->
+  {
+    (detail.guide || posts.length > 0) && (
+      <section class="section">
+        <div class="wrap">
+          <span class="eyebrow">More</span>
+          <h2 class="section-title">もっと詳しく</h2>
+
+          {detail.guide && (
+            <a class="card card-link guide-banner" href={`/guide/${detail.guide}`}>
+              <strong>{project.name} 使い方ガイド</strong>
+              <span>
+                画面図つきで、機能ごとの操作を最初から最後まで
+                <span aria-hidden="true"> →</span>
+              </span>
+            </a>
+          )}
+
+          {posts.length > 0 && (
+            <>
+              <div class="article-grid">
+                {posts.map((post) => (
+                  <ArticleCard
+                    href={articleHref(post.data.wpId)}
+                    title={post.data.title}
+                    description={post.data.description}
+                    pubDate={post.data.pubDate}
+                    categories={post.data.categories}
+                    heroImage={post.data.heroImage}
+                    heroAlt={post.data.heroAlt}
+                  />
+                ))}
+              </div>
+              {detail.category && (
+                <a class="more-link" href={categoryHref(detail.category)}>
+                  {project.name} の記事をすべて見る
+                  <span aria-hidden="true"> →</span>
+                </a>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .app-head {
+    padding-block: 3.25rem 3rem;
+    background: var(--color-mist);
+    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .app-head-inner {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .app-icon {
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    flex-shrink: 0;
+  }
+  .app-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+    margin-top: 0.4rem;
+  }
+  .app-lead {
+    margin-top: 0.9rem;
+    max-width: 44rem;
+    color: var(--color-body);
+  }
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+  }
+  .store-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .is-disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+  @media (max-width: 44rem) {
+    .app-head-inner {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+  }
+
+  .section {
+    padding-block: 3.5rem;
+  }
+  .section--mist {
+    background: var(--color-mist);
+  }
+  .section-title {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+    margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-lead {
+    margin-top: -0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .for-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .for-list li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+  .for-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.75em;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.25rem;
+  }
+  .feature {
+    padding: 1.6rem;
+    border-top: 3px solid var(--brand, var(--color-accent));
+  }
+  .feature-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .feature p {
+    font-size: 0.93rem;
+    color: var(--color-muted);
+  }
+
+  .tool-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+  .tool-link {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .faq {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .faq-item {
+    padding: 1.1rem 1.3rem;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-ink);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: "＋";
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+  .faq-item p {
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+  }
+
+  .guide-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.25rem;
+    padding: 1.4rem 1.75rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+  }
+  .guide-banner strong {
+    color: var(--color-ink);
+    font-size: 1.05rem;
+  }
+  .guide-banner span {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.5rem;
+  }
+  .more-link {
+    display: inline-block;
+    margin-top: 1.75rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-accent-ink);
+  }
+</style>
