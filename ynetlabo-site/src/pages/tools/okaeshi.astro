@@ -69,12 +69,12 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
-    { "@type": "ListItem", position: 2, name: "ツール", item: `${origin}/tools` },
+    { "@type": "ListItem", position: 2, name: "ツール", item: `${origin}/tools/` },
     {
       "@type": "ListItem",
       position: 3,
       name: title,
-      item: `${origin}/tools/okaeshi`,
+      item: `${origin}/tools/okaeshi/`,
     },
   ],
 };
@@ -92,7 +92,7 @@ const appLd = {
   "@type": "WebApplication",
   name: title,
   description,
-  url: `${origin}/tools/okaeshi`,
+  url: `${origin}/tools/okaeshi/`,
   applicationCategory: "UtilitiesApplication",
   browserRequirements: "JavaScript を有効にしてください",
   inLanguage: "ja",
@@ -172,10 +172,10 @@ const appLd = {
       </p>
 
       <div class="next-actions">
-        <a class="btn btn-ghost" href="/tools/souba"
+        <a class="btn btn-ghost" href="/tools/souba/"
           >ご祝儀・香典の相場早見表を見る →</a
         >
-        <a class="btn btn-ghost" href="/archives/223"
+        <a class="btn btn-ghost" href="/archives/223/"
           >内祝い・快気祝いののしと文例 →</a
         >
       </div>
@@ -265,8 +265,8 @@ const appLd = {
             >。5年後に「あの人にいくらいただいたか」も引けます。
           </p>
           <div class="promo-actions">
-            <a class="btn btn-accent" href="/apps/tsutsum">tsutsum を見る</a>
-            <a class="btn btn-ghost" href="/guide/tsutsum">使い方ガイド</a>
+            <a class="btn btn-accent" href="/apps/tsutsum/">tsutsum を見る</a>
+            <a class="btn btn-ghost" href="/guide/tsutsum/">使い方ガイド</a>
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
-    { "@type": "ListItem", position: 2, name: "スキル", item: `${origin}/skills` },
+    { "@type": "ListItem", position: 2, name: "スキル", item: `${origin}/skills/` },
     { "@type": "ListItem", position: 3, name: d.title, item: pageUrl },
   ],
 };
@@ -63,7 +63,7 @@ const breadcrumbLd = {
     <header class="skill-head">
       <div class="wrap">
         <nav class="crumbs" aria-label="パンくず">
-          <a href="/">ホーム</a><span>/</span><a href="/skills">スキル</a>
+          <a href="/">ホーム</a><span>/</span><a href="/skills/">スキル</a>
         </nav>
 
         <div class="skill-head__tags">
@@ -157,7 +157,7 @@ const breadcrumbLd = {
             <ul class="related__list">
               {related.map((s) => (
                 <li>
-                  <a class="card card-link related__card" href={`/skills/${s.id}`}>
+                  <a class="card card-link related__card" href={`/skills/${s.id}/`}>
                     <code class="related__name">{s.data.name}</code>
                     <span class="related__heading">{s.data.title}</span>
                   </a>
@@ -167,7 +167,7 @@ const breadcrumbLd = {
           </section>
         )
       }
-      <a href="/skills" class="btn btn-ghost">← スキル一覧へ</a>
+      <a href="/skills/" class="btn btn-ghost">← スキル一覧へ</a>
     </div>
   </article>
 </BaseLayout>

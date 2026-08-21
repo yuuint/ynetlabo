@@ -1,0 +1,55 @@
+---
+/**
+ * public/images/ の画像を WebP 優先で出す <picture>。
+ *
+ * `npm run images`（tools/optimize-images.mjs）が作った
+ *   <name>-640.webp / <name>-1280.webp
+ * があればそれを srcset に載せ、無ければ元画像だけを出す。
+ * 元の JPEG / PNG は必ず <img> のフォールバックとして残るので、
+ * 変換していない画像を渡しても壊れない。
+ */
+import { existsSync } from "node:fs";
+import { join, dirname, basename, extname } from "node:path";
+
+interface Props {
+  /** /images/... から始まる公開パス */
+  src: string;
+  alt: string;
+  /** 表示幅のヒント。ブラウザがどの srcset を選ぶかを決める */
+  sizes?: string;
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  sizes = "100vw",
+  loading = "lazy",
+  fetchpriority,
+  class: className,
+} = Astro.props;
+
+/** tools/optimize-images.mjs の WIDTHS と揃えること */
+const WIDTHS = [640, 960, 1280];
+
+const stem = join(dirname(src), basename(src, extname(src)));
+const variants = WIDTHS.map((w) => ({ w, url: `${stem}-${w}.webp` })).filter(
+  (v) => existsSync(join("public", v.url))
+);
+
+const srcset = variants.map((v) => `${v.url} ${v.w}w`).join(", ");
+---
+
+<picture>
+  {srcset && <source type="image/webp" srcset={srcset} sizes={sizes} />}
+  <img
+    src={src}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+</picture>

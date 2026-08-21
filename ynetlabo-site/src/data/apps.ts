@@ -175,8 +175,8 @@ export const APP_DETAILS: readonly AppDetail[] = [
     guide: "tsutsum",
     category: "tsutsum慶弔記録アプリ",
     tools: [
-      { href: "/tools/souba", label: "ご祝儀・香典の相場早見表" },
-      { href: "/tools/okaeshi", label: "お返し（半返し）計算機" },
+      { href: "/tools/souba/", label: "ご祝儀・香典の相場早見表" },
+      { href: "/tools/okaeshi/", label: "お返し（半返し）計算機" },
     ],
   },
 

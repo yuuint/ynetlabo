@@ -23,7 +23,7 @@ const itemListLd = {
     "@type": "ListItem",
     position: i + 1,
     name: `${a.project.name} — ${a.project.tagline}`,
-    url: `${origin}/apps/${a.detail!.slug}`,
+    url: `${origin}/apps/${a.detail!.slug}/`,
   })),
 };
 
@@ -31,7 +31,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
-    { "@type": "ListItem", position: 2, name: "アプリ", item: `${origin}/apps` },
+    { "@type": "ListItem", position: 2, name: "アプリ", item: `${origin}/apps/` },
   ],
 };
 ---
@@ -55,7 +55,7 @@ const breadcrumbLd = {
           apps.map(({ project, detail }) => (
             <a
               class="card card-link app-card"
-              href={`/apps/${detail!.slug}`}
+              href={`/apps/${detail!.slug}/`}
               style={`--brand:${project.accent}`}
             >
               {project.icon && (

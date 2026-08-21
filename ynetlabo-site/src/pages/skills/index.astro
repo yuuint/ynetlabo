@@ -40,7 +40,7 @@ const itemListLd = {
     "@type": "ListItem",
     position: i + 1,
     name: `${s.data.name} — ${s.data.title}`,
-    url: `${origin}/skills/${s.id}`,
+    url: `${origin}/skills/${s.id}/`,
   })),
 };
 
@@ -48,7 +48,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
-    { "@type": "ListItem", position: 2, name: "スキル", item: `${origin}/skills` },
+    { "@type": "ListItem", position: 2, name: "スキル", item: `${origin}/skills/` },
   ],
 };
 ---
@@ -104,7 +104,7 @@ const breadcrumbLd = {
             </h2>
             <div class="skill-grid">
               {group.items.map((s) => (
-                <a class="card card-link skill-card" href={`/skills/${s.id}`}>
+                <a class="card card-link skill-card" href={`/skills/${s.id}/`}>
                   <div class="skill-card__top">
                     <code class="skill-card__name">{s.data.name}</code>
                     <span class="chip">{s.data.category}</span>
@@ -159,7 +159,7 @@ const breadcrumbLd = {
       <p class="install__note">
         リポジトリは公開のため、API キー・トークン・個人情報・絶対パス・実データは含めていません。
         すべてプレースホルダで、コミット前に機密情報スキャンを通しています。
-        気になる点は<a href="/contact">お問い合わせ</a>または GitHub の Issue からご連絡ください。
+        気になる点は<a href="/contact/">お問い合わせ</a>または GitHub の Issue からご連絡ください。
       </p>
     </div>
   </section>

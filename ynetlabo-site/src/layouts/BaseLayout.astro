@@ -122,7 +122,9 @@ const robotsContent = noindex
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:alt" content={imageAlt} />
     {
-      image === "/og.png" && (
+      /* 自前で用意した 1200x630 のときだけ寸法を明示する
+         （記事ヒーローは記事ごとに縦横比が違うので付けない） */
+      (image === "/og.png" || image.startsWith("/images/og/")) && (
         <>
           <meta property="og:image:type" content="image/png" />
           <meta property="og:image:width" content="1200" />

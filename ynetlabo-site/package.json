@@ -13,7 +13,9 @@
     "sync:souba": "node tools/sync-souba.mjs",
     "crosspost": "node tools/build-crosspost.mjs",
     "indexnow": "node tools/indexnow.mjs",
+    "images": "node tools/optimize-images.mjs",
     "og": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 --screenshot=public/og.png tools/og-image.html",
+    "og:articles": "node tools/og-articles.mjs",
     "astro": "astro"
   },
   "dependencies": {

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Y.NetLabo — article OG image source (1200x630)</title>
+    <!--
+      記事ごとの OG 画像のもと。tools/og-articles.mjs が
+        file://…/og-article.html?t=<タイトル>&c=<カテゴリ>
+      を Chrome ヘッドレスで開いて 1200x630 で撮る。
+      配色と質感は tools/og-image.html（サイト共通の OG）に合わせている。
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1d2b4d;
+        --muted: #6f7891;
+        --accent: #f97316;
+        --accent-ink: #c2560c;
+        --bg: #e7ebf2;
+        --nm-dark: #c3cad8;
+        --nm-light: #ffffff;
+        --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+        --display: "Comfortaa", var(--sans);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        font-family: var(--sans);
+        background: var(--bg);
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        padding: 58px 72px 52px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            720px 520px at 82% 22%,
+            rgb(249 115 22 / 0.22),
+            rgb(249 115 22 / 0) 68%
+          ),
+          radial-gradient(
+            560px 460px at 0% 106%,
+            rgb(56 189 248 / 0.18),
+            rgb(56 189 248 / 0) 70%
+          );
+      }
+      .card > * {
+        position: relative;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        height: 40px;
+        width: auto;
+        display: block;
+      }
+      .chip {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--ink);
+        background: var(--bg);
+        padding: 10px 22px;
+        border-radius: 999px;
+        box-shadow:
+          inset 4px 4px 9px var(--nm-dark),
+          inset -4px -4px 9px var(--nm-light);
+      }
+      .chip:empty {
+        display: none;
+      }
+
+      .middle {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .headline {
+        font-size: 58px;
+        font-weight: 700;
+        line-height: 1.42;
+        letter-spacing: 0.01em;
+        color: var(--ink);
+        /* 長いタイトルは 4 行で切る（省略記号つき） */
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      /* 文字数が多いときは自動で一段小さく */
+      .headline.long {
+        font-size: 48px;
+        line-height: 1.46;
+      }
+      .headline.longer {
+        font-size: 42px;
+        line-height: 1.5;
+      }
+
+      .bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .domain {
+        font-family: var(--display);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--accent-ink);
+      }
+      .rule {
+        flex: 1;
+        height: 3px;
+        margin: 0 26px 12px;
+        border-radius: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          rgb(249 115 22 / 0)
+        );
+      }
+      .penguin {
+        height: 78px;
+        width: auto;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="top">
+        <img class="wordmark" src="../public/ynetlabo-wordmark.png" alt="" />
+        <span class="chip" id="chip"></span>
+      </div>
+
+      <div class="middle">
+        <h1 class="headline" id="headline"></h1>
+      </div>
+
+      <div class="bottom">
+        <span class="domain">ynetlabo.net</span>
+        <span class="rule"></span>
+        <img class="penguin" src="../public/penguin-mark.png" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const q = new URLSearchParams(location.search);
+      const title = q.get("t") || "Y.NetLabo";
+      const cat = q.get("c") || "";
+
+      const h = document.getElementById("headline");
+      h.textContent = title;
+      // 全角基準のざっくり判定。40字を超えたら段階的に縮める
+      if (title.length > 56) h.classList.add("longer");
+      else if (title.length > 38) h.classList.add("long");
+
+      document.getElementById("chip").textContent = cat;
+    </script>
+  </body>
+</html>

@@ -26,7 +26,7 @@ const heroMeta = [
 /** アプリ紹介ページ（/apps/<slug>）への内部リンク */
 const appPageHref = (name: string) => {
   const d = APP_DETAILS.find((a) => a.project === name);
-  return d ? `/apps/${d.slug}` : undefined;
+  return d ? `/apps/${d.slug}/` : undefined;
 };
 
 const appLd = PROJECTS.map((p) => ({
@@ -58,7 +58,7 @@ const appLd = PROJECTS.map((p) => ({
         <p class="hero-desc">{SITE.description}</p>
         <div class="hero-actions">
           <a href="#projects" class="btn btn-accent">プロダクトを見る</a>
-          <a href="/article" class="btn btn-ghost">記事を読む</a>
+          <a href="/article/" class="btn btn-ghost">記事を読む</a>
         </div>
         <ul class="hero-meta">
           {heroMeta.map((m) => <li set:html={m} />)}
@@ -210,7 +210,7 @@ const appLd = PROJECTS.map((p) => ({
           <span class="eyebrow">Blog</span>
           <h2 class="section-title">最新の記事</h2>
         </div>
-        <a href="/article" class="link-arrow">すべての記事 →</a>
+        <a href="/article/" class="link-arrow">すべての記事 →</a>
       </div>
 
       <div class="article-grid">
@@ -268,7 +268,7 @@ const appLd = PROJECTS.map((p) => ({
           アプリへのご感想・ご要望、不具合のご報告などお待ちしています。
         </p>
         <div class="cta-actions">
-          <a href="/contact" class="btn btn-accent">お問い合わせ</a>
+          <a href="/contact/" class="btn btn-accent">お問い合わせ</a>
           <a href={`mailto:${SITE.email}`} class="btn btn-ghost">{SITE.email}</a>
         </div>
       </div>

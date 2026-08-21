@@ -35,7 +35,7 @@ const cards = guides.map((g) => ({
             {cards.map(({ entry, project }) => (
               <a
                 class="card card-link guide-card"
-                href={`/guide/${entry.id}`}
+                href={`/guide/${entry.id}/`}
                 style={`--brand:${project?.accent ?? "var(--color-accent)"}`}
               >
                 <div class="guide-card__top">

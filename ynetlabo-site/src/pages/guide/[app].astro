@@ -32,7 +32,7 @@ const breadcrumbLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
-    { "@type": "ListItem", position: 2, name: "使い方ガイド", item: `${origin}/guide` },
+    { "@type": "ListItem", position: 2, name: "使い方ガイド", item: `${origin}/guide/` },
     { "@type": "ListItem", position: 3, name: d.title, item: pageUrl },
   ],
 };
@@ -48,7 +48,7 @@ const breadcrumbLd = {
     <header class="guide-head">
       <div class="wrap">
         <nav class="crumbs" aria-label="パンくず">
-          <a href="/">ホーム</a><span>/</span><a href="/guide">使い方ガイド</a>
+          <a href="/">ホーム</a><span>/</span><a href="/guide/">使い方ガイド</a>
         </nav>
 
         <div class="guide-head__row" style={`--brand:${project?.accent ?? "var(--color-accent)"}`}>
@@ -107,9 +107,9 @@ const breadcrumbLd = {
 
     <div class="wrap guide-foot">
       <p class="guide-foot__note">
-        解決しないときは<a href="/contact">お問い合わせ</a>からご連絡ください。
+        解決しないときは<a href="/contact/">お問い合わせ</a>からご連絡ください。
       </p>
-      <a href="/guide" class="btn btn-ghost">← 使い方ガイド一覧へ</a>
+      <a href="/guide/" class="btn btn-ghost">← 使い方ガイド一覧へ</a>
     </div>
   </article>
 </BaseLayout>

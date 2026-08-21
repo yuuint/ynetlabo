@@ -8,7 +8,11 @@ export function formatDate(date: Date): string {
   }).format(date);
 }
 
-/** Preserve original WordPress permalink: /archives/<id> */
+/**
+ * Preserve original WordPress permalink: /archives/<id>
+ * 末尾スラッシュ付きで返す。canonical と sitemap がその形なので、
+ * 揃えないと内部リンクのたびに 301 が挟まる。
+ */
 export function articleHref(wpId: number): string {
-  return `/archives/${wpId}`;
+  return `/archives/${wpId}/`;
 }

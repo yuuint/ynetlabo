@@ -16,12 +16,12 @@ export const SITE = {
 
 export const NAV = [
   { label: "ホーム", href: "/" },
-  { label: "アプリ", href: "/apps" },
-  { label: "ツール", href: "/tools" },
-  { label: "使い方ガイド", href: "/guide" },
-  { label: "スキル", href: "/skills" },
-  { label: "記事", href: "/article" },
-  { label: "お知らせ", href: "/archives/category/notice" },
+  { label: "アプリ", href: "/apps/" },
+  { label: "ツール", href: "/tools/" },
+  { label: "使い方ガイド", href: "/guide/" },
+  { label: "スキル", href: "/skills/" },
+  { label: "記事", href: "/article/" },
+  { label: "お知らせ", href: "/archives/category/notice/" },
 ] as const;
 
 /** 公開スキル集（Claude Agent Skills）。/skills は tools/sync-skills.mjs で同期する */
@@ -198,5 +198,6 @@ export function categorySlug(name: string): string {
 }
 
 export function categoryHref(name: string): string {
-  return `/archives/category/${categorySlug(name)}`;
+  // 末尾スラッシュは canonical / sitemap と揃えるため（articleHref と同じ理由）
+  return `/archives/category/${categorySlug(name)}/`;
 }
