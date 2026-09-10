@@ -1,0 +1,43 @@
+# 公開が反映されたら IndexNow に更新を知らせる。
+#
+# push 直後ではなく GitHub Pages のビルド完了（page_build）で走らせる。
+# 送った URL は相手がすぐ取りに来るので、反映前に送ると古い内容を
+# 読まれてしまう。手作業で 1〜2 分待っていたのがこれで要らなくなる。
+#
+# 鍵は docs/ に置いた公開ファイルなので、Secrets の設定は不要。
+name: IndexNow
+
+on:
+  page_build:
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "sitemap の全 URL を送る（大きな作り直しのとき）"
+        type: boolean
+        default: false
+
+# 続けて push したときは最後の 1 回だけ送る
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    # Pages のビルドが失敗したときは送らない
+    if: github.event_name == 'workflow_dispatch' || github.event.build.status == 'built'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # tools/indexnow.mjs が HEAD~1 との差分を見るので 2 コミット必要
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 外部パッケージを使っていないので npm install は不要
+      - name: IndexNow に送る
+        run: node ynetlabo-site/tools/indexnow.mjs ${{ inputs.all && '--all' || '' }}
