@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="-apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', 'Segoe UI', sans-serif">
+<title>wa/ri を使った人の数（累計）</title>
+<rect width="1200" height="660" fill="#ffffff"/>
+<text x="120" y="52" font-size="30" font-weight="700" fill="#1d2b4d">wa/ri を使った人の数</text>
+<text x="120" y="78" font-size="17" fill="#6f7891">2025年5月から2026年9月9日までの累計</text>
+<line x1="120" y1="564.0" x2="1104" y2="564.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="570.0" font-size="16" fill="#6f7891" text-anchor="end">0</text>
+<line x1="120" y1="486.0" x2="1104" y2="486.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="492.0" font-size="16" fill="#6f7891" text-anchor="end">400</text>
+<line x1="120" y1="408.0" x2="1104" y2="408.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="414.0" font-size="16" fill="#6f7891" text-anchor="end">800</text>
+<line x1="120" y1="330.0" x2="1104" y2="330.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="336.0" font-size="16" fill="#6f7891" text-anchor="end">1,200</text>
+<line x1="120" y1="252.0" x2="1104" y2="252.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="258.0" font-size="16" fill="#6f7891" text-anchor="end">1,600</text>
+<line x1="120" y1="174.0" x2="1104" y2="174.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="180.0" font-size="16" fill="#6f7891" text-anchor="end">2,000</text>
+<line x1="120" y1="96.0" x2="1104" y2="96.0" stroke="#dfe4ee" stroke-width="1"/>
+<text x="106" y="102.0" font-size="16" fill="#6f7891" text-anchor="end">2,400</text>
+<polygon points="120,564 120.0,553.1 181.5,508.6 243.0,471.2 304.5,448.9 366.0,438.0 427.5,421.5 489.0,410.0 550.5,398.6 612.0,385.6 673.5,370.0 735.0,353.0 796.5,333.5 858.0,292.0 919.5,247.5 981.0,222.6 1042.5,165.8 1104.0,144.2 1104,564" fill="#f97316" opacity="0.12"/>
+<polyline points="120.0,553.1 181.5,508.6 243.0,471.2 304.5,448.9 366.0,438.0 427.5,421.5 489.0,410.0 550.5,398.6 612.0,385.6 673.5,370.0 735.0,353.0 796.5,333.5 858.0,292.0 919.5,247.5 981.0,222.6 1042.5,165.8 1104.0,144.2" fill="none" stroke="#f97316" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="120" y1="174.0" x2="1104" y2="174.0" stroke="#1d2b4d" stroke-width="1.6" stroke-dasharray="7 5" opacity="0.55"/>
+<text x="128" y="162.0" font-size="17" font-weight="700" fill="#1d2b4d">2,000人</text>
+<text x="120.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">2025年5月</text>
+<text x="243.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">7月</text>
+<text x="366.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">9月</text>
+<text x="489.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">11月</text>
+<text x="612.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">2026年1月</text>
+<text x="735.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">3月</text>
+<text x="858.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">5月</text>
+<text x="981.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">7月</text>
+<text x="1104.0" y="598" font-size="16" fill="#6f7891" text-anchor="middle">9月</text>
+<circle cx="120.0" cy="553.1" r="7" fill="#ffffff" stroke="#f97316" stroke-width="4"/>
+<circle cx="1104.0" cy="144.2" r="7" fill="#ffffff" stroke="#f97316" stroke-width="4"/>
+<text x="1090.0" y="122.2" font-size="26" font-weight="700" fill="#1d2b4d" text-anchor="end">2,153人</text>
+<text x="120" y="632" font-size="16" fill="#6f7891">2026年に入ってからの1,305人が、2025年の合計848人を上回っています。</text>
+</svg>
