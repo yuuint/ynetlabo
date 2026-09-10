@@ -1,4 +1,6 @@
 ---
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { formatDate } from "../utils";
 import Picture from "./Picture.astro";
 
@@ -10,18 +12,40 @@ interface Props {
   categories?: string[];
   heroImage?: string;
   heroAlt?: string;
+  /** ヒーロー画像が無い記事のサムネイルを引くのに使う */
+  wpId?: number;
 }
-const { href, title, description, pubDate, categories = [], heroImage, heroAlt } =
-  Astro.props;
+const {
+  href,
+  title,
+  description,
+  pubDate,
+  categories = [],
+  heroImage,
+  heroAlt,
+  wpId,
+} = Astro.props;
+
+/**
+ * サムネイルは ①記事のヒーロー ②タイトルを焼いた生成画像
+ * （npm run og:articles）の順で選ぶ。どちらも無ければペンギンのマーク。
+ * ②が無いと、ヒーローを持たない記事のカードが全部同じ絵になる。
+ */
+const generatedOg = wpId != null ? `/images/og/${wpId}.png` : null;
+const thumb =
+  heroImage ??
+  (generatedOg && existsSync(join("public", generatedOg))
+    ? generatedOg
+    : undefined);
 ---
 
 <article class="card card-link article-card">
   <a href={href} class="article-card-link">
     <div class="thumb">
       {
-        heroImage ? (
+        thumb ? (
           <Picture
-            src={heroImage}
+            src={thumb}
             alt={heroAlt ?? title}
             sizes="(max-width: 40rem) 100vw, 26rem"
           />
