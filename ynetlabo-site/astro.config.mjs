@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeGuideFigure from "./src/plugins/rehype-guide-figure.mjs";
+import rehypeHeadingId from "./src/plugins/rehype-heading-id.mjs";
 import { buildLastmodMap } from "./tools/lastmod.mjs";
 import { categorySlug } from "./src/consts.ts";
 
@@ -29,8 +30,9 @@ export default defineConfig({
     // mermaid は図として描くので、Shiki のシンタックスハイライトから外す
     // （既定の除外 'math' も残す）
     syntaxHighlight: { type: "shiki", excludeLangs: ["math", "mermaid"] },
+    // 見出しの `{#id}` を固定の id にする（アプリから節へ直接リンクするため）。
     // ガイド本文（src/content/guide/）の画像・図・注釈表を整える
-    rehypePlugins: [rehypeGuideFigure],
+    rehypePlugins: [rehypeHeadingId, rehypeGuideFigure],
   },
   vite: {
     plugins: [tailwindcss()],

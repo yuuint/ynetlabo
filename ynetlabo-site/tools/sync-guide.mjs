@@ -75,10 +75,15 @@ const DEV_ONLY_LINK_PATTERNS = [
   "-fidelity-review.md",
 ];
 
-/** 見出し行なら { level, text } を返す */
+/**
+ * 見出し行なら { level, text } を返す。
+ * 末尾の固定 id（`{#backup}`）は文言に含めない（節の除去は文言で判定するため）。
+ */
 function parseHeading(line) {
   const m = /^(#{1,6})\s+(.*)$/.exec(line);
-  return m ? { level: m[1].length, text: m[2].trim() } : null;
+  return m
+    ? { level: m[1].length, text: m[2].replace(/\s*\{#[A-Za-z0-9_-]+\}\s*$/, "").trim() }
+    : null;
 }
 
 /**
