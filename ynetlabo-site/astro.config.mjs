@@ -17,6 +17,10 @@ const lastmod = buildLastmodMap(categorySlug);
 export default defineConfig({
   site: "https://ynetlabo.net",
   trailingSlash: "ignore",
+  // まとめた記事の古い URL（2026/10 の予告とその2 を 231 に一本化した）
+  redirects: {
+    "/archives/232": "/archives/231/",
+  },
   integrations: [
     sitemap({
       serialize(item) {
