@@ -9,7 +9,8 @@ import { APP_DETAILS } from "../data/apps";
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-const latest = posts.slice(0, 3);
+// noindex の記事は記事一覧とカテゴリにだけ出し、新着・関連の枠には出さない
+const latest = posts.filter((p) => !p.data.noindex).slice(0, 3);
 
 const origin = (Astro.site ?? new URL(SITE.url)).origin;
 

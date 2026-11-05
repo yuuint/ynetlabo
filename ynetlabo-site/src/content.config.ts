@@ -19,6 +19,12 @@ const blog = defineCollection({
      * キャプション + 原寸表示リンク）になる。画面図を載せる記事で使う。
      */
     figures: z.boolean().default(false),
+    /**
+     * true にすると noindex, nofollow になり、sitemap と IndexNow からも外れる。
+     * 記事一覧・カテゴリ・RSS には出すが、トップの新着とアプリ・記事の関連の枠には出さない。
+     * 相互紹介のお礼など、検索に出さなくていい記事で使う。
+     */
+    noindex: z.boolean().default(false),
   }),
 });
 

@@ -66,6 +66,7 @@ const related = posts
   .filter(
     (p) =>
       p.data.wpId !== post.data.wpId &&
+      !p.data.noindex &&
       p.data.categories.some((c) => post.data.categories.includes(c))
   )
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -80,7 +81,8 @@ const related = posts
   type="article"
   publishedTime={published}
   modifiedTime={modified}
-  jsonLd={[articleLd, breadcrumbLd]}
+  noindex={d.noindex}
+  jsonLd={d.noindex ? undefined : [articleLd, breadcrumbLd]}
 >
   <article>
     <!-- header -->

@@ -21,7 +21,9 @@ const url = `${origin}/apps/${detail.slug}/`;
 // 関連記事（カテゴリが一致するもの、新しい順に最大3件）
 const posts = detail.category
   ? (await getCollection("blog"))
-      .filter((p) => p.data.categories.includes(detail.category!))
+      .filter(
+        (p) => !p.data.noindex && p.data.categories.includes(detail.category!)
+      )
       .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
       .slice(0, 3)
   : [];

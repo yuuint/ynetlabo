@@ -37,14 +37,17 @@ const args = process.argv.slice(2);
 const all = args.includes("--all");
 const dry = args.includes("--dry");
 
-/** noindex のページは送らない（404 ページ） */
-const SKIP = new Set(["docs/404.html"]);
+/** noindex のページ（404・noindex: true の記事）は送らない */
+async function isNoindex(docsPath) {
+  const html = await readFile(join(repoRoot, docsPath), "utf8");
+  return /<meta name="robots" content="noindex/.test(html);
+}
 
 /** docs/ の出力パスを公開 URL に直す（trailingSlash: ignore なので / 付きで揃える） */
-function toUrl(docsPath) {
-  if (SKIP.has(docsPath)) return null;
+async function toUrl(docsPath) {
   const rel = docsPath.replace(/^docs\//, "");
   if (!rel.endsWith(".html")) return null; // 画像・CSS は送らない
+  if (await isNoindex(docsPath)) return null;
   const path = rel === "index.html" ? "" : rel.replace(/index\.html$/, "");
   return `https://${HOST}/${path}`;
 }
@@ -60,15 +63,8 @@ async function urlsFromLastCommit() {
     ["diff", "--name-only", "--diff-filter=d", "HEAD~1", "HEAD", "--", "docs/"],
     { cwd: repoRoot }
   );
-  return [
-    ...new Set(
-      stdout
-        .split("\n")
-        .filter(Boolean)
-        .map(toUrl)
-        .filter(Boolean)
-    ),
-  ];
+  const urls = await Promise.all(stdout.split("\n").filter(Boolean).map(toUrl));
+  return [...new Set(urls.filter(Boolean))];
 }
 
 const urls = all ? await urlsFromSitemap() : await urlsFromLastCommit();

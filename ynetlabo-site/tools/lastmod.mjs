@@ -57,6 +57,19 @@ const newest = (dates) => {
 };
 
 /**
+ * frontmatter に `noindex: true` がある記事のパス（末尾スラッシュあり）。
+ * sitemap から外すのに使う。noindex のページを sitemap に載せると
+ * Search Console に「送信された URL に noindex タグが追加されています」が出る。
+ */
+export function noindexPaths() {
+  return new Set(
+    readAll(join(contentRoot, "blog"))
+      .filter((raw) => field(raw, "noindex") === "true")
+      .map((raw) => `/archives/${field(raw, "wpId")}/`)
+  );
+}
+
+/**
  * パス（末尾スラッシュあり）→ ISO 日付 の対応表を作る。
  * @param {(name: string) => string} categorySlug consts.ts と同じ変換
  */

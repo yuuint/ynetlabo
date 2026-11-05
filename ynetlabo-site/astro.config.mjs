@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeGuideFigure from "./src/plugins/rehype-guide-figure.mjs";
 import rehypeHeadingId from "./src/plugins/rehype-heading-id.mjs";
-import { buildLastmodMap } from "./tools/lastmod.mjs";
+import { buildLastmodMap, noindexPaths } from "./tools/lastmod.mjs";
 import { categorySlug } from "./src/consts.ts";
 
 /**
@@ -12,6 +12,7 @@ import { categorySlug } from "./src/consts.ts";
  * 付かない（毎ビルドで現在時刻を入れると検索側に信用されないため）。
  */
 const lastmod = buildLastmodMap(categorySlug);
+const noindex = noindexPaths();
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => !noindex.has(new URL(page).pathname),
       serialize(item) {
         const path = new URL(item.url).pathname;
         const date = lastmod.get(path);
