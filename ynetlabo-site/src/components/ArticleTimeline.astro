@@ -1,0 +1,194 @@
+---
+/**
+ * 記事一覧「日付の列」。月ごとに白い板へまとめ、日付・タイトル・説明・カテゴリを
+ * 1行ずつ並べる。サムネイル（タイトルを焼き込んだ画像）は使わない。
+ * 行には data-categories を付けるので、記事ページの絞り込みから表示を切り替えられる。
+ */
+import type { CollectionEntry } from "astro:content";
+import { articleHref } from "../utils";
+import { categoryProject } from "../consts";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+const { posts } = Astro.props;
+
+const pad = (n: number) => String(n).padStart(2, "0");
+// 日付は日本時間で区切る（ビルド環境のタイムゾーンに左右されないように）
+const jst = (d: Date) => new Date(d.getTime() + 9 * 60 * 60 * 1000);
+
+const months: { key: string; label: string; items: CollectionEntry<"blog">[] }[] = [];
+for (const post of posts) {
+  const d = jst(post.data.pubDate);
+  const key = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}`;
+  let m = months.at(-1);
+  if (!m || m.key !== key) {
+    m = { key, label: `${d.getUTCFullYear()}.${pad(d.getUTCMonth() + 1)}`, items: [] };
+    months.push(m);
+  }
+  m.items.push(post);
+}
+---
+
+<div class="tl">
+  {
+    months.map((m) => (
+      <section class="tl-month" aria-labelledby={`m-${m.key}`}>
+        <h2 class="tl-label" id={`m-${m.key}`}>
+          <time datetime={m.key}>{m.label}</time>
+        </h2>
+        <ol class="tl-list">
+          {m.items.map((post) => {
+            const d = jst(post.data.pubDate);
+            return (
+              <li class="tl-row" data-categories={post.data.categories.join("|")}>
+                <a class="tl-link" href={articleHref(post.data.wpId)}>
+                  <time class="tl-day" datetime={post.data.pubDate.toISOString()}>
+                    {pad(d.getUTCDate())}
+                  </time>
+                  <span class="tl-body">
+                    <span class="tl-title">{post.data.title}</span>
+                    <span class="tl-desc">{post.data.description}</span>
+                    <span class="tl-cats">
+                      {post.data.categories.map((c) => {
+                        const app = categoryProject(c);
+                        return (
+                          <span class="tl-cat" style={app ? `--dot:${app.accent}` : undefined}>
+                            {c}
+                          </span>
+                        );
+                      })}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .tl {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  }
+  .tl-month {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .tl-label {
+    position: sticky;
+    top: 5.5rem;
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: 0;
+    padding-top: 1.35rem;
+  }
+  .tl-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem clamp(1rem, 0.5rem + 2vw, 2rem);
+    background: var(--color-paper);
+    border-radius: var(--radius-card);
+  }
+  .tl-row + .tl-row {
+    border-top: 1px solid var(--color-line);
+  }
+  .tl-link {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1.25rem;
+    text-decoration: none;
+    border-radius: 12px;
+  }
+  .tl-day {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--color-ink);
+    padding-top: 0.2rem;
+  }
+  .tl-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+  .tl-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+  .tl-link:hover .tl-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .tl-desc {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tl-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 0.15rem;
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .tl-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .tl-cat::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--dot, var(--color-line-strong));
+  }
+  .tl-month[hidden],
+  .tl-row[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .tl-month {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .tl-label {
+      position: static;
+      padding: 0 0.25rem;
+      font-size: 1.6rem;
+    }
+    .tl-link {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+    .tl-day {
+      font-size: 1.35rem;
+    }
+    .tl-title {
+      font-size: 0.98rem;
+    }
+  }
+</style>

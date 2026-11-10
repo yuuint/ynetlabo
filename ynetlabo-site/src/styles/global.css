@@ -1,96 +1,87 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   Y.NetLabo — Design tokens (Neumorphism / Soft UI)
-   Soft, same-color surfaces that extrude or recess via dual shadows.
-   Brand accent (penguin orange) + navy ink. Light & dark themes.
+   Y.NetLabo — Design tokens (Fog panels)
+   青灰の地（bg）に白い大きな角丸の板（paper）を置く。影は使わず、
+   地と板の明るさの差と細い線だけで重なりを見せる。
+   書体は日本語 Zen Kaku Gothic New、英字はロゴに近い細い Josefin Sans。
    ========================================================================= */
 @theme {
   /* Typography */
-  --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system,
+  --font-sans: "Zen Kaku Gothic New", ui-sans-serif, system-ui, -apple-system,
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-  --font-display: "Comfortaa", var(--font-sans);
+  --font-display: "Josefin Sans", var(--font-sans);
 
   /* Shape */
-  --radius-card: 20px;
+  --radius-card: 28px;
 }
 
 /* ---------- Light theme (default) ---------- */
 :root {
   color-scheme: light;
 
-  /* Brand */
-  --color-ink: #1d2b4d; /* deep navy — headings, primary text emphasis */
-  --color-ink-soft: #33405e;
-  --color-accent: #f97316; /* penguin orange — CTAs, highlights */
-  --color-accent-soft: #fb923c;
-  --color-accent-ink: #c2560c; /* readable accent for links on light bg */
+  /* Ink + accent */
+  --color-ink: #1b2230; /* 見出し・強調 */
+  --color-ink-soft: #3a4352;
+  --color-accent: #3e5bd8; /* 塗りのボタン・印（白文字 5.5:1） */
+  --color-accent-soft: #3550c4; /* 塗りのホバー */
+  --color-accent-ink: #3550c4; /* 文字としてのリンク色 */
+  --color-on-accent: #ffffff;
 
-  /* Surfaces — neumorphism keeps element bg == page bg */
-  --color-bg: #e7ebf2; /* page background */
-  --color-paper: #e7ebf2; /* card / raised surfaces (alias of bg) */
-  --color-mist: #e0e4ec; /* slightly recessed section background */
-  --color-line: #d4dae6; /* faint hairline (rarely needed) */
+  /* Surfaces */
+  --color-bg: #eef1f5; /* 霧：ページの地 */
+  --color-paper: #ffffff; /* 板：カード・パネル */
+  --color-mist: #e5e9ef; /* 地より一段沈んだ面（コード・引用・区切りの帯） */
+  --color-line: #dbe0e7; /* 細い線 */
+  --color-line-strong: #c3cad5;
 
   /* Text */
-  --color-body: #3c4660; /* body text */
-  --color-muted: #6f7891; /* secondary text */
+  --color-body: #3a4352;
+  --color-muted: #5a6475;
 
-  /* A constant dark panel (footer / CTA / active chips) — never flips */
-  --color-panel: #182542;
-  --color-panel-soft: #22335a;
-  --color-on-panel: #f2f5fb;
-  --color-on-panel-muted: #9aa6c2;
+  /* 反転パネル（フッター・お問い合わせの帯）— テーマで反転しない */
+  --color-panel: #1b2230;
+  --color-panel-soft: #262f40;
+  --color-on-panel: #f2f5fa;
+  --color-on-panel-muted: #a3adbf;
 
-  /* Neumorphic shadow colors */
-  --nm-dark: #c3cad8;
-  --nm-light: #ffffff;
-
-  /* Neumorphic shadow recipes */
-  --shadow-sm: 4px 4px 9px var(--nm-dark), -4px -4px 9px var(--nm-light);
-  --shadow-card: 7px 7px 16px var(--nm-dark), -7px -7px 16px var(--nm-light);
-  --shadow-card-hover: 10px 10px 24px var(--nm-dark),
-    -10px -10px 24px var(--nm-light);
-  --shadow-pressed: inset 4px 4px 9px var(--nm-dark),
-    inset -4px -4px 9px var(--nm-light);
-  --shadow-pressed-sm: inset 3px 3px 6px var(--nm-dark),
-    inset -3px -3px 6px var(--nm-light);
+  /*
+   * 旧ニューモーフィズムの影は廃止。各ページが直接参照している
+   * --nm-dark / --nm-light は透明にして影を消し、影のレシピは線に置き換える。
+   */
+  --nm-dark: transparent;
+  --nm-light: transparent;
+  --shadow-sm: inset 0 0 0 1px var(--color-line-strong);
+  --shadow-card: none;
+  --shadow-card-hover: inset 0 0 0 1px var(--color-line-strong);
+  --shadow-pressed: inset 0 0 0 1px var(--color-line);
+  --shadow-pressed-sm: inset 0 0 0 1px var(--color-line);
 }
 
 /* ---------- Dark theme ---------- */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --color-ink: #eaeefb;
-  --color-ink-soft: #c7cfe6;
-  --color-accent: #fb8c2e;
-  --color-accent-soft: #fdba74;
-  --color-accent-ink: #fdb274; /* lighter accent for links on dark bg */
+  --color-ink: #eef1f6;
+  --color-ink-soft: #c9d0dc;
+  --color-accent: #4f69e0; /* 白文字 4.7:1 */
+  --color-accent-soft: #5d76ea;
+  --color-accent-ink: #a3b3ff;
+  --color-on-accent: #ffffff;
 
-  --color-bg: #272b34;
-  --color-paper: #272b34;
-  --color-mist: #22262e;
-  --color-line: #353a45;
+  --color-bg: #14181f;
+  --color-paper: #1f242d;
+  --color-mist: #191d25;
+  --color-line: #2c323d;
+  --color-line-strong: #3d4552;
 
-  --color-body: #c3cad9;
-  --color-muted: #8b93a6;
+  --color-body: #c3cad6;
+  --color-muted: #939cac;
 
-  --color-panel: #1b1e25;
-  --color-panel-soft: #262b35;
-  --color-on-panel: #eaeefb;
-  --color-on-panel-muted: #99a2b8;
-
-  --nm-dark: #1d2027;
-  --nm-light: #31363f;
-
-  --shadow-sm: 4px 4px 9px var(--nm-dark), -4px -4px 9px var(--nm-light);
-  --shadow-card: 7px 7px 16px var(--nm-dark), -7px -7px 16px var(--nm-light);
-  --shadow-card-hover: 10px 10px 24px var(--nm-dark),
-    -10px -10px 24px var(--nm-light);
-  --shadow-pressed: inset 4px 4px 9px var(--nm-dark),
-    inset -4px -4px 9px var(--nm-light);
-  --shadow-pressed-sm: inset 3px 3px 6px var(--nm-dark),
-    inset -3px -3px 6px var(--nm-light);
+  --color-panel: #0e1117;
+  --color-panel-soft: #1a1f28;
+  --color-on-panel: #eef1f6;
+  --color-on-panel-muted: #98a1b2;
 }
 
 @layer base {
@@ -109,16 +100,33 @@
   }
   h1, h2, h3, h4 {
     color: var(--color-ink);
-    line-height: 1.4;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    line-height: 1.45;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    /* 日本語の見出しを文節で折り返し、1文字だけの行を作らない */
+    word-break: auto-phrase;
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
   }
   a {
     color: inherit;
   }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
   ::selection {
     background: var(--color-accent);
-    color: #fff;
+    color: var(--color-on-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
@@ -137,93 +145,74 @@
     padding-inline: 1.25rem;
   }
 
-  /* eyebrow label */
+  /*
+   * 見出しに添える英字。大文字の小さなラベルではなく、
+   * ロゴと同じ細い英字を少し大きめにそのまま置く。
+   */
   .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: inline-block;
     font-family: var(--font-display);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-accent-ink);
-  }
-  .eyebrow::before {
-    content: "";
-    width: 1.75rem;
-    height: 2px;
-    background: var(--color-accent);
-    border-radius: 2px;
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
   }
 
-  /* buttons — soft raised pills */
+  /* buttons — flat pills */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.6rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 999px;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 0.95rem;
+    line-height: 1.4;
+    text-decoration: none;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.2s ease,
-      background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease,
+      box-shadow 0.2s ease;
   }
   .btn-accent {
     background: var(--color-accent);
-    color: #fff;
-    box-shadow: 5px 5px 12px var(--nm-dark), -5px -5px 12px var(--nm-light);
+    color: var(--color-on-accent);
   }
   .btn-accent:hover {
     background: var(--color-accent-soft);
-    transform: translateY(-2px);
-    box-shadow: 7px 7px 16px var(--nm-dark), -7px -7px 16px var(--nm-light);
-  }
-  .btn-accent:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-pressed-sm);
   }
   .btn-ghost {
-    background: var(--color-bg);
+    background: transparent;
     color: var(--color-ink);
-    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
   }
   .btn-ghost:hover {
-    color: var(--color-accent-ink);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
-  }
-  .btn-ghost:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-pressed-sm);
+    box-shadow: inset 0 0 0 1px var(--color-ink);
   }
 
-  /* surface card — soft extruded panel */
+  /* surface card — 白い板 */
   .card {
-    background: var(--color-bg);
+    background: var(--color-paper);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease;
   }
   .card-link:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
   }
 
-  /* chip / tag — recessed pill */
+  /* chip / tag — 細い線のカプセル */
   .chip {
     display: inline-flex;
     align-items: center;
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.02em;
-    padding: 0.25rem 0.7rem;
+    padding: 0.2rem 0.7rem;
     border-radius: 999px;
-    background: var(--color-bg);
+    background: transparent;
     color: var(--color-ink-soft);
-    box-shadow: var(--shadow-pressed-sm);
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
   }
   a.chip-link {
     text-decoration: none;
@@ -231,7 +220,7 @@
   }
   a.chip-link:hover {
     color: var(--color-accent-ink);
-    box-shadow: var(--shadow-sm);
+    box-shadow: inset 0 0 0 1px var(--color-accent-ink);
   }
 }
 
@@ -247,12 +236,14 @@
 }
 .prose h2 {
   font-size: 1.6rem;
+  font-weight: 700;
   margin-top: 2.4em;
   padding-bottom: 0.4rem;
   border-bottom: 2px solid var(--color-line);
 }
 .prose h3 {
   font-size: 1.3rem;
+  font-weight: 700;
   margin-top: 2em;
   padding-left: 0.75rem;
   border-left: 4px solid var(--color-accent);
@@ -265,8 +256,9 @@
 .prose a {
   color: var(--color-accent-ink);
   text-decoration: underline;
-  text-underline-offset: 2px;
-  font-weight: 600;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  font-weight: 500;
 }
 .prose strong {
   color: var(--color-ink);
@@ -294,8 +286,7 @@
   padding: 0.9rem 1.25rem;
   border-left: 4px solid var(--color-accent);
   background: var(--color-mist);
-  border-radius: 0 12px 12px 0;
-  box-shadow: var(--shadow-pressed-sm);
+  border-radius: 0;
   color: var(--color-ink-soft);
   font-weight: 500;
 }
@@ -314,13 +305,12 @@
   color: var(--color-accent-ink);
   padding: 0.15em 0.4em;
   border-radius: 6px;
-  box-shadow: var(--shadow-pressed-sm);
 }
 .prose pre {
-  background: #0f172a;
-  color: #e2e8f0;
+  background: #1b2230;
+  color: #e6eaf2;
   padding: 1.1rem 1.25rem;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow-x: auto;
   font-size: 0.86rem;
   line-height: 1.7;
@@ -530,5 +520,52 @@
   }
   .guide-table--numbered tbody td:nth-child(n + 3) {
     margin-top: 0.35rem;
+  }
+}
+
+/* =========================================================================
+   ページ切り替え — 「板が入れ替わる」
+   ブラウザ標準のページ間 View Transitions を使う（JS なし）。
+   ヘッダーはその場に残し、本文（main）だけが少し沈んで消え、
+   次のページの本文が下から浮かぶ。非対応のブラウザでは通常どおり切り替わる。
+   ========================================================================= */
+@view-transition {
+  navigation: auto;
+}
+.site-header {
+  view-transition-name: site-header;
+}
+main#main {
+  view-transition-name: page;
+}
+/* 本文の高さはページごとに違うので、枠の伸び縮みは見せない */
+::view-transition-group(page) {
+  animation: none;
+}
+::view-transition-old(page) {
+  animation: page-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(page) {
+  animation: page-in 420ms 80ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
   }
 }

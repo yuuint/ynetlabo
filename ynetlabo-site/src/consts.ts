@@ -187,6 +187,23 @@ export const CATEGORY_DESCRIPTIONS: Record<string, string> = {
     "シフト調整アプリ soroe の記事。シフト希望の集め方や運用の工夫といった実務の話から、SwiftUI アプリを設計図にして Flutter へ移植した開発記録、アップデート情報までまとめています。",
 };
 
+/**
+ * アプリのカテゴリ -> PROJECTS[].name。記事一覧・お知らせで、
+ * そのアプリの色の点やアイコンを添えるのに使う。
+ */
+export const CATEGORY_APP: Record<string, string> = {
+  "wa/ri割り勘アプリ": "wa/ri",
+  "maPengu ペンギン検索アプリ": "mapengu",
+  "tsutsum慶弔記録アプリ": "tsutsum",
+  "soroe日程調整アプリ": "soroe",
+};
+
+/** カテゴリに対応するアプリ（無ければ undefined） */
+export function categoryProject(name: string): Project | undefined {
+  const app = CATEGORY_APP[name];
+  return app ? PROJECTS.find((p) => p.name === app) : undefined;
+}
+
 export function categorySlug(name: string): string {
   return (
     CATEGORY_SLUGS[name] ??

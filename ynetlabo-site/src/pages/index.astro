@@ -18,12 +18,30 @@ const origin = (Astro.site ?? new URL(SITE.url)).origin;
 const appAnchor = (name: string) =>
   `app-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`;
 
-/** Hero proof points — kept in sync with PROJECTS so the count never goes stale */
-const heroMeta = [
-  `<strong>${PROJECTS.length}</strong> つのプロダクト`,
-  "iOS / Android / Web / LINE",
-  "すべて個人開発",
-];
+/**
+ * ヒーローの「そぎ落とす」動き。5列×4行のマス目のうち、上3行は消えていく部品、
+ * 4行目が残るアプリ。各アプリは KEEP_ROW の行から 4 行目へ降りてくる。
+ * 部品の消える順は (n * 7) % 13 で散らす。
+ */
+const KEEP_ROW = [1, 0, 2, 1, 0];
+type SiftCell = { kind: "bit"; i: number } | { kind: "gap" };
+const siftCells: SiftCell[] = [];
+let bitNo = 0;
+for (let r = 0; r < 3; r++) {
+  for (let c = 0; c < 5; c++) {
+    siftCells.push(
+      KEEP_ROW[c] === r ? { kind: "gap" } : { kind: "bit", i: (bitNo++ * 7) % 13 }
+    );
+  }
+}
+const siftApps = PROJECTS.slice(0, 5);
+/**
+ * 狭い画面用の1列版。9つの枠のうち PICK_SLOT の5つがアプリになり、
+ * 残り（LINE_BITS）は消える。高さはアイコン1段ぶんだけで、動いても下がずれない。
+ */
+const PICK_SLOT = [0, 2, 5, 6, 8];
+const LINE_BITS = [1, 3, 4, 7];
+
 /** アプリ紹介ページ（/apps/<slug>）への内部リンク */
 const appPageHref = (name: string) => {
   const d = APP_DETAILS.find((a) => a.project === name);
@@ -49,75 +67,64 @@ const appLd = PROJECTS.map((p) => ({
 <BaseLayout jsonLd={appLd}>
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <div class="wrap hero-inner">
-      <div class="hero-copy">
-        <span class="eyebrow">App Development Lab</span>
-        <h1 class="hero-title">
-          シンプルなアプリに、<br />少しのペンギンを。
-        </h1>
-        <p class="hero-lead">{SITE.taglineEn}</p>
-        <p class="hero-desc">{SITE.description}</p>
-        <div class="hero-actions">
-          <a href="#projects" class="btn btn-accent">プロダクトを見る</a>
-          <a href="/article/" class="btn btn-ghost">記事を読む</a>
+    <div class="wrap">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <h1 class="hero-title"><span>必要な機能だけを、</span><span>丁寧に。</span></h1>
+          <p class="hero-lead" lang="en">{SITE.taglineEn}</p>
+          <p class="hero-desc">{SITE.description}</p>
+          <p class="hero-reach">
+            iOS・Android・Web・LINE で使える {PROJECTS.length} つのアプリを、ひとりで作っています。
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-accent">アプリを見る</a>
+            <a href="/article/" class="btn btn-ghost">記事を読む</a>
+          </div>
         </div>
-        <ul class="hero-meta">
-          {heroMeta.map((m) => <li set:html={m} />)}
-        </ul>
-      </div>
 
-      <div class="hero-art">
-        <img
-          class="hero-penguin"
-          src="/penguin-mark.png"
-          alt=""
-          width="235"
-          height="235"
-          aria-hidden="true"
-        />
-        <div class="shelf card">
-          <span class="shelf-label">つくったアプリ</span>
-          <ul class="shelf-grid">
-            {
-              PROJECTS.map((p, i) => (
-                <li class="shelf-item" style={`--i:${i};--brand:${p.accent}`}>
-                  <a
-                    class="shelf-link"
-                    href={`#${appAnchor(p.name)}`}
-                    aria-label={`${p.name} — ${p.tagline}の詳細へ`}
-                  >
-                    <img
-                      src={p.icon}
-                      alt=""
-                      width="56"
-                      height="56"
-                      decoding="async"
-                    />
-                    <span class="shelf-name">{p.name}</span>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-          <a class="shelf-cta" href="#projects">
-            すべて見る<span class="shelf-arrow" aria-hidden="true">→</span>
-          </a>
+        <div class="hero-art">
+        <nav class="sift" aria-label="つくったアプリ">
+          {
+            siftCells.map((cell) =>
+              cell.kind === "bit" ? (
+                <span class="sift-bit" style={`--i:${cell.i}`} aria-hidden="true" />
+              ) : (
+                <span class="sift-gap" aria-hidden="true" />
+              )
+            )
+          }
+          {
+            LINE_BITS.map((j, n) => (
+              <span class="line-bit" style={`--j:${j};--n:${n}`} aria-hidden="true" />
+            ))
+          }
+          {
+            siftApps.map((p, c) => (
+              <a
+                class="pick"
+                href={`#${appAnchor(p.name)}`}
+                style={`--r:${KEEP_ROW[c]};--c:${c};--j:${PICK_SLOT[c]};--brand:${p.accent}`}
+                aria-label={`${p.name}（${p.tagline}）`}
+              >
+                <span class="pick-icon">
+                  <img src={p.icon} alt="" width="72" height="72" decoding="async" />
+                </span>
+                <span class="pick-name">{p.name}</span>
+              </a>
+            ))
+          }
+        </nav>
         </div>
       </div>
     </div>
-
-    <a class="scroll-cue" href="#about" aria-label="ページを下にスクロール">
-      <span class="scroll-word">Scroll</span>
-      <span class="scroll-line" aria-hidden="true"></span>
-    </a>
   </section>
 
   <!-- ============ ABOUT ============ -->
   <section id="about" class="section">
     <div class="wrap about-grid">
       <div>
-        <span class="eyebrow">About</span>
-        <h2 class="section-title">必要な機能だけを、丁寧に。</h2>
+        <span class="eyebrow" lang="en">About</span>
+        <h2 class="section-title">「これで十分」と思える道具を。</h2>
       </div>
       <div class="about-body">
         <p>
@@ -133,12 +140,12 @@ const appLd = PROJECTS.map((p) => ({
   </section>
 
   <!-- ============ PROJECTS ============ -->
-  <section id="projects" class="section section-mist">
+  <section id="projects" class="section">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Products</span>
+        <span class="eyebrow" lang="en">Apps</span>
         <h2 class="section-title">つくったアプリ</h2>
-        <p class="section-sub">個人開発で世に出してきたプロダクトたち。</p>
+        <p class="section-sub">個人開発で世に出してきたアプリたち。</p>
       </div>
 
       <div class="project-grid">
@@ -192,7 +199,7 @@ const appLd = PROJECTS.map((p) => ({
                 {p.comingSoon?.map((store) => (
                   <span class="plink plink-soon" aria-disabled="true">
                     {store}
-                    <span class="soon-tag">coming soon</span>
+                    <span class="soon-tag">近日公開</span>
                   </span>
                 ))}
               </div>
@@ -208,10 +215,10 @@ const appLd = PROJECTS.map((p) => ({
     <div class="wrap">
       <div class="section-head row">
         <div>
-          <span class="eyebrow">Blog</span>
+          <span class="eyebrow" lang="en">Notes</span>
           <h2 class="section-title">最新の記事</h2>
         </div>
-        <a href="/article/" class="link-arrow">すべての記事 →</a>
+        <a href="/article/" class="btn btn-ghost link-all">すべての記事</a>
       </div>
 
       <div class="article-grid">
@@ -234,44 +241,46 @@ const appLd = PROJECTS.map((p) => ({
   </section>
 
   <!-- ============ PROFILE ============ -->
-  <section class="section section-mist">
-    <div class="wrap profile-grid">
-      <div class="profile-card card">
-        <div class="profile-avatar">
-          <img src={PROFILE.avatar} alt={PROFILE.name} width="460" height="460" />
+  <section class="section">
+    <div class="wrap">
+      <div class="profile-panel card">
+        <div class="profile-id">
+          <div class="profile-avatar">
+            <img src={PROFILE.avatar} alt="" width="460" height="460" loading="lazy" />
+          </div>
+          <div>
+            <p class="profile-name">{PROFILE.name}</p>
+            <p class="profile-role" lang="en">{PROFILE.role}</p>
+          </div>
         </div>
-        <div>
-          <h3 class="profile-name">{PROFILE.name}</h3>
-          <p class="profile-role">{PROFILE.role}</p>
-        </div>
-      </div>
-      <div class="profile-body">
-        <span class="eyebrow">Profile</span>
-        <h2 class="section-title">つくっている人</h2>
-        <p>{PROFILE.bio}</p>
-        <div class="stack">
-          {PROFILE.stack.map((s) => <span class="chip">{s}</span>)}
-        </div>
-        <div class="profile-social">
-          <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
-          <a href={SOCIAL.x} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">X (Twitter)</a>
-          <a href={SOCIAL.qiita} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Qiita</a>
+        <div class="profile-body">
+          <span class="eyebrow" lang="en">Profile</span>
+          <h2 class="section-title">つくっている人</h2>
+          <p>{PROFILE.bio}</p>
+          <div class="stack">
+            {PROFILE.stack.map((s) => <span class="chip">{s}</span>)}
+          </div>
+          <div class="profile-social">
+            <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+            <a href={SOCIAL.x} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">X (Twitter)</a>
+            <a href={SOCIAL.qiita} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Qiita</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ CONTACT CTA ============ -->
-  <section class="section">
+  <section class="section section-tight">
     <div class="wrap">
       <div class="cta">
-        <h2 class="cta-title">お気軽にご連絡ください</h2>
+        <h2 class="cta-title">ご感想やご要望をお聞かせください</h2>
         <p class="cta-sub">
           アプリへのご感想・ご要望、不具合のご報告などお待ちしています。
         </p>
         <div class="cta-actions">
-          <a href="/contact/" class="btn btn-accent">お問い合わせ</a>
-          <a href={`mailto:${SITE.email}`} class="btn btn-ghost">{SITE.email}</a>
+          <a href="/contact/" class="btn cta-primary">お問い合わせ</a>
+          <a href={`mailto:${SITE.email}`} class="btn cta-ghost">{SITE.email}</a>
         </div>
       </div>
     </div>
@@ -281,15 +290,15 @@ const appLd = PROJECTS.map((p) => ({
 <style>
   /* ----- section primitives ----- */
   .section {
-    padding-block: 4.5rem;
-    /* clear the sticky header when jumped to via an anchor */
+    padding-block: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+    /* アンカーで飛んだとき sticky ヘッダーに隠れないように */
     scroll-margin-top: 4.75rem;
   }
-  .section-mist {
-    background: var(--color-mist);
+  .section-tight {
+    padding-bottom: 0;
   }
   .section-head {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.25rem;
   }
   .section-head.row {
     display: flex;
@@ -298,311 +307,199 @@ const appLd = PROJECTS.map((p) => ({
     gap: 1rem;
   }
   .section-title {
-    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
-    margin-top: 0.6rem;
+    font-size: clamp(1.45rem, 1.15rem + 1.3vw, 2rem);
+    margin-top: 0.7rem;
   }
   .section-sub {
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     color: var(--color-muted);
   }
-  .link-arrow {
-    font-weight: 700;
-    color: var(--color-accent-ink);
-    text-decoration: none;
+  .link-all {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.88rem;
     white-space: nowrap;
   }
 
   /* ----- hero ----- */
   .hero {
-    position: relative;
-    overflow: hidden;
-    background: var(--color-bg);
+    padding-top: clamp(0.5rem, 0.25rem + 1vw, 1.25rem);
   }
-  /* ambient light instead of hard blurred circles */
-  .hero::before {
-    --wash-warm: 249 115 22;
-    --wash-cool: 56 189 248;
-    --wash: 0.22;
-    content: "";
-    position: absolute;
-    inset: -35% -20% 0;
-    pointer-events: none;
-    background:
-      radial-gradient(
-        42rem 30rem at 78% 42%,
-        rgb(var(--wash-warm) / var(--wash)),
-        rgb(var(--wash-warm) / 0) 68%
-      ),
-      radial-gradient(
-        34rem 26rem at 6% 78%,
-        rgb(var(--wash-cool) / calc(var(--wash) * 0.85)),
-        rgb(var(--wash-cool) / 0) 70%
-      );
-    /* fade out before the section edge so overflow:hidden never cuts a seam */
-    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
-  }
-  :global([data-theme="dark"]) .hero::before {
-    --wash: 0.15;
-  }
-  .hero-inner {
-    position: relative;
+  .hero-panel {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 2.5rem;
-    padding-block: clamp(3.5rem, 2rem + 6vw, 6rem);
-    padding-bottom: clamp(4.5rem, 2rem + 7vw, 7rem);
+    gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+    background: var(--color-paper);
+    border-radius: clamp(28px, 1rem + 2vw, 40px);
+    padding: clamp(2rem, 1rem + 4vw, 4.5rem);
   }
   .hero-title {
-    /* sized so 「シンプルなアプリに、」 stays on one line in the copy column */
-    font-size: clamp(1.9rem, 1.15rem + 2.5vw, 3.25rem);
-    line-height: 1.3;
-    margin-top: 1rem;
+    font-size: clamp(1.3rem, 0.8rem + 2.9vw, 3.1rem);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+  }
+  /* 1行ずつ塊にして、句の途中で折り返さないようにする */
+  .hero-title span {
+    display: inline-block;
   }
   .hero-lead {
     font-family: var(--font-display);
-    color: var(--color-accent-ink);
-    font-weight: 700;
-    margin-top: 1rem;
-    letter-spacing: 0.02em;
+    font-weight: 300;
+    font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+    letter-spacing: 0.01em;
+    color: var(--color-muted);
+    margin-top: 0.9rem;
+    animation: fade-in 0.8s 2.3s ease both;
   }
   .hero-desc {
-    margin-top: 1.25rem;
-    max-width: 32rem;
+    margin-top: 1.5rem;
+    max-width: 34rem;
+  }
+  .hero-reach {
+    margin-top: 0.5rem;
+    max-width: 34rem;
+    font-size: 0.9rem;
     color: var(--color-muted);
   }
   .hero-actions {
     display: flex;
-    gap: 0.9rem;
+    gap: 0.75rem;
     margin-top: 2rem;
     flex-wrap: wrap;
   }
-  .hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem 1.1rem;
-    margin-top: 1.75rem;
-    font-size: 0.82rem;
-    color: var(--color-muted);
-    letter-spacing: 0.01em;
-  }
-  .hero-meta li {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .hero-meta li + li::before {
-    content: "";
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    opacity: 0.65;
-    margin-right: 0.7rem;
-  }
-  .hero-meta :global(strong) {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--color-ink);
-  }
 
-  /* ----- hero art: the app shelf ----- */
-  .hero-art {
-    position: relative;
-    padding-top: 2.6rem;
-  }
-  /* the mascot peeks out from behind the shelf — "少しのペンギン" */
-  .hero-penguin {
-    position: absolute;
-    top: 0;
-    right: 3rem;
-    z-index: 0;
-    width: 7rem;
-    height: auto;
-    transform-origin: 50% 100%;
-    filter: drop-shadow(0 10px 16px rgba(20, 33, 61, 0.2));
-    animation:
-      penguin-peek 0.7s 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) both,
-      penguin-bob 6s 1.3s ease-in-out infinite;
-  }
-  :global([data-theme="dark"]) .hero-penguin {
-    filter: brightness(0) invert(1)
-      drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
-  }
-  @keyframes penguin-peek {
-    from { transform: translateY(2.75rem) rotate(0deg); opacity: 0; }
-    to { transform: translateY(0) rotate(-5deg); opacity: 1; }
-  }
-  @keyframes penguin-bob {
-    0%, 100% { transform: translateY(0) rotate(-5deg); }
-    50% { transform: translateY(-5px) rotate(-2deg); }
-  }
-
-  .shelf {
-    position: relative;
-    z-index: 1;
-    padding: 1.6rem 1.5rem 1.35rem;
-    animation: shelf-rise 0.6s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  @keyframes shelf-rise {
-    from { transform: translateY(1.25rem); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  .shelf-label {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-  .shelf-grid {
-    display: flex;
-    flex-wrap: wrap;
+  /*
+   * ----- hero art: そぎ落とす -----
+   * 灰色の部品が消え、残った 5 つが最下段へ降りてアプリのアイコンになる。
+   * アプリは DOM 上は最下段にあり、上の行から「戻ってくる」動きにしているので、
+   * 動きを切ってもそのまま完成形になる。
+   */
+  .sift {
+    --cell: clamp(2.75rem, 1.6rem + 3.6vw, 5rem);
+    --gap: clamp(0.55rem, 0.3rem + 0.8vw, 1rem);
+    display: grid;
+    grid-template-columns: repeat(5, var(--cell));
+    grid-template-rows: repeat(3, var(--cell)) auto;
+    gap: var(--gap);
     justify-content: center;
-    gap: 1.15rem 1rem;
-    margin-top: 1.25rem;
   }
-  .shelf-item {
-    flex: 0 0 calc(33.333% - 0.7rem);
-    display: flex;
-    animation: shelf-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-    animation-delay: calc(0.25s + var(--i) * 0.07s);
+  /* 消えた部品は、点線の枠だけを跡として残す */
+  .sift-bit {
+    border-radius: 26%;
+    background: var(--color-line);
+    border: 1px dashed transparent;
+    animation: bit-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: calc(0.35s + var(--i) * 45ms);
   }
-  /* each icon jumps to its own product card */
-  .shelf-link {
-    flex: 1;
+  .sift-gap {
+    visibility: hidden;
+  }
+  /* 1列版の部品は狭い画面でだけ使う */
+  .line-bit {
+    display: none;
+  }
+  .pick {
+    --dy: calc((3 - var(--r)) * (var(--cell) + var(--gap)) * -1);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.55rem;
-    padding-block: 0.25rem;
-    border-radius: 14px;
     text-decoration: none;
+    border-radius: 18px;
+    animation: pick-drop 2.1s cubic-bezier(0.65, 0, 0.35, 1) both;
   }
-  .shelf-link:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
-  }
-  .shelf-link img {
-    width: 3.85rem;
-    height: 3.85rem;
-    border-radius: 22.5%;
-    box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent),
-      var(--shadow-sm);
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.25s ease;
-  }
-  .shelf-link:hover img,
-  .shelf-link:focus-visible img {
-    transform: translateY(-5px) scale(1.04);
-    box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 45%, transparent),
-      var(--shadow-card);
-  }
-  .shelf-link:active img {
-    transform: translateY(-1px) scale(1);
-  }
-  .shelf-name {
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--color-ink);
-    transition: color 0.15s ease;
-  }
-  .shelf-link:hover .shelf-name {
-    color: var(--color-accent-ink);
-  }
-  .shelf-cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    margin-top: 1.4rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-line);
-    font-size: 0.83rem;
-    font-weight: 700;
-    color: var(--color-accent-ink);
-    text-decoration: none;
-  }
-  .shelf-arrow {
-    transition: transform 0.2s ease;
-  }
-  .shelf-cta:hover .shelf-arrow {
-    transform: translateX(4px);
-  }
-
-  /* ----- scroll cue ----- */
-  .scroll-cue {
-    position: absolute;
-    left: 50%;
-    bottom: 1.5rem;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: var(--color-muted);
-    transition: color 0.2s ease;
-  }
-  .scroll-cue:hover {
-    color: var(--color-accent-ink);
-  }
-  .scroll-word {
-    font-family: var(--font-display);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.28em;
-    text-indent: 0.28em;
-    text-transform: uppercase;
-  }
-  .scroll-line {
+  .pick-icon {
     position: relative;
-    width: 1px;
-    height: 2.5rem;
-    background: color-mix(in srgb, var(--color-muted) 35%, transparent);
+    display: block;
+    width: var(--cell);
+    height: var(--cell);
+    border-radius: 26%;
     overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .scroll-line::after {
+  .pick-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  /* 動き出すまでは他の部品と同じ灰色。動きながらアイコンに変わる */
+  .pick-icon::after {
     content: "";
     position: absolute;
-    inset-inline: 0;
-    top: 0;
-    height: 45%;
-    background: var(--color-accent);
-    animation: scroll-trail 2.2s ease-in-out infinite;
+    inset: -1px;
+    background: var(--color-line);
+    animation: pick-reveal 2.6s ease both;
+    pointer-events: none;
   }
-  @keyframes scroll-trail {
-    0% { transform: translateY(-100%); }
-    60%, 100% { transform: translateY(250%); }
+  .pick-name {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(0.72rem, 0.65rem + 0.25vw, 0.88rem);
+    line-height: 1;
+    color: var(--color-ink);
+    white-space: nowrap;
+    animation: fade-in 0.6s 2.2s ease both;
+  }
+  .pick:hover .pick-icon {
+    transform: translateY(-4px);
+  }
+  @keyframes bit-out {
+    to {
+      background: transparent;
+      border-color: var(--color-line-strong);
+      transform: scale(0.78);
+    }
+  }
+  @keyframes pick-drop {
+    0%, 38% {
+      transform: translateY(var(--dy));
+    }
+    82%, 100% {
+      transform: none;
+    }
+  }
+  /*
+   * 灰色の覆いは、動き始め（全体の約 0.85 秒）から溶かし始め、移動・拡大の途中で
+   * アイコンが見えるようにする。着地する前にはすっかりアイコンになっている。
+   */
+  @keyframes pick-reveal {
+    0%, 32% {
+      opacity: 1;
+    }
+    62%, 100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   /* ----- about ----- */
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: 1fr 1.3fr;
     gap: 2.5rem;
+    align-items: start;
   }
   .about-body p + p {
     margin-top: 1.1rem;
   }
   .about-body strong {
     color: var(--color-ink);
+    font-weight: 700;
   }
 
   /* ----- projects ----- */
   .project-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
   .project-card {
     padding: 1.75rem;
@@ -610,26 +507,21 @@ const appLd = PROJECTS.map((p) => ({
     flex-direction: column;
     scroll-margin-top: 5.5rem;
   }
-  /* highlight the card the visitor jumped to from the hero shelf */
+  /* ヒーローのアイコンから飛んできたカードを、アプリの色の線で示す */
   .project-card:target {
-    box-shadow:
-      0 0 0 2px var(--brand),
-      var(--shadow-card-hover);
+    box-shadow: inset 0 0 0 2px var(--brand);
   }
   .project-top {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 1rem;
+    gap: 0.9rem;
+    margin-bottom: 1.1rem;
   }
   .project-icon {
     width: 3.25rem;
     height: 3.25rem;
     flex-shrink: 0;
-    border-radius: 22.5%;
-    box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 20%, transparent),
-      var(--shadow-sm);
+    border-radius: 26%;
   }
   .project-dot {
     width: 0.85rem;
@@ -640,78 +532,66 @@ const appLd = PROJECTS.map((p) => ({
   .project-headings {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.3rem;
     min-width: 0;
   }
   .project-name {
     font-family: var(--font-display);
-    font-size: 1.4rem;
-    line-height: 1.1;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: 0;
   }
   .project-tag {
     font-size: 0.8rem;
-    font-weight: 700;
     color: var(--color-muted);
   }
   .project-desc {
     font-size: 0.92rem;
-    color: var(--color-body);
     flex: 1;
   }
   .project-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin-top: 1.5rem;
   }
   .plink {
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.45rem 0.95rem;
     border-radius: 999px;
-    background: var(--color-bg);
     color: var(--color-ink);
     text-decoration: none;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.2s ease, color 0.15s ease, transform 0.15s ease;
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
   }
   .plink:hover {
-    color: var(--color-accent-ink);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
-  }
-  .plink:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-pressed-sm);
+    box-shadow: inset 0 0 0 1px var(--color-ink);
   }
   .plink-primary {
-    background: var(--color-panel);
-    color: var(--color-on-panel);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow: none;
   }
   .plink-primary:hover {
-    color: var(--color-on-panel);
+    background: var(--color-ink-soft);
+    box-shadow: none;
   }
   .plink-soon {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: transparent;
     color: var(--color-muted);
-    box-shadow: none;
-    border: 1px dashed var(--color-border, #d4d8e0);
+    box-shadow: inset 0 0 0 1px var(--color-line);
     cursor: default;
   }
   .plink-soon:hover {
-    color: var(--color-muted);
-    transform: none;
-    box-shadow: none;
+    box-shadow: inset 0 0 0 1px var(--color-line);
   }
   .soon-tag {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 0.1rem 0.4rem;
+    font-size: 0.68rem;
+    padding: 0.05rem 0.45rem;
     border-radius: 999px;
     background: var(--color-mist);
     color: var(--color-accent-ink);
@@ -720,176 +600,253 @@ const appLd = PROJECTS.map((p) => ({
   /* ----- articles ----- */
   .article-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
 
   /* ----- profile ----- */
-  .profile-grid {
+  .profile-panel {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 0.7fr 1.3fr;
     gap: 2.5rem;
-    align-items: center;
+    align-items: start;
+    padding: clamp(1.75rem, 1rem + 3vw, 3.5rem);
   }
-  .profile-card {
+  .profile-id {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    padding: 1.75rem;
+    gap: 1.1rem;
   }
   .profile-avatar {
-    display: grid;
-    place-items: center;
     width: 4.5rem;
     height: 4.5rem;
     border-radius: 50%;
-    background: var(--color-bg);
-    box-shadow: var(--shadow-pressed-sm);
     flex-shrink: 0;
     overflow: hidden;
+    background: var(--color-mist);
   }
   .profile-avatar img {
-    /* 写真なので円形の枠いっぱいに敷く（マーク画像だった頃は 58% で余白を作っていた） */
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
   .profile-name {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    color: var(--color-ink);
   }
   .profile-role {
+    font-family: var(--font-display);
+    font-weight: 300;
     color: var(--color-muted);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    margin-top: 0.3rem;
   }
   .profile-body p {
     margin-top: 1rem;
-    color: var(--color-body);
   }
   .stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin-top: 1.25rem;
   }
   .profile-social {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.6rem;
     margin-top: 1.75rem;
     flex-wrap: wrap;
+  }
+  .profile-social .btn {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.88rem;
   }
 
   /* ----- CTA ----- */
   .cta {
-    background: var(--color-panel);
-    color: var(--color-on-panel);
-    border-radius: 24px;
-    padding: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+    background: var(--color-paper);
+    border-radius: clamp(28px, 1rem + 2vw, 40px);
+    padding: clamp(2.5rem, 1.5rem + 4vw, 4rem) clamp(1.5rem, 1rem + 3vw, 4rem);
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-  }
-  .cta::after {
-    content: "";
-    position: absolute;
-    right: 1.5rem;
-    bottom: -1rem;
-    width: 8rem;
-    height: 8rem;
-    background: url("/penguin-mark.png") center / contain no-repeat;
-    filter: brightness(0) invert(1);
-    opacity: 0.1;
   }
   .cta-title {
-    color: #fff;
-    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem);
+    font-size: clamp(1.35rem, 1.1rem + 1.2vw, 1.9rem);
   }
   .cta-sub {
-    color: #b8c2d6;
-    margin-top: 0.85rem;
+    color: var(--color-muted);
+    margin-top: 0.75rem;
   }
   .cta-actions {
     display: flex;
-    gap: 0.9rem;
+    gap: 0.75rem;
     justify-content: center;
     margin-top: 2rem;
     flex-wrap: wrap;
   }
-  .cta .btn-ghost {
-    background: transparent;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.3);
+  .cta-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
   }
-  .cta .btn-ghost:hover {
-    border-color: #fff;
+  .cta-primary:hover {
+    background: var(--color-accent-soft);
+  }
+  .cta-ghost {
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
+    overflow-wrap: anywhere;
+  }
+  .cta-ghost:hover {
+    box-shadow: inset 0 0 0 1px var(--color-ink);
   }
 
   /* ----- responsive ----- */
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .project-grid,
     .article-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    /* stack the hero before the headline starts breaking mid-phrase */
-    .hero-inner {
-      grid-template-columns: 1fr;
-      padding-bottom: clamp(3rem, 2rem + 4vw, 4rem);
-    }
-    .hero-art {
-      margin-top: 1rem;
-    }
-    /* the shelf itself is the invitation to scroll on small screens */
-    .scroll-cue {
-      display: none;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (max-width: 768px) {
-    .about-grid,
-    .profile-grid {
-      grid-template-columns: 1fr;
-    }
-    /* stack the proof points so a wrapped separator dot never leads a line */
-    .hero-meta {
+
+  /*
+   * 縦に積む画面（スマホ縦・タブレット）：見出し → アイコン → 説明 → ボタン。
+   * マス目は1列版に切り替え、9つの枠から5つが残ってアイコンになる。
+   * 枠の大きさ・位置はすべてアイコン1つの大きさ（--cell）の倍数で決める。
+   *   すきま = 0.2 × cell、全体の幅 = 5.8 × cell、9枠の1枠ぶん = 5.8 / 9 ≒ 0.6444 × cell
+   *   最初の部品の大きさ = 0.8 × 0.6444 ≒ 0.5156 × cell
+   */
+  @media (max-width: 960px) and (orientation: portrait), (max-width: 960px) and (min-height: 521px) {
+    .hero-panel {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 0.4rem;
+      align-items: stretch;
+      gap: 0;
     }
-    .hero-meta li::before {
-      content: "";
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--color-accent);
-      opacity: 0.65;
-      margin-right: 0.55rem;
-    }
-    .hero-meta li + li::before {
-      margin-right: 0.55rem;
+    .hero-copy {
+      display: contents;
     }
     .hero-art {
-      padding-top: 2.1rem;
+      order: 1;
+      container-type: inline-size;
+      margin-top: clamp(1.25rem, 0.75rem + 2vw, 2rem);
     }
-    .hero-penguin {
-      width: 5.5rem;
-      right: 2rem;
+    .hero-lead,
+    .hero-desc,
+    .hero-reach,
+    .hero-actions {
+      order: 2;
     }
-    .shelf-item img {
-      width: 3.25rem;
-      height: 3.25rem;
+    .sift {
+      --cell: min(4.25rem, 100cqi / 5.8);
+      --gap: calc(var(--cell) * 0.2);
+      position: relative;
+      grid-template-rows: auto;
+      justify-content: start;
+    }
+    .sift-bit,
+    .sift-gap {
+      display: none;
+    }
+    .line-bit {
+      display: block;
+      position: absolute;
+      top: calc(var(--cell) * 0.2422);
+      left: calc((var(--j) * 0.6444 + 0.0644) * var(--cell));
+      width: calc(var(--cell) * 0.5156);
+      height: calc(var(--cell) * 0.5156);
+      border-radius: 26%;
+      background: var(--color-line);
+      animation: line-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+      animation-delay: calc(0.45s + var(--n) * 0.12s);
+    }
+    .pick {
+      --dx: calc(((var(--j) + 0.5) * 0.6444 - (var(--c) * 1.2 + 0.5)) * var(--cell));
+      transform-origin: 50% calc(var(--cell) / 2);
+      animation-name: pick-gather;
+    }
+  }
+  @keyframes line-out {
+    to {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+  @keyframes pick-gather {
+    0%, 40% {
+      transform: translateX(var(--dx)) scale(0.5156);
+    }
+    82%, 100% {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-grid,
+    .profile-panel {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
     }
     .project-grid,
     .article-grid {
       grid-template-columns: 1fr;
+    }
+    .section-head.row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero-title {
+      letter-spacing: 0.03em;
+    }
+    /* 2つのボタンを1行に収め、iPhone SE でもヒーローの縦の長さを抑える */
+    .hero-actions {
+      flex-wrap: nowrap;
+      gap: 0.5rem;
+    }
+    .hero-actions .btn {
+      flex: 1 1 0;
+      padding-inline: 0.75rem;
+      white-space: nowrap;
+    }
+  }
+  /*
+   * 横向きのスマホ（高さが低い）は広い画面と同じ2列のまま、マス目を小さくして
+   * 4段の動きが画面に収まるようにする。
+   */
+  @media (max-width: 960px) and (orientation: landscape) and (max-height: 520px) {
+    .hero-art {
+      align-self: start;
+    }
+    .sift {
+      --cell: 2.3rem;
+      --gap: 0.5rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-penguin,
-    .shelf,
-    .shelf-item,
-    .scroll-line::after {
+    .sift-bit {
       animation: none;
+      background: transparent;
+      border-color: var(--color-line-strong);
+      transform: scale(0.78);
+    }
+    .pick,
+    .pick-name,
+    .hero-lead {
+      animation: none;
+    }
+    .pick-icon::after {
+      animation: none;
+      opacity: 0;
+    }
+    .pick-icon {
+      transition: none;
+    }
+    .line-bit {
+      animation: none;
+      opacity: 0;
     }
   }
 </style>

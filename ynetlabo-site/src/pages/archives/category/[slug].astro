@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ArticleCard from "../../../components/ArticleCard.astro";
-import { articleHref } from "../../../utils";
+import ArticleTimeline from "../../../components/ArticleTimeline.astro";
+import NoticeList from "../../../components/NoticeList.astro";
 import { categorySlug, CATEGORY_DESCRIPTIONS, SITE } from "../../../consts";
 
 export async function getStaticPaths() {
@@ -56,30 +56,15 @@ const breadcrumbLd = {
       <nav class="crumbs" aria-label="パンくず">
         <a href="/">ホーム</a><span>/</span><a href="/article/">記事</a>
       </nav>
-      <span class="eyebrow">{isNotice ? "News" : "Category"}</span>
+      <span class="eyebrow" lang="en">{isNotice ? "News" : "Category"}</span>
       <h1 class="page-title">{name}</h1>
-      <p class="page-sub">{posts.length} 件の記事</p>
+      <p class="page-sub">{isNotice ? `アプリの公開・アップデート・予告をまとめています。${posts.length} 件` : `${posts.length} 件の記事`}</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="article-grid">
-        {
-          posts.map((post) => (
-            <ArticleCard
-              href={articleHref(post.data.wpId)}
-              title={post.data.title}
-              description={post.data.description}
-              pubDate={post.data.pubDate}
-              categories={post.data.categories}
-              heroImage={post.data.heroImage}
-              heroAlt={post.data.heroAlt}
-              wpId={post.data.wpId}
-            />
-          ))
-        }
-      </div>
+      {isNotice ? <NoticeList posts={posts} /> : <ArticleTimeline posts={posts} />}
     </div>
   </section>
 </BaseLayout>
@@ -87,8 +72,7 @@ const breadcrumbLd = {
 <style>
   .page-head {
     padding-block: 3rem 1rem;
-    background: var(--color-mist);
-    box-shadow: inset 0 -8px 16px -12px var(--nm-dark);
+    background: transparent;
   }
   .crumbs {
     display: flex;
@@ -114,20 +98,5 @@ const breadcrumbLd = {
   }
   .section {
     padding-block: 3rem 4.5rem;
-  }
-  .article-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  @media (max-width: 900px) {
-    .article-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (max-width: 768px) {
-    .article-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

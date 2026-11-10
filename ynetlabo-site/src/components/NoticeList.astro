@@ -1,0 +1,187 @@
+---
+/**
+ * お知らせ「更新履歴」。どのアプリが・何を・いつ変えたかを1行にまとめる。
+ * - アイコン：記事のカテゴリから引いたアプリのアイコン
+ * - 要点：記事の説明文（description）の最初の一文
+ * - 印：タイトルから判定（「予告」→ 予告 / 「アップデート」→ アップデート / 「公開しました」→ 公開）
+ */
+import type { CollectionEntry } from "astro:content";
+import { articleHref } from "../utils";
+import { categoryProject } from "../consts";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+const { posts } = Astro.props;
+
+type Kind = "予告" | "アップデート" | "公開" | null;
+const kindOf = (title: string): Kind =>
+  title.includes("予告")
+    ? "予告"
+    : title.includes("アップデート")
+      ? "アップデート"
+      : title.includes("公開しました")
+        ? "公開"
+        : null;
+
+/** 説明文の最初の一文。長すぎる場合は CSS 側で2行に切る */
+const firstSentence = (text: string) => {
+  const i = text.indexOf("。");
+  return i === -1 ? text : text.slice(0, i + 1);
+};
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const jst = (d: Date) => new Date(d.getTime() + 9 * 60 * 60 * 1000);
+const dateLabel = (d: Date) => {
+  const j = jst(d);
+  return `${j.getUTCFullYear()}.${pad(j.getUTCMonth() + 1)}.${pad(j.getUTCDate())}`;
+};
+---
+
+<ol class="nl">
+  {
+    posts.map((post) => {
+      const app = post.data.categories.map(categoryProject).find(Boolean);
+      const kind = kindOf(post.data.title);
+      return (
+        <li class="nl-row">
+          <a class="nl-link" href={articleHref(post.data.wpId)}>
+            {app?.icon ? (
+              <img class="nl-icon" src={app.icon} alt="" width="48" height="48" loading="lazy" />
+            ) : (
+              <span class="nl-icon nl-icon--none" aria-hidden="true" />
+            )}
+            <span class="nl-body">
+              <span class="nl-head">
+                {app && <span class="nl-app" lang="en">{app.name}</span>}
+                <time class="nl-date" datetime={post.data.pubDate.toISOString()}>
+                  {dateLabel(post.data.pubDate)}
+                </time>
+              </span>
+              <span class="nl-title">{post.data.title}</span>
+              <span class="nl-sum">{firstSentence(post.data.description)}</span>
+            </span>
+            {kind && (
+              <span class:list={["nl-kind", { "nl-kind--soon": kind === "予告" }]}>{kind}</span>
+            )}
+          </a>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .nl {
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem clamp(1rem, 0.5rem + 2vw, 2rem);
+    background: var(--color-paper);
+    border-radius: var(--radius-card);
+  }
+  .nl-row + .nl-row {
+    border-top: 1px solid var(--color-line);
+  }
+  .nl-link {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    gap: 1.1rem;
+    align-items: start;
+    padding-block: 1.25rem;
+    text-decoration: none;
+    border-radius: 12px;
+  }
+  .nl-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 26%;
+    display: block;
+  }
+  .nl-icon--none {
+    background: var(--color-mist);
+  }
+  .nl-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+  .nl-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .nl-app {
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+  .nl-date {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+  .nl-title {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--color-ink);
+    margin-top: 0.2rem;
+    text-wrap: pretty;
+  }
+  .nl-link:hover .nl-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .nl-sum {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .nl-kind {
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 0.2rem 0.75rem;
+    border-radius: 999px;
+    color: var(--color-ink-soft);
+    box-shadow: inset 0 0 0 1px var(--color-line-strong);
+    margin-top: 0.1rem;
+  }
+  .nl-kind--soon {
+    color: var(--color-accent-ink);
+    box-shadow: inset 0 0 0 1px var(--color-accent-ink);
+  }
+
+  @media (max-width: 600px) {
+    /* 印はアプリ名・日付の行に寄せ、本文の幅を確保する */
+    .nl-link {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      gap: 0.85rem;
+      position: relative;
+    }
+    .nl-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .nl-kind {
+      position: absolute;
+      top: 1.15rem;
+      right: 0;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.6rem;
+    }
+    .nl-head {
+      padding-right: 6.5rem;
+    }
+    .nl-title {
+      font-size: 0.95rem;
+    }
+  }
+</style>
