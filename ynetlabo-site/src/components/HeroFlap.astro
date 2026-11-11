@@ -1,0 +1,315 @@
+---
+/**
+ * トップのヒーロー「パタパタ」。駅の発車案内のような板（横12枚 × 4段）がめくれて、
+ * 見出し → wa/ri → mapengu → hue → soroe → tsutsum → 見出し… と順に表示する。
+ *
+ * - アプリを表示するときは、2段目の先頭1枚がそのアプリのアイコン、続く板がアプリ名
+ *   （アプリの色）、3段目がアプリの一言。1段目と4段目には、そのアプリの色の板を散らす。
+ * - 見出しのときは、1段目と4段目に5つのアプリの色をばらばらに散らす。
+ * - 狭い画面では左右の3列（0・10・11列目）を隠して横9枚にする。文字は1〜9列目にしか
+ *   置かないので、広い画面と同じ並びのまま切り替わる。
+ * - 最初の見出しの状態はサーバー側で描き、JS が無くても、読み込み直後でも同じ見た目にする。
+ * - 動きを減らす設定では、自動では進めず、めくる動きも付けない。
+ *
+ * 板の並びは飾りなので読み上げからは隠し（aria-hidden）、見出しは h1 として別に置く。
+ */
+import { PROJECTS } from "../consts";
+import { APP_DETAILS } from "../data/apps";
+
+const COLS = 12;
+const ROWS = 4;
+/** 文字を置き始める列。0列目は狭い画面で隠れる */
+const OFF = 1;
+/** 狭い画面で隠す列 */
+const EDGE_COLS = new Set([0, 10, 11]);
+
+const HEADLINE = ["必要な機能だけを、", "丁寧に。"];
+
+/** アプリの一言。狭い画面の横9枚に収まるよう、9文字以内にする */
+const LINES: Record<string, string> = {
+  "wa/ri": "割り勘を見える形で",
+  mapengu: "ペンギンに会いに",
+  hue: "気持ちを色で残す",
+  soroe: "予定を、揃える。",
+  tsutsum: "ご祝儀と香典の記録",
+};
+
+const INK = "#1b2230";
+/** WCAG の相対輝度 */
+const luminance = (hex: string) => {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a: string, b: string) => {
+  const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+/** アプリの色の板に載せる文字色。白と墨のうち、読みやすいほう */
+const onColor = (hex: string) =>
+  contrast(hex, "#ffffff") >= contrast(hex, INK) ? "#ffffff" : INK;
+
+const apps = PROJECTS.filter((p) => LINES[p.name] && p.icon).map((p) => {
+  const slug = APP_DETAILS.find((a) => a.project === p.name)?.slug;
+  return {
+    name: p.name,
+    color: p.accent,
+    on: onColor(p.accent),
+    line: LINES[p.name],
+    icon: p.icon!,
+    href: slug ? `/apps/${slug}/` : "#projects",
+  };
+});
+
+/** 板1枚の中身。JS 側の paint() と同じ形・同じ順で作り、data-k の比較に使う */
+type Cell = { ch: string; bg: string; fg: string; en: boolean; img: string };
+const BLANK: Cell = { ch: "", bg: "", fg: "", en: false, img: "" };
+const paper = (ch: string): Cell => ({ ...BLANK, ch, bg: "var(--flap-paper)" });
+
+/** 見出しの状態（サーバー側で描く最初の1枚目）。色の板の位置は固定にしておく */
+const first: Cell[] = Array.from({ length: COLS * ROWS }, () => BLANK);
+[...HEADLINE[0]].forEach((ch, j) => (first[COLS + OFF + j] = paper(ch)));
+[...HEADLINE[1]].forEach((ch, j) => (first[COLS * 2 + OFF + j] = paper(ch)));
+const SCATTER: [number, string][] = [
+  [1, "mapengu"],
+  [6, "tsutsum"],
+  [9, "hue"],
+  [COLS * 3 + 3, "soroe"],
+  [COLS * 3 + 8, "wa/ri"],
+];
+for (const [k, name] of SCATTER) {
+  const app = apps.find((a) => a.name === name);
+  if (app) first[k] = { ...BLANK, bg: app.color };
+}
+const keyOf = (c: Cell) => JSON.stringify(c);
+---
+
+<div class="flap" aria-hidden="true">
+  <div
+    class="flap-board"
+    data-apps={JSON.stringify(apps)}
+    data-headline={JSON.stringify(HEADLINE)}
+    data-cols={COLS}
+    data-off={OFF}
+  >
+    {
+      first.map((c, k) => (
+        <span
+          class:list={["ft", { "ft-edge": EDGE_COLS.has(k % COLS), "is-en": c.en }]}
+          data-k={keyOf(c)}
+          style={[
+            c.bg && `background-color:${c.bg}`,
+            c.fg && `color:${c.fg}`,
+            c.img && `background-image:url(${c.img})`,
+          ]
+            .filter(Boolean)
+            .join(";") || undefined}
+        >
+          {c.ch}
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .flap {
+    --flap-blank: #e1e6ed;
+    --flap-paper: #ffffff;
+    container: flap / inline-size;
+  }
+  :global([data-theme="dark"]) .flap {
+    --flap-blank: #1d222b;
+    --flap-paper: #2b313c;
+  }
+  .flap-board {
+    --cols: 12;
+    --gap: clamp(4px, 1cqi, 7px);
+    --s: min(3.5rem, (100cqi - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--s));
+    gap: var(--gap);
+    perspective: 700px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .ft {
+    height: calc(var(--s) * 1.18);
+    border-radius: calc(var(--s) * 0.2);
+    background-color: var(--flap-blank);
+    background-size: cover;
+    background-position: center;
+    color: var(--color-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--s) * 0.56);
+    font-weight: 500;
+    line-height: 1;
+    transition: transform 0.2s ease-in;
+  }
+  .ft.is-en {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+  /* 狭い画面では左右の3列を隠して、横9枚にする */
+  @container flap (max-width: 34rem) {
+    .flap-board {
+      --cols: 9;
+    }
+    .ft-edge {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  type App = { name: string; color: string; on: string; line: string; icon: string; href: string };
+  type Cell = { ch: string; bg: string; fg: string; en: boolean; img: string };
+
+  const board = document.querySelector<HTMLElement>(".flap-board");
+  if (board) {
+    const apps: App[] = JSON.parse(board.dataset.apps ?? "[]");
+    const headline: string[] = JSON.parse(board.dataset.headline ?? "[]");
+    const cols = Number(board.dataset.cols);
+    const off = Number(board.dataset.off);
+    const tiles = [...board.querySelectorAll<HTMLElement>(".ft")];
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const cta = document.querySelector<HTMLAnchorElement>("[data-flap-cta]");
+    const toggle = document.querySelector<HTMLButtonElement>("[data-flap-toggle]");
+    const ctaDefault = cta ? { text: cta.textContent ?? "", href: cta.getAttribute("href") ?? "" } : null;
+
+    // アイコンは切り替わる前に読み込んでおく（めくった瞬間に空にならないように）
+    apps.forEach((a) => {
+      const img = new Image();
+      img.src = a.icon;
+    });
+
+    const BLANK: Cell = { ch: "", bg: "", fg: "", en: false, img: "" };
+    const paper = (ch: string): Cell => ({ ...BLANK, ch, bg: "var(--flap-paper)" });
+    // 散らす色は、狭い画面で隠れない 1〜9 列目から選ぶ
+    const randomCol = () => 1 + Math.floor(Math.random() * 9);
+
+    /** index: -1 は見出し、0 以上はアプリ */
+    const layout = (index: number): Cell[] => {
+      const want: Cell[] = tiles.map(() => BLANK);
+      const app = apps[index];
+      if (app) {
+        want[cols + off] = { ...BLANK, img: app.icon };
+        [...app.name].forEach((ch, j) => {
+          want[cols + off + 1 + j] = { ch, bg: app.color, fg: app.on, en: true, img: "" };
+        });
+        [...app.line].forEach((ch, j) => (want[cols * 2 + off + j] = paper(ch)));
+        for (const row of [0, 3]) {
+          for (let j = 0; j < 3; j++) want[row * cols + randomCol()] = { ...BLANK, bg: app.color };
+        }
+      } else {
+        [...headline[0]].forEach((ch, j) => (want[cols + off + j] = paper(ch)));
+        [...headline[1]].forEach((ch, j) => (want[cols * 2 + off + j] = paper(ch)));
+        for (const row of [0, 3]) {
+          apps.forEach((a) => {
+            if (Math.random() < 0.7) want[row * cols + randomCol()] = { ...BLANK, bg: a.color };
+          });
+        }
+      }
+      return want;
+    };
+
+    const apply = (el: HTMLElement, c: Cell, key: string) => {
+      el.textContent = c.ch;
+      el.style.backgroundColor = c.bg;
+      el.style.color = c.fg;
+      el.style.backgroundImage = c.img ? `url(${c.img})` : "";
+      el.classList.toggle("is-en", c.en);
+      el.dataset.k = key;
+    };
+
+    let timers: number[] = [];
+    const paint = (index: number) => {
+      timers.forEach(clearTimeout);
+      timers = [];
+      layout(index).forEach((c, k) => {
+        const el = tiles[k];
+        const key = JSON.stringify(c);
+        if (el.dataset.k === key) return;
+        if (reduce.matches) {
+          apply(el, c, key);
+          return;
+        }
+        // 左上から右下へ、波のようにめくる
+        const delay = ((k % cols) + Math.floor(k / cols) * 2) * 42;
+        timers.push(
+          window.setTimeout(() => {
+            el.style.transform = "rotateX(90deg)";
+            timers.push(
+              window.setTimeout(() => {
+                apply(el, c, key);
+                el.style.transform = "";
+              }, 210)
+            );
+          }, delay)
+        );
+      });
+
+      // 「アプリを見る」は、表示中のアプリの紹介ページへつなぐ
+      if (cta && ctaDefault) {
+        const app = apps[index];
+        cta.textContent = app ? `${app.name} を見る` : ctaDefault.text;
+        cta.setAttribute("href", app ? app.href : ctaDefault.href);
+      }
+    };
+
+    let index = -1;
+    const advance = () => {
+      index = index >= apps.length - 1 ? -1 : index + 1;
+      paint(index);
+    };
+
+    // 自動で進めるのは、止められていない・画面に見えている・タブが前面のときだけ
+    let stopped = reduce.matches;
+    let visible = true;
+    let interval = 0;
+    const sync = () => {
+      const run = !stopped && visible && !document.hidden;
+      if (run && !interval) interval = window.setInterval(advance, 3200);
+      if (!run && interval) {
+        clearInterval(interval);
+        interval = 0;
+      }
+      if (toggle) {
+        toggle.textContent = stopped ? "動かす" : "止める";
+        toggle.setAttribute("aria-label", stopped ? "表示の切り替えを再開する" : "表示の切り替えを止める");
+      }
+    };
+    const restart = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = 0;
+      }
+      sync();
+    };
+
+    board.addEventListener("click", () => {
+      advance();
+      restart();
+    });
+    toggle?.addEventListener("click", () => {
+      stopped = !stopped;
+      sync();
+    });
+    document.addEventListener("visibilitychange", sync);
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    }).observe(board);
+    reduce.addEventListener("change", () => {
+      stopped = reduce.matches;
+      sync();
+    });
+    sync();
+  }
+</script>
