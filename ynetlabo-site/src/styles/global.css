@@ -279,6 +279,79 @@
   vertical-align: 0.12em;
   white-space: nowrap;
 }
+/* 本文の主張に付ける出典。本文では <span class="src">出典：<a …>…</a></span> と書く */
+.prose .src {
+  display: block;
+  margin-top: 0.1em;
+  font-size: 0.78em;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.prose .src a {
+  color: inherit;
+}
+
+/*
+ * 比較の早見表。本文では <table class="compare-table"> と書く。
+ * 列を記号（○△×）だけに絞って狭くし、それでも入りきらない幅ではアプリ名の列を
+ * 左に固定したまま横にスクロールさせる。
+ */
+.prose .compare-table {
+  font-size: 0.88rem;
+}
+.prose .compare-table th,
+.prose .compare-table td {
+  padding: 0.55rem 0.6rem;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.prose .compare-table thead th {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  white-space: normal;
+  min-width: 5.5em;
+}
+.prose .compare-table th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.prose .compare-table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+/* セルに短い文が入る表。記号だけの表と違って、セルの中で折り返す */
+.prose .compare-table--wrap td {
+  white-space: normal;
+  min-width: 5.5em;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.prose .compare-table--wrap th[scope="row"] {
+  min-width: 6.5em;
+  white-space: normal;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.prose .compare-table .yes {
+  color: var(--color-accent-ink);
+  font-weight: 700;
+}
+.prose .compare-table .no {
+  color: var(--color-muted);
+}
+.prose .compare-table + .table-note {
+  margin-top: -0.5em;
+  font-size: 0.82em;
+  color: var(--color-muted);
+}
+
 .prose ul,
 .prose ol {
   padding-left: 1.5rem;
