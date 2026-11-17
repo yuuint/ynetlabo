@@ -38,7 +38,7 @@ const GUIDES = [
     app: "wa/ri",
     title: "wa/ri 使い方ガイド",
     description:
-      "割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力まで、画面図つきで説明します。",
+      "割り勘アプリ wa/ri の使い方ガイド。ルーム作成・メンバー登録・支払いの記録・割り勘結果の見方から、招待・外貨ルーム・CSV／PDF出力、イベント日とライブアクティビティ、ウィジェットと Siri まで、画面図つきで説明します。",
     src: "wari-ios/docs/user-guide/user-guide.md",
     images: "wari-ios/docs/user-guide/images",
     draft: false,

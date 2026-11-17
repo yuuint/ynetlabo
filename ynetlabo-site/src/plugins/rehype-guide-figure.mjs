@@ -74,7 +74,10 @@ function markNumberedTable(table) {
   const firstCell = row && meaningfulChildren(row)[0];
   if (!firstCell) return;
 
-  if (textOf(firstCell).trim().replace(/[.．]$/, "") !== "No") return;
+  if (textOf(firstCell).trim().replace(/[.．]$/, "") !== "No") {
+    labelColumns(table, row);
+    return;
+  }
 
   table.properties ??= {};
   const className = table.properties.className ?? [];
@@ -82,6 +85,25 @@ function markNumberedTable(table) {
     ...(Array.isArray(className) ? className : [className]),
     "guide-table--numbered",
   ];
+}
+
+/**
+ * 3列以上の表（注釈表を除く）は、2列目以降のセルに列の見出しを `data-label` で持たせる。
+ * 狭い画面では見出しの行を隠して1行=1カードに積むので、「○ ○ ✕」のような値だけの列は
+ * どの列の値か分からなくなる。CSS で見出しをセルの頭に出す。
+ */
+function labelColumns(table, headRow) {
+  const heads = meaningfulChildren(headRow).map((c) => textOf(c).trim());
+  if (heads.length < 3) return;
+  const tbody = (table.children ?? []).find((c) => isElement(c, "tbody"));
+  for (const tr of meaningfulChildren(tbody ?? { children: [] })) {
+    if (!isElement(tr, "tr")) continue;
+    meaningfulChildren(tr).forEach((td, i) => {
+      if (i === 0 || !heads[i] || !isElement(td, "td")) return;
+      td.properties ??= {};
+      td.properties.dataLabel = heads[i];
+    });
+  }
 }
 
 /** ```mermaid のコードブロックか（Astro の syntaxHighlight.excludeLangs で素の pre/code のまま来る） */

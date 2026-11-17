@@ -589,6 +589,13 @@
     color: var(--color-ink);
     font-weight: 700;
   }
+  /* 3列以上の表は、隠した見出しの代わりに列名をセルの頭に出す（rehype-guide-figure が付ける） */
+  .guide-prose tbody td[data-label]::before {
+    content: attr(data-label) "：";
+    color: var(--color-muted);
+    font-size: 0.85em;
+    font-weight: 600;
+  }
 
   /* 注釈表は No. をバッジにして「場所」と同じ行に並べる */
   .guide-table--numbered tbody td:first-child {
