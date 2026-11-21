@@ -1,0 +1,250 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../consts";
+import { FAQ_GROUPS, faqPlainText } from "../data/faq";
+
+const origin = (Astro.site ?? new URL(SITE.url)).origin;
+const breadcrumbLd = {
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "ホーム", item: `${origin}/` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "よくあるお問い合わせ",
+      item: `${origin}/faq/`,
+    },
+  ],
+};
+const faqLd = {
+  "@type": "FAQPage",
+  mainEntity: FAQ_GROUPS.flatMap((g) =>
+    g.items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: faqPlainText(f.a) },
+    })),
+  ),
+};
+---
+
+<BaseLayout
+  title="よくあるお問い合わせ"
+  description="Y.NetLabo のアプリに寄せられたお問い合わせのうち、多かったものと答えをまとめました。wa/ri のルームが見られないとき、記録の残し方、機種変更、LINE 連携の解除、退会とデータの削除など。"
+  jsonLd={[faqLd, breadcrumbLd]}
+>
+  <section class="page-head">
+    <div class="wrap-narrow">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span>/</span><span>よくあるお問い合わせ</span>
+      </nav>
+      <span class="eyebrow">FAQ</span>
+      <h1 class="page-title">よくあるお問い合わせ</h1>
+      <p class="page-sub">
+        お問い合わせフォームやメールでいただいたご質問のうち、多かったものをまとめました。お問い合わせの前に、こちらもご覧ください。
+      </p>
+      {
+        FAQ_GROUPS.length > 1 && (
+          <nav class="faq-jump" aria-label="分類">
+            {FAQ_GROUPS.map((g) => (
+              <a href={`#${g.id}`}>{g.label}</a>
+            ))}
+          </nav>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap-narrow">
+      {
+        FAQ_GROUPS.map((g) => (
+          <section class="faq-group" id={g.id} aria-labelledby={`${g.id}-title`}>
+            <h2 class="faq-group-title" id={`${g.id}-title`}>{g.label}</h2>
+            <div class="faq">
+              {g.items.map((f) => (
+                <details class="card faq-item" id={f.id}>
+                  <summary>{f.q}</summary>
+                  <div class="faq-answer" set:html={f.a} />
+                </details>
+              ))}
+            </div>
+            {g.guide && (
+              <p class="faq-guide">
+                画面ごとの操作は <a href={g.guide.href}>{g.guide.label}</a> にあります。
+              </p>
+            )}
+          </section>
+        ))
+      }
+
+      <div class="card faq-cta">
+        <h2 class="faq-cta-title">解決しないときは</h2>
+        <p>
+          お問い合わせフォームからご連絡ください。お返事が必要なときは、メールアドレスもお書きください。
+        </p>
+        <a class="btn btn-accent" href="/contact/">お問い合わせへ</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // アンカー（/faq/#wari-line-unlink など）で来たら、その質問を開いて見せる
+  function openFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el instanceof HTMLDetailsElement) {
+      el.open = true;
+      // サイト全体が smooth スクロールなので、読み込み直後は instant で送る（smooth だと途中で止まる）
+      requestAnimationFrame(() =>
+        el.scrollIntoView({ block: "start", behavior: "instant" }),
+      );
+    }
+  }
+  if (document.readyState === "complete") openFromHash();
+  else window.addEventListener("load", openFromHash, { once: true });
+  window.addEventListener("hashchange", openFromHash);
+</script>
+
+<style>
+  .page-head {
+    padding-block: 3rem 1.5rem;
+    background: transparent;
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
+  .crumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--color-ink);
+  }
+  .page-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+    margin-top: 0.6rem;
+  }
+  .page-sub {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    max-width: 36rem;
+  }
+  .faq-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .faq-jump a {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: none;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+  }
+  .faq-jump a:hover {
+    color: var(--color-accent-ink);
+  }
+  .section {
+    padding-block: 1.5rem 4.5rem;
+  }
+  .faq-group + .faq-group {
+    margin-top: 3rem;
+  }
+  .faq-group-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .faq {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .faq-item {
+    padding: 1.1rem 1.3rem;
+    scroll-margin-top: 5rem;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-ink);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: "＋";
+    color: var(--color-accent-ink);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+  .faq-answer {
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+  }
+  .faq-answer :global(p + p),
+  .faq-answer :global(p + ul),
+  .faq-answer :global(p + ol),
+  .faq-answer :global(ul + p),
+  .faq-answer :global(ol + p) {
+    margin-top: 0.6rem;
+  }
+  .faq-answer :global(ul),
+  .faq-answer :global(ol) {
+    padding-left: 1.3rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .faq-answer :global(ul) {
+    list-style: disc;
+  }
+  .faq-answer :global(ol) {
+    list-style: decimal;
+  }
+  .faq-answer :global(a) {
+    color: var(--color-accent-ink);
+    font-weight: 600;
+  }
+  .faq-answer :global(code) {
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  .faq-guide {
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    color: var(--color-muted);
+  }
+  .faq-guide a {
+    color: var(--color-accent-ink);
+    font-weight: 700;
+  }
+  .faq-cta {
+    margin-top: 3.5rem;
+    padding: 1.75rem;
+    text-align: center;
+  }
+  .faq-cta-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .faq-cta p {
+    font-size: 0.92rem;
+    color: var(--color-muted);
+    margin-bottom: 1.1rem;
+  }
+</style>
