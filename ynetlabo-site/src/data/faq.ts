@@ -75,7 +75,8 @@ export const FAQ_GROUPS: readonly FaqGroup[] = [
   <li>一覧から <strong>「Y.Netlabo」</strong> を選ぶ</li>
   <li>連動を解除する</li>
 </ol>
-<p>外すのは、<strong>wa/ri に LINE でログインしていた本人の LINE アプリから</strong>です。家族や友だちが自分の LINE でログインしていた場合は、その人に外してもらってください。</p>`,
+<p>外すのは、<strong>wa/ri に LINE でログインしていた本人の LINE アプリから</strong>です。家族や友だちが自分の LINE でログインしていた場合は、その人に外してもらってください。</p>
+<p>LINE と連携したときに保存している情報は、<a href="/account/#stored-data">Y.NetLaboアカウント「アカウントに保存する情報」</a>にまとめています。</p>`,
       },
       {
         id: "wari-delete-account",
