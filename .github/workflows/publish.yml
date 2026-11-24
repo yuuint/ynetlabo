@@ -67,6 +67,9 @@ jobs:
       - name: 組み立てて docs/ に書き出す
         if: steps.need.outputs.build == 'true'
         working-directory: ynetlabo-site
+        # 手元（日本）と同じ結果にする。日付の表示は src/utils.ts でも日本時間に固定している
+        env:
+          TZ: Asia/Tokyo
         run: |
           npm ci
           npm run deploy
