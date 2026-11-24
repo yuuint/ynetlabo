@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getPosts } from "../posts";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import HeroFlap from "../components/HeroFlap.astro";
@@ -7,7 +7,7 @@ import { PROJECTS, PROFILE, SITE, SOCIAL } from "../consts";
 import { articleHref } from "../utils";
 import { APP_DETAILS } from "../data/apps";
 
-const posts = (await getCollection("blog")).sort(
+const posts = (await getPosts()).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 // noindex の記事は記事一覧とカテゴリにだけ出し、新着・関連の枠には出さない

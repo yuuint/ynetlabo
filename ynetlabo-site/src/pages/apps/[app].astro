@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getPosts } from "../../posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { SITE, PROJECTS, categoryHref } from "../../consts";
@@ -20,7 +20,7 @@ const url = `${origin}/apps/${detail.slug}/`;
 
 // 関連記事（カテゴリが一致するもの、新しい順に最大3件）
 const posts = detail.category
-  ? (await getCollection("blog"))
+  ? (await getPosts())
       .filter(
         (p) => !p.data.noindex && p.data.categories.includes(detail.category!)
       )

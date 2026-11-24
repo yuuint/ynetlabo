@@ -1,9 +1,9 @@
 ---
-import { getCollection } from "astro:content";
+import { getPosts } from "../posts";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleTimeline from "../components/ArticleTimeline.astro";
 
-const posts = (await getCollection("blog")).sort(
+const posts = (await getPosts()).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 

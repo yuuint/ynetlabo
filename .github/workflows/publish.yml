@@ -1,0 +1,115 @@
+# サイトを組み立てて docs/ に書き出し、公開する。
+#
+# GitHub Pages は main の docs/ をそのまま配信している。以前は手元で
+# `npm run deploy` して docs/ をコミットしていたが、ここで代わりにやる。
+# 原稿（ynetlabo-site/）をコミットして push すれば、それで公開まで終わる。
+#
+#   push              ynetlabo-site/ が変わったら組み立てる
+#   毎朝 5:00（JST）  公開日（pubDate）を迎えた記事があれば組み立てる
+#                     （公開日が先の記事はビルドに含めない: tools/published.mjs）
+#   手動実行          いつでも組み立てる
+#
+# docs/ に差分があればコミットし、Pages の反映を待ってから IndexNow に送る。
+# 差分が無ければ何もしない。
+#
+# 手元で `npm run deploy` して docs/ をコミットしても壊れない（同じものができるので
+# ここでは差分なしになる）。ただし、ここがコミットするので手元では先に git pull すること。
+name: Publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ynetlabo-site/**"
+      - ".github/workflows/publish.yml"
+  schedule:
+    - cron: "0 20 * * *" # UTC 20:00 = 日本時間 5:00
+  workflow_dispatch:
+
+# 続けて push したときは順番に処理する（docs/ のコミットがぶつからないように）
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # IndexNow が HEAD~1 との差分を見るので 2 コミット必要
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ynetlabo-site/package-lock.json
+
+      # 定期実行のときは、公開日を迎えた記事が無ければ組み立てない
+      - name: 公開待ちの記事を探す
+        id: check
+        run: node ynetlabo-site/tools/pending-posts.mjs
+
+      - name: 組み立てるかどうか
+        id: need
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ -n "${{ steps.check.outputs.pending }}" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "公開日を迎えた記事はありません。組み立てずに終わります"
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 組み立てて docs/ に書き出す
+        if: steps.need.outputs.build == 'true'
+        working-directory: ynetlabo-site
+        run: |
+          npm ci
+          npm run deploy
+
+      - name: docs/ をコミットする
+        id: commit
+        if: steps.need.outputs.build == 'true'
+        run: |
+          git add docs
+          if git diff --cached --quiet; then
+            echo "docs/ に変更はありません"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "${{ steps.check.outputs.pending }}" ]; then
+            msg="chore: 公開日を迎えた記事を出す（${{ steps.check.outputs.pending }}）"
+          else
+            msg="chore: サイトを組み立て直す（${GITHUB_SHA::7}）"
+          fi
+          git commit -m "$msg"
+          # 組み立てているあいだに push があっても、docs/ 以外なのでそのまま重ねられる
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      # GITHUB_TOKEN の push では Pages のビルドが始まらないことがあるので、明示的に頼む。
+      # 反映を待ってから IndexNow に送る（反映前に送ると古い内容を読まれる）
+      - name: Pages の反映を待って IndexNow に送る
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null || true
+          for i in $(seq 1 40); do
+            read -r status commit < <(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '"\(.status) \(.commit)"')
+            echo "Pages: $status ${commit::7}"
+            if [ "$commit" = "$SHA" ] && [ "$status" = "built" ]; then break; fi
+            if [ "$commit" = "$SHA" ] && [ "$status" = "errored" ]; then echo "Pages のビルドが失敗しました"; exit 1; fi
+            if [ "$i" = 40 ]; then echo "10 分待っても反映されませんでした"; exit 1; fi
+            sleep 15
+          done
+          node ynetlabo-site/tools/indexnow.mjs

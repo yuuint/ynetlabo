@@ -14,6 +14,7 @@
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isPublished } from "./published.mjs";
 
 const siteRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const contentRoot = join(siteRoot, "src/content");
@@ -77,11 +78,14 @@ export function buildLastmodMap(categorySlug) {
   const map = new Map();
 
   // ── 記事 ──
-  const posts = readAll(join(contentRoot, "blog")).map((raw) => ({
-    wpId: field(raw, "wpId"),
-    date: iso(field(raw, "updatedDate") ?? field(raw, "pubDate")),
-    categories: listField(raw, "categories"),
-  }));
+  // 公開日が来ていない記事はページが無いので数えない（一覧の lastmod が未来日になる）
+  const posts = readAll(join(contentRoot, "blog"))
+    .filter((raw) => isPublished(field(raw, "pubDate")))
+    .map((raw) => ({
+      wpId: field(raw, "wpId"),
+      date: iso(field(raw, "updatedDate") ?? field(raw, "pubDate")),
+      categories: listField(raw, "categories"),
+    }));
   for (const p of posts) {
     if (p.wpId && p.date) map.set(`/archives/${p.wpId}/`, p.date);
   }

@@ -1,5 +1,6 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
+import { getPosts } from "../../posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import Picture from "../../components/Picture.astro";
@@ -9,7 +10,7 @@ import { formatDate, articleHref } from "../../utils";
 import { categoryHref, SITE, SOCIAL } from "../../consts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getPosts();
   return posts.map((post) => ({
     params: { id: String(post.data.wpId) },
     props: { post, posts },

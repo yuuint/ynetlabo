@@ -1,12 +1,12 @@
 ---
-import { getCollection } from "astro:content";
+import { getPosts } from "../../../posts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticleTimeline from "../../../components/ArticleTimeline.astro";
 import NoticeList from "../../../components/NoticeList.astro";
 import { categorySlug, CATEGORY_DESCRIPTIONS, SITE } from "../../../consts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getPosts();
   const byCat = new Map<string, typeof posts>();
   for (const post of posts) {
     for (const cat of post.data.categories) {

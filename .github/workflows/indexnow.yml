@@ -23,8 +23,11 @@ concurrency:
 
 jobs:
   notify:
-    # Pages のビルドが失敗したときは送らない
-    if: github.event_name == 'workflow_dispatch' || github.event.build.status == 'built'
+    # Pages のビルドが失敗したときは送らない。
+    # publish.yml（github-actions[bot]）がコミットした docs/ は、あちらが反映を待って送るので二重に送らない
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.build.status == 'built' && github.event.build.pusher.login != 'github-actions[bot]')
     runs-on: ubuntu-latest
     permissions:
       contents: read
