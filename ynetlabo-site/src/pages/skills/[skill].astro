@@ -7,7 +7,10 @@ import { SITE, SKILLS, SOCIAL } from "../../consts";
 import { formatDate } from "../../utils";
 
 export async function getStaticPaths() {
-  const skills = await getCollection("skills");
+  // 並びを固定する（getCollection の順は Mac と Linux とで違う）
+  const skills = (await getCollection("skills")).sort((a, b) =>
+    a.id.localeCompare(b.id)
+  );
   return skills.map((entry) => ({
     params: { skill: entry.id },
     props: { entry, skills },

@@ -5,7 +5,10 @@ import CopyCode from "../../components/CopyCode.astro";
 import { SITE, SKILLS } from "../../consts";
 import { formatDate } from "../../utils";
 
-const skills = await getCollection("skills");
+// 並びを固定する（getCollection の順は Mac と Linux とで違う）
+const skills = (await getCollection("skills")).sort((a, b) =>
+  a.id.localeCompare(b.id)
+);
 
 // カテゴリごとにまとめる。consts の並び順が先、そこに無いものは名前順で後ろへ
 const order = SKILLS.categoryOrder as readonly string[];
